@@ -1,5 +1,7 @@
 package com.tam.isave;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -26,9 +28,18 @@ import java.util.Arrays;
 //// X Make a method that does this in history and call it wherever payment modifies and there's a history (Category and CategoryTracker I think)
 // X Restore getpaymentintervalbydate to while loop
 // X didn't do it... remove payment negative value; override the maketransaction method; and delete getabsvalue; to find where to replace with getvalue;
-// Class documentation
-// Getters and setters
-// toString with "Day x in y - z: intervalSpent / intervalGoal"
+// X Class documentation
+// X Getters and setters
+// X toString with "Day x in y - z: intervalSpent / intervalGoal"
+
+// GoalOrganizer breaks up the user's goal in smaller goals.
+// Functionality based on "how to an elephant: one bite at a time".
+//
+// Takes the user's goal and required time frame to reach the goal and breaks them up in intervals,
+// Categories that save payments based on their dates and are active for a number of days.
+//
+// Has a category tracker that tracks and handles overflow for intervals.
+// Updates active interval to be displayed based on today's date.
 public class GoalOrganizer {
 
     private final static int DEFAULT_GLOBAL_INTERVAL_DAYS = 30; // 1 month as default.
@@ -206,20 +217,20 @@ public class GoalOrganizer {
     public void update() {
         daysProgress = firstDay.differenceInDays(Date.today()) + 1;
         // Increment current interval until the current day is less than the total amount of days between all intervals tracked so far.
-        while(daysProgress > getIntervalsDays()) {
+        while(daysProgress > getIntervalsDays(activeInterval)) {
             int activeIntervalIndex = getIntervalIndex(activeInterval);
-            if( activeIntervalIndex >= (intervalsNr - 1) ) { break; } // Break if max index has been reached.
+            if(activeIntervalIndex < 0) { break; } // Break if index indicates an error (should be -1).
             activeInterval = intervals[activeIntervalIndex + 1];
         }
     }
 
-    // The total amount of days between all intervals tracked so far.
-    // Includes the one that is being tracked right now.
+    // The total amount of days between all intervals until target interval inclusively.
+    // Returns int1.days + int2.days + ... + target.days.
     // EX: Let there be 4 intervals of 5 days each.
     // EX: If we're halfway through the 3rd interval, method will return 5 + 5 + 5 (15);
-    private int getIntervalsDays() {
+    private int getIntervalsDays(Interval targetInterval) {
         int intervalsDays = 0;
-        for(int i = 0; i <= getIntervalIndex(activeInterval); i++) {
+        for(int i = 0; i <= getIntervalIndex(targetInterval); i++) {
             intervalsDays += intervals[i].getDays();
         }
         return intervalsDays;
@@ -332,6 +343,69 @@ public class GoalOrganizer {
             if( !( transaction instanceof Payment ) ) { continue; }
             makePayment((Payment) transaction);
         }
+    }
+
+    // Returns the string to be displayed
+    // In format "Day X in Y - Z";
+    // X: day number since first day of goal organizer (this.daysProgress).
+    // Y - Z: day numbers of first and last days of the active interval.
+    //
+    // If today's date is not between goal organizer's first and last days,
+    // Returns appropriate message.
+    public String getDisplayMessage() {
+        // toString with "Day x in y - z: intervalSpent / intervalGoal"
+        int startDaysDifference = firstDay.differenceInDays(Date.today());
+        final String BEFORE_START_DATE = startDaysDifference + " days until next goal";
+        final String AFTER_END_DATE = "Goal time frame has been passed";
+
+        boolean isTodayOlderThanFirstDay = firstDay.getValue() >= Date.today().getValue();
+        if(isTodayOlderThanFirstDay) { return BEFORE_START_DATE; }
+
+        boolean isTodayNewerThanLastDay = startDaysDifference >= globalIntervalDays;
+        if(isTodayNewerThanLastDay) { return AFTER_END_DATE; }
+
+        int daysUntilIntStart = 1;
+        if(getIntervalIndex(activeInterval) != 0) {
+            Interval prevInterval = intervals[getIntervalIndex(activeInterval) - 1];
+            daysUntilIntStart += getIntervalsDays(prevInterval);
+        }
+        int daysUntilIntEnd = daysUntilIntStart + (activeInterval.getDays() - 1);
+
+        return "Day " + daysProgress + " in " + daysUntilIntStart + " - " + daysUntilIntEnd;
+    }
+
+    // Returns spending progress of active interval
+    // In format "spent / goal".
+    public String getProgress() {
+        return activeInterval.getSpent() + " / " + activeInterval.getEndGoal();
+    }
+
+    public double getGlobalGoal() {
+        return globalGoal;
+    }
+
+    public int getGlobalIntervalDays() {
+        return globalIntervalDays;
+    }
+
+    public int getDaysProgress() {
+        return daysProgress;
+    }
+
+    public Date getFirstDay() {
+        return firstDay;
+    }
+
+    public int getIntervalsNr() {
+        return intervalsNr;
+    }
+
+    public Interval getActiveInterval() {
+        return activeInterval;
+    }
+
+    public Interval[] getIntervals() {
+        return intervals;
     }
 
 }
