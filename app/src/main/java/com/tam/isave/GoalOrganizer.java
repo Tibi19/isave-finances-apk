@@ -31,7 +31,7 @@ import java.util.Arrays;
 // X Class documentation
 // X Getters and setters
 // X toString with "Day x in y - z: intervalSpent / intervalGoal"
-// Interfaces for message display!!!
+// X Interfaces for message display!!!
 
 // GoalOrganizer breaks up the user's goal in smaller goals.
 // Functionality based on "how to an elephant: one bite at a time".
