@@ -31,6 +31,7 @@ import java.util.Arrays;
 // X Class documentation
 // X Getters and setters
 // X toString with "Day x in y - z: intervalSpent / intervalGoal"
+// Interfaces for message display!!!
 
 // GoalOrganizer breaks up the user's goal in smaller goals.
 // Functionality based on "how to an elephant: one bite at a time".
@@ -40,7 +41,7 @@ import java.util.Arrays;
 //
 // Has a category tracker that tracks and handles overflow for intervals.
 // Updates active interval to be displayed based on today's date.
-public class GoalOrganizer {
+public class GoalOrganizer implements IProgressDisplayable {
 
     private final static int DEFAULT_GLOBAL_INTERVAL_DAYS = 30; // 1 month as default.
 
@@ -345,6 +346,7 @@ public class GoalOrganizer {
         }
     }
 
+    // Ove
     // Returns the string to be displayed
     // In format "Day X in Y - Z";
     // X: day number since first day of goal organizer (this.daysProgress).
@@ -352,7 +354,8 @@ public class GoalOrganizer {
     //
     // If today's date is not between goal organizer's first and last days,
     // Returns appropriate message.
-    public String getDisplayMessage() {
+    @Override
+    public String getInfoAboutProgress() {
         // toString with "Day x in y - z: intervalSpent / intervalGoal"
         int startDaysDifference = firstDay.differenceInDays(Date.today());
         final String BEFORE_START_DATE = startDaysDifference + " days until next goal";
@@ -374,10 +377,11 @@ public class GoalOrganizer {
         return "Day " + daysProgress + " in " + daysUntilIntStart + " - " + daysUntilIntEnd;
     }
 
-    // Returns spending progress of active interval
-    // In format "spent / goal".
+    // Spending progress of active interval
+    // In format "spent / goal" and goal modification info "(-goalModification)".
+    @Override
     public String getProgress() {
-        return activeInterval.getSpent() + " / " + activeInterval.getEndGoal();
+        return activeInterval.getSpent() + " / " + activeInterval.getEndGoalString();
     }
 
     public double getGlobalGoal() {

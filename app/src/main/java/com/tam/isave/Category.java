@@ -11,7 +11,7 @@ package com.tam.isave;
 // As a result of goal change/modification or removal of payments, goal modification might need to be adjusted or reset (decreased).
 // In this case, a negative overflow can be requested and a modify request should be made
 // By the parent category tracker to all categories that have been previously modified. (handling overflow)
-public class Category {
+public class Category implements IProgressDisplayable{
 
     private String name;
     private double spent;
@@ -173,8 +173,14 @@ public class Category {
         return "" + endGoalTwoDecimals + modifierString;
     }
 
+    @Override
+    public String getInfoAboutProgress() {
+        return getName();
+    }
+
     // Returns a String in format "tt.tt / gg.gg"
     // If goal has been modified, format will be "tt.tt / gg.gg (-mm.mm)"
+    @Override
     public String getProgress() {
         return Utils.twoDecimals(spent) + " / " + getEndGoalString();
     }
