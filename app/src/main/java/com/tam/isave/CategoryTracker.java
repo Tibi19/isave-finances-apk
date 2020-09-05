@@ -32,10 +32,10 @@ public class CategoryTracker {
         this(new ArrayList<Category>(Arrays.asList(categories)), history, orderedHandling);
     }
 
-//    public void addCategory(Category category) {
-//        if( (category == null) || (categories.contains(category)) ) { return; }
-//        categories.add(category);
-//    }
+    public void addCategory(Category category) {
+        if( (category == null) || (categories.contains(category)) ) { return; }
+        categories.add(category);
+    }
 
     public void addCategories(ArrayList<Category> categories) {
         if( (categories == null) || (categories.isEmpty()) ) { return; }
