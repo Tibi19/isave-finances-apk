@@ -252,6 +252,7 @@ public class Date {
 
     // Returns true if caller is newer than parameter,
     // Or it is the same day.
+    // An inverted call returns true if date is older but not equal to parameter.
     public boolean isNewerThan(Date date) {
         if(date == null) { return false; }
         return this.getValue() >= date.getValue();
@@ -259,6 +260,7 @@ public class Date {
 
     // Returns true if caller is older than parameter,
     // Or it is the same day.
+    // An inverted call returns true if date is newer but not equal to parameter.
     public boolean isOlderThan(Date date) {
         if(date == null) { return false; }
         return this.getValue() <= date.getValue();

@@ -2,6 +2,10 @@ package com.tam.isave;
 
 import java.util.ArrayList;
 
+// TODO
+// Finish validateHistory by making it sort when it isn't sorted.
+// Add validateHistory where it's needed to always validate sorting.
+// GOTO SaveMain
 public class History {
 
     private static final int HISTORY_MAXIMUM_DAYS = 180; // Entries older than these many days will be deleted.
@@ -88,14 +92,23 @@ public class History {
         return new ArrayList<>(historyList);
     }
 
+    // TODO
     private void validateSorting() {
 
     }
 
+    // True if this.historyList is sorted.
     private boolean isSorted() {
-//        for(int i = 1; i < historyList.size() - 1; i++) {
-//            boolean olderThanPrev
-//        }
+        int histLength = historyList.size();
+        if(histLength <= 1) { return true; }
+
+        for(int i = 0; i < histLength - 1; i++) {
+            Date newDate = historyList.get(i).getDate();
+            Date oldDate = historyList.get(i + 1).getDate();
+            if(!newDate.isNewerThan(oldDate)) {
+                return false;
+            }
+        }
 
         return true;
     }
