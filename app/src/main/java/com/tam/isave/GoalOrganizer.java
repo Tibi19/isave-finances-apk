@@ -354,7 +354,6 @@ public class GoalOrganizer implements IProgressDisplayable {
         }
     }
 
-    // Ove
     // Returns the string to be displayed
     // In format "Day X in Y - Z";
     // X: day number since first day of goal organizer (this.daysProgress).
@@ -369,20 +368,25 @@ public class GoalOrganizer implements IProgressDisplayable {
         final String BEFORE_START_DATE = startDaysDifference + " days until next goal";
         final String AFTER_END_DATE = "Goal time frame has been passed";
 
-        boolean isTodayOlderThanFirstDay = firstDay.getValue() >= Date.today().getValue();
-        if(isTodayOlderThanFirstDay) { return BEFORE_START_DATE; }
+        // If Today is older than first day, return status until next goal.
+        if(Date.today().isOlderThan(firstDay)) { return BEFORE_START_DATE; }
 
+        // If today is newer than last day, return warning that goal has been passed.
+        // At this point, we know today is newer than firstDay,
+        // If days since start date are >= goal organizer's time frame, today is newer than last day.
         boolean isTodayNewerThanLastDay = startDaysDifference >= globalIntervalDays;
         if(isTodayNewerThanLastDay) { return AFTER_END_DATE; }
 
-        int daysUntilIntStart = 1;
+        int daysAtIntStart = 1; // How many days have been progressed at interval start day.
+        // If we are at first interval, @daysAtIntStart remains 1.
         if(getIntervalIndex(activeInterval) != 0) {
-            Interval prevInterval = intervals[getIntervalIndex(activeInterval) - 1];
-            daysUntilIntStart += getIntervalsDays(prevInterval);
+            // If we are not at first interval, calculate how many days have been progressed
+            Interval prevInterval = intervals[getIntervalIndex(activeInterval) - 1]; // The previous interval.
+            daysAtIntStart += getIntervalsDays(prevInterval); // @daysAtIntStart is 1 + the sum of days between preceding intervals.
         }
-        int daysUntilIntEnd = daysUntilIntStart + (activeInterval.getDays() - 1);
+        int daysAtIntEnd = daysAtIntStart + (activeInterval.getDays() - 1); // How many days have been progressed at interval end day.
 
-        return "Day " + daysProgress + " in " + daysUntilIntStart + " - " + daysUntilIntEnd;
+        return "Day " + daysProgress + " in " + daysAtIntStart + " - " + daysAtIntEnd;
     }
 
     // Spending progress of active interval

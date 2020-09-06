@@ -250,6 +250,28 @@ public class Date {
         return value;
     }
 
+    // Returns true if caller is newer than parameter,
+    // Or it is the same day.
+    public boolean isNewerThan(Date date) {
+        if(date == null) { return false; }
+        return this.getValue() >= date.getValue();
+    }
+
+    // Returns true if caller is older than parameter,
+    // Or it is the same day.
+    public boolean isOlderThan(Date date) {
+        if(date == null) { return false; }
+        return this.getValue() <= date.getValue();
+    }
+
+    // Returns true if dates are ordered:
+    // newDate > midDate > oldDate.
+    static boolean areOrdered(Date newDate, Date midDate, Date oldDate) {
+        boolean firstTwoOrdered = newDate.isNewerThan(midDate);
+        boolean lastTwoOrdered = oldDate.isOlderThan(midDate);
+        return firstTwoOrdered && lastTwoOrdered;
+    }
+
     public Date getClone() {
         return new Date(day, month, year);
     }
