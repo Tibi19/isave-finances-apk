@@ -38,7 +38,7 @@ public class History {
     public void addTransactions(ArrayList<Transaction> transactions) {
         if(transactions == null) { return; }
         historyList.addAll(transactions);
-        sortHistory();
+        sort();
     }
 
     public void removeTransaction(Transaction transaction) {
@@ -88,9 +88,21 @@ public class History {
         return new ArrayList<>(historyList);
     }
 
+    private void validateSorting() {
+
+    }
+
+    private boolean isSorted() {
+//        for(int i = 1; i < historyList.size() - 1; i++) {
+//            boolean olderThanPrev
+//        }
+
+        return true;
+    }
+
     // Sort history by date, closest date first.
     // Insertion sort as history should already be partly sorted.
-    private void sortHistory() {
+    private void sort() {
         for (int j = 1; j < historyList.size(); j++) {
 
             // Picking up the key(Card)

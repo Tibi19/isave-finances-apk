@@ -13,7 +13,7 @@ import java.util.Arrays;
 // X Integrate payments with spentInInterval;
 // X Update payments from history since firstDay (might need to bring back firstDay).
 // X Update method to update the state of intervals (what interval we're at, reset intervalGoal, update daysProgress).
-// ~ Reset method?
+// X Reset method?
 // X Interval class, maybe it extends category and overrides some methods.
 // X See adapt functionality in case user goes over board with payments and add to update. (handle overflow with category's functionality)
 // X Modify method for global balance (change) and then update intervalGoals + adapt.
@@ -82,8 +82,8 @@ public class GoalOrganizer implements IProgressDisplayable {
     // Works as a constructor.
     // Can be used to modify and reset the tracker.
     // Any progress of the current tracker will be lost.
-    public void setup(double globalBalance, int intervalsNr, Date firstDay, Date lastDay) {
-        this.globalGoal = globalBalance;
+    public void setup(double globalGoal, int intervalsNr, Date firstDay, Date lastDay) {
+        this.globalGoal = globalGoal;
         this.intervalsNr = intervalsNr;
         this.globalIntervalDays = firstDay.differenceInDays(lastDay);
 
@@ -93,6 +93,14 @@ public class GoalOrganizer implements IProgressDisplayable {
 
         setupIntervals();
         update();
+    }
+
+    // Resets the goal organizer by starting all over again.
+    // Keeps the same goal, interval structure and time frame.
+    // First day becomes today.
+    public void restart() {
+        Date today = Date.today();
+        setup(this.globalGoal, this.intervalsNr, today, today.addDays(globalIntervalDays - 1));
     }
 
     // Modifies goal, number of intervals or time state.
