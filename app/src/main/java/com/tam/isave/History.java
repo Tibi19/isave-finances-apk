@@ -116,7 +116,7 @@ public class History {
     // Sort history by date, closest date first.
     // Insertion sort as history should already be partly sorted.
     private void sort() {
-        for (int j = 1; j < historyList.size(); j++) {
+        for(int j = 1; j < historyList.size(); j++) {
 
             // Picking up the key(Card)
             Transaction key = historyList.get(j);
