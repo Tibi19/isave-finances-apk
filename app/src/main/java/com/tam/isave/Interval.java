@@ -13,13 +13,6 @@ public class Interval extends Category {
         this.id = id;
     }
 
-    // Handles the value change of a modified transaction.
-    // Calls modifyTransaction of the superclass with a null transaction.
-    // Transaction handling of the superclass will not be reached as it has to resolve a history is not null check.
-    public boolean modifyPayment(double valueDiff) {
-        return super.modifyPayment(null, valueDiff);
-    }
-
     public boolean modify(double goal) {
         return super.modify(DEFAULT_NAME + id, goal);
     }
