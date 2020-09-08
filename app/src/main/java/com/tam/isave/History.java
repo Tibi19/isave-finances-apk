@@ -2,10 +2,6 @@ package com.tam.isave;
 
 import java.util.ArrayList;
 
-// TODO
-// Finish validateHistory by making it sort when it isn't sorted.
-// Add validateHistory where it's needed to always validate sorting.
-// GOTO SaveMain
 public class History {
 
     private static final int HISTORY_MAXIMUM_DAYS = 180; // Entries older than these many days will be deleted.
@@ -17,9 +13,9 @@ public class History {
     }
 
     // Adds and inserts transaction at correct position based on date.
-    // Assumes a sorted this.historyList.
     public void addTransaction(Transaction transaction) {
         if( (transaction == null) || (historyList.contains(transaction)) ) { return; }
+        validateSorting();
 
         if(historyList.isEmpty()) {
             historyList.add(transaction);
@@ -42,7 +38,7 @@ public class History {
     public void addTransactions(ArrayList<Transaction> transactions) {
         if(transactions == null) { return; }
         historyList.addAll(transactions);
-        sort();
+        validateSorting();
     }
 
     public void removeTransaction(Transaction transaction) {
@@ -92,9 +88,11 @@ public class History {
         return new ArrayList<>(historyList);
     }
 
-    // TODO
+    // Checks if history is sorted and sorts it if not.
     private void validateSorting() {
-
+        if(!isSorted()) {
+            sort();
+        }
     }
 
     // True if this.historyList is sorted.
@@ -139,6 +137,8 @@ public class History {
     // Removes entries from more than 6 months ago.
     // Assumes a sorted history list.
     public void cleanHistory() {
+        validateSorting();
+
         // Inverse for loop through history list as only oldest transactions should be considered.
         // Break when finding transaction that is allowed.
         for(int i = historyList.size() - 1; i > 0; i--) {
@@ -159,6 +159,9 @@ public class History {
 
     // Returns all transactions from @date until latest entries.
     public ArrayList<Transaction> getTransactionsFromDate(Date date) {
+        if(historyList.isEmpty()) { return null; }
+        validateSorting();
+
         ArrayList<Transaction> transactions = new ArrayList<Transaction>();
         for(Transaction transaction : historyList) {
             // If transaction date is older than @date, break loop and return.
