@@ -6,20 +6,17 @@ import java.util.Arrays;
 
 // Tracks a list of categories.
 // Keeps track of all payments made in these categories in a history.
-// Handles any overflow that happens between them
-// By making modify requests to categories that can handle the overflow.
+// Calls goal adapter to handle any overflow that happens between them.
 public class CategoryTracker {
 
     private ArrayList<Category> categories;
     private History history;
-
-    // Whether positive overflow handling should be done only by categories that follow a solicitor.
-    private boolean orderedHandling;
+    private GoalAdapter adapter;
 
     public CategoryTracker(ArrayList<Category> categories, History history, boolean orderedHandling) {
         this.categories = categories;
         this.history = history;
-        this.orderedHandling = orderedHandling;
+        this.adapter = new GoalAdapter(categories, orderedHandling);
     }
 
     // Default constructor, does not have ordered handling.
@@ -72,7 +69,7 @@ public class CategoryTracker {
         // Make payment in category,
         // Spent changes, handle overflow if it's the case.
         if(category.makePayment(payment)) {
-            handleOverflow(category);
+            adapter.handleOverflow(category);
         }
         history.addTransaction(payment);
     }
@@ -97,7 +94,7 @@ public class CategoryTracker {
         // Remove payment from category,
         // Spent changes, handle overflow if it's the case.
         if(category.removePayment(payment)) {
-            handleOverflow(category);
+            adapter.handleOverflow(category);
         }
         history.removeTransaction(payment);
     }
@@ -122,7 +119,7 @@ public class CategoryTracker {
 
         history.modifyTransaction(payment);
         if(category.modifyPayment(payment, valueDiff)) {
-            handleOverflow(category);
+            adapter.handleOverflow(category);
         }
     }
 
@@ -137,52 +134,6 @@ public class CategoryTracker {
         removePayment(origCategory, payment);
         makePayment(newCategory, payment);
      }
-
-    // Handles overflow of a solicitor.
-    // @solicitor: category that produced the overflow and solicits handling.
-    // Makes modify requests to categories that can handle the overflow.
-    private void handleOverflow(Category solicitor) {
-        double overflow = solicitor.getOverflow();
-        if(Utils.isZeroDouble(overflow)) {
-            return;
-        }
-
-        ArrayList<Category> handlers = new ArrayList<Category>(); // Categories that can handle a part of the overflow.
-        double goalsTotal = 0.0; // The goals total of all handlers.
-        boolean isPositiveOverflow = overflow > Utils.ZERO_DOUBLE;
-        boolean orderedHandling = this.orderedHandling && isPositiveOverflow; // Ordered handling can be done only if overflow is positive.
-
-        // If it's an ordered handling, iteration will start immediately after solicitor.
-        int i = ( orderedHandling ) ? ( categories.indexOf(solicitor) + 1 ) : 0;
-        for( ; i < categories.size(); i++) {
-            Category category = categories.get(i);
-            if(category.equals(solicitor)) { continue; } // Solicitor can't handle its own request.
-            if(!category.canHandleOverflow(isPositiveOverflow)) { continue; } // If category can't handle this type of overflow, continue.
-
-            handlers.add(category);
-            goalsTotal += category.getEndGoal(); // add category's goal to the total of goals.
-        }
-
-        // Handle overflow by making personalized request for each handler.
-        // Request is based on handler's share in the goals total of handlers.
-        for(Category handler : handlers) {
-            double modifyRequest = getModifyRequest(overflow, handler.getEndGoal(), goalsTotal);
-            handler.modifyGoal(modifyRequest);
-        }
-
-        // If there are new overflows as a result of the handling, start recursion.
-        for(Category category : categories) {
-            if(category.hasOverflow()) {
-                handleOverflow(category);
-            }
-        }
-    }
-
-    // The modify request to be solicited from a handler based on a rapport:
-    // Between the overflow and the handler's share in a sum of goals of all handlers.
-    private double getModifyRequest(double overflow, double handlerGoal, double goalsTotal) {
-        return overflow * (handlerGoal / goalsTotal);
-    }
 
     // Assigns @category to @payment as its parent category.
     public void assignCategory(Category category, Payment payment) {

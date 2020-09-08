@@ -5,36 +5,8 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-// Breaks down a global interval into more time intervals.
-// Tracks transactions over a time interval against a goal.
-//
-// TODO
-// X See TODO in body
-// X Integrate payments with spentInInterval;
-// X Update payments from history since firstDay (might need to bring back firstDay).
-// X Update method to update the state of intervals (what interval we're at, reset intervalGoal, update daysProgress).
-// X Reset method?
-// X Interval class, maybe it extends category and overrides some methods.
-// X See adapt functionality in case user goes over board with payments and add to update. (handle overflow with category's functionality)
-// X Modify method for global balance (change) and then update intervalGoals + adapt.
-// X Remove transaction
-// X Replace transaction functionality + adapt. (here or functionality of category?)
-// NO Make an OverflowHandler class and make this one extend it. Use it for SaveMain as well.
-// X Make a CategoryTracker instance in here. Do the same for SaveMain (Composition over inheritance).
-// X See if activeInterval can be replaced with an Interval pointer.
-// X History work, see below
-//// X History should be updated when a transaction is modified as it can modify its Date. History needs to stay sorted.
-//// X Don't call it's sort method, rather remove transaction and insert it again IF it's not at the right place.
-//// X Make a method that does this in history and call it wherever payment modifies and there's a history (Category and CategoryTracker I think)
-// X Restore getpaymentintervalbydate to while loop
-// X didn't do it... remove payment negative value; override the maketransaction method; and delete getabsvalue; to find where to replace with getvalue;
-// X Class documentation
-// X Getters and setters
-// X toString with "Day x in y - z: intervalSpent / intervalGoal"
-// X Interfaces for message display!!!
-
 // GoalOrganizer breaks up the user's goal in smaller goals.
-// Functionality based on "how to an elephant: one bite at a time".
+// Functionality based on "how to eat an elephant: one bite at a time".
 //
 // Takes the user's goal and required time frame to reach the goal and breaks them up in intervals,
 // Categories that save payments based on their dates and are active for a number of days.

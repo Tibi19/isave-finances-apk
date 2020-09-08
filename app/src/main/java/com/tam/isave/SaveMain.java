@@ -4,8 +4,8 @@ package com.tam.isave;
 // X Continue Category
 // X Do Savings
 // X Do IntervalTracker
-// Make sure history is always sorted.
-// Make an OverflowHandler class and add it to CategoryTracker's composition.
+// X Make sure history is always sorted.
+// X Make an OverflowHandler class and add it to CategoryTracker's composition.
 // Make an overview sketch of the app so far. (maybe draw.io)
 // Check for Interfaces for makePayment, removePayment, modifyPayment
 // Do dispose functionality whenever needed and call it whenever a remove transaction method is called.
