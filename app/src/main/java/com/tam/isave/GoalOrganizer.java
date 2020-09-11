@@ -1,9 +1,6 @@
 package com.tam.isave;
 
-import androidx.annotation.NonNull;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 // GoalOrganizer breaks up the user's goal in smaller goals.
 // Functionality based on "how to eat an elephant: one bite at a time".
@@ -98,7 +95,7 @@ public class GoalOrganizer implements IProgressDisplayable {
         if(history.isEmpty()) { return; }
 
         ArrayList<Transaction> historyList = history.cloneHistoryList();
-        history.clearHistory();
+        history.clear();
         // Inverse iteration through historyList as history assignation will be easier.
         // Newer transactions should be added last.
         for(int i = historyList.size() - 1; i >= 0; i--) {

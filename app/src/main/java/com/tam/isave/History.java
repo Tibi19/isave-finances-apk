@@ -79,7 +79,7 @@ public class History {
         return olderThanPrev && newerThanNext;
     }
 
-    public void clearHistory() {
+    public void clear() {
         historyList.clear();
     }
 
@@ -136,12 +136,12 @@ public class History {
 
     // Removes entries from more than 6 months ago.
     // Assumes a sorted history list.
-    public void cleanHistory() {
+    public void clean() {
         validateSorting();
 
         // Inverse for loop through history list as only oldest transactions should be considered.
         // Break when finding transaction that is allowed.
-        for(int i = historyList.size() - 1; i > 0; i--) {
+        for(int i = historyList.size() - 1; i >= 0; i--) {
             Transaction targetTransaction = historyList.get(i);
             if(targetTransaction.getDate().differenceInDays(Date.today()) >= HISTORY_MAXIMUM_DAYS) {
                 historyList.remove(targetTransaction);
@@ -190,6 +190,18 @@ public class History {
         }
         historyList.clear();
         historyList = null;
+    }
+
+    // Cleans histories in parameters by removing old transactions.
+    public static void cleanHistories(History history, CategoryTracker tracker) {
+        if(history == null) { return; }
+        history.clean();
+
+        // Clean histories of @tracker's categories.
+        if(tracker == null) { return; }
+        for(Category category : tracker.getCategories()) {
+            category.getHistory().clean();
+        }
     }
 
 //    public ArrayList<Transaction> getHistoryList() {

@@ -38,7 +38,7 @@ public class CategoryTracker {
         if( (categories == null) || (categories.isEmpty()) ) { return; }
         this.categories.addAll(categories);
     }
-    
+
     public Category getCategory(int index) {
         if(categories.isEmpty()) { return null; }
         if(index < 0 || index >= categories.size()) { return null; }
