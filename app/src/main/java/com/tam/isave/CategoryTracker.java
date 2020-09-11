@@ -38,6 +38,12 @@ public class CategoryTracker {
         if( (categories == null) || (categories.isEmpty()) ) { return; }
         this.categories.addAll(categories);
     }
+    
+    public Category getCategory(int index) {
+        if(categories.isEmpty()) { return null; }
+        if(index < 0 || index >= categories.size()) { return null; }
+        return categories.get(index);
+    }
 
     // Remove category from list of categories;
     // Dispose of it as it's no longer needed.
