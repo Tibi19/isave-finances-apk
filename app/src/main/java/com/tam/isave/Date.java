@@ -293,4 +293,8 @@ public class Date {
     public String getErrorMsg() {
         return errorMsg;
     }
+
+    public void dispose() {
+        errorMsg = null;
+    }
 }

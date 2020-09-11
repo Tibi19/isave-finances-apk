@@ -396,4 +396,23 @@ public class GoalOrganizer implements IProgressDisplayable {
         return intervals;
     }
 
+    public void dispose() {
+        if(firstDay != null) {
+            firstDay.dispose();
+            firstDay = null;
+        }
+
+        if(history != null) {
+            history.dispose();
+            history = null;
+        }
+
+        if(tracker != null) {
+            tracker.dispose();
+            tracker = null;
+        }
+        
+        activeInterval = null;
+        intervals = null;
+    }
 }

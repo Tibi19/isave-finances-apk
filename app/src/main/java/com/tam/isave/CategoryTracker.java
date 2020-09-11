@@ -162,4 +162,25 @@ public class CategoryTracker {
     public void setHistory(History history) {
         this.history = history;
     }
+
+    // Category tracker will handle dispose for categories.
+    public void dispose() {
+        if(categories != null && !categories.isEmpty()) {
+            for(Category category : categories) {
+                category.dispose();
+            }
+            categories.clear();
+            categories = null;
+        }
+
+        if(history != null) {
+            history.dispose();
+            history = null;
+        }
+
+        if(adapter != null) {
+            adapter.dispose();
+            adapter = null;
+        }
+    }
 }

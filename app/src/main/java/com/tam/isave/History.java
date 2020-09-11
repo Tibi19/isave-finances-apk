@@ -181,6 +181,17 @@ public class History {
         return historyList.isEmpty();
     }
 
+    // History handles transactions' dispose.
+    public void dispose() {
+        if(historyList == null || historyList.isEmpty()) { return; }
+
+        for(Transaction tran : historyList) {
+            tran.dispose();
+        }
+        historyList.clear();
+        historyList = null;
+    }
+
 //    public ArrayList<Transaction> getHistoryList() {
 //        return historyList;
 //    }

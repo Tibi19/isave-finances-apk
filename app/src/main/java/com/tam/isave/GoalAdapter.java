@@ -61,4 +61,7 @@ public class GoalAdapter {
         return overflow * (handlerGoal / goalsTotal);
     }
 
+    public void dispose() {
+        categories = null;
+    }
 }

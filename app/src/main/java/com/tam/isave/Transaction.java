@@ -56,4 +56,12 @@ public class Transaction {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    public void dispose() {
+        name = null;
+        if(date != null) {
+            date.dispose();
+            date = null;
+        }
+    }
 }

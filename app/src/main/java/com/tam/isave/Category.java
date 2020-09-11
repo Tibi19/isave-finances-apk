@@ -256,4 +256,12 @@ public class Category implements IProgressDisplayable{
     public void setHistory(History history) {
         this.history = history;
     }
+
+    public void dispose() {
+        name = null;
+        if(history != null) {
+            history.dispose();
+            history = null;
+        }
+    }
 }
