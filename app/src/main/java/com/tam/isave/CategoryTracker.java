@@ -53,11 +53,11 @@ public class CategoryTracker {
         category.dispose();
     }
 
-    // Change name/goal of target category
+    // Change name, spent, goal of target category
     // By calling its modify method.
-    public void modifyCategory(Category category, String name, double goal) {
+    public void modifyCategory(Category category, String name, double spent, double goal) {
         if(category == null) { return; }
-        category.modify(name, goal);
+        category.modify(name, spent, goal);
     }
 
     // Make payment in target category and add to history.

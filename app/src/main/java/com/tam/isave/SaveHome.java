@@ -9,7 +9,7 @@ package com.tam.isave;
 // ~ Make an overview sketch of the app so far. (maybe draw.io)
 // ~ Check for Interfaces for makePayment, removePayment, modifyPayment
 // X Do dispose functionality whenever needed and call it whenever a remove transaction method is called.
-// Modify spent in category? Think about it and add if needed.
+// X Modify spent in category? Think about it and add if needed.
 // X Complete sketches to design 1st version of the app.
 // Do SaveMain
 // Clean History for overall history and categories' history

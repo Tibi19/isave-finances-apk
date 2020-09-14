@@ -78,15 +78,27 @@ public class Category implements IProgressDisplayable{
     // Changes name/goal.
     // Goal changes, there might be overflow to be handled.
     // Returns whether there is overflow.
-    public boolean modify(String name, double goal) {
+    @SuppressWarnings("SimplifiableConditionalExpression")
+    public boolean modify(String name, double spent, double goal) {
         if(!this.name.equalsIgnoreCase(name)) { this.name = name; }
-        // If goal changes, check and return if there is overflow.
-        if(!Utils.sameDoubles(this.goal, goal)) {
-            this.goal = goal;
-            return hasOverflow();
+
+        // Spent should be changed if param is different than this.spent.
+        boolean changeSpent = !Utils.sameDoubles(this.spent, spent);
+        // Goal should be changed if param is different than this.goal.
+        boolean changeGoal = !Utils.sameDoubles(this.goal, goal);
+
+        if(changeSpent) {
+            this.spent = spent;
         }
 
-        return false;
+        if(changeGoal) {
+            this.goal = goal;
+        }
+
+        // If spent or goal have been changed, return overflow check.
+        // Otherwise return false because overflow concerning state is the same.
+        // Simplify warning suppressed for readability.
+        return (changeSpent || changeGoal) ? hasOverflow() : false;
     }
 
     // To be used in case the salary has been cashed in or progress should be reset.
