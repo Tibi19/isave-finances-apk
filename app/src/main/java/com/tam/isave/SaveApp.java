@@ -11,19 +11,28 @@ package com.tam.isave;
 // X Do dispose functionality whenever needed and call it whenever a remove transaction method is called.
 // X Modify spent in category? Think about it and add if needed.
 // X Complete sketches to design 1st version of the app.
-// Do SaveHome
+// Do SaveHome by following design functionality of home screen.
 // Clean History for overall history and categories' history
 // Go on to Activities
 
+// Do newDeposit.
+// Do newCashing.
+// Do modify goal organizer
+// Do modify category
+// Do resets (goal organizer, category, all categories)
+// Do remove category
+// Do add category
+// Do modify transaction
+// Do remove transaction
 import java.util.ArrayList;
 
-public class SaveHome {
+public class SaveApp {
 
     private double balance;
     GoalOrganizer organizer;
     CategoryTracker tracker;
 
-    public SaveHome() {
+    public SaveApp() {
         setupOrganizer();
         setupTracker();
     }
