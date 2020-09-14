@@ -41,9 +41,20 @@ public class History {
         validateSorting();
     }
 
-    public void removeTransaction(Transaction transaction) {
+    // Remove @transaction and also dispose it if flag is true.
+    // Flag should be false if @transaction is still being used by other categories.
+    public void removeTransaction(Transaction transaction, boolean dispose) {
         if( (transaction == null) || !(historyList.contains(transaction)) ) { return; }
         historyList.remove(transaction);
+        if(dispose) {
+            transaction.dispose();
+        }
+    }
+
+    // Default removeTransaction does not dispose of @transaction.
+    // To be called when other histories are still using @transaction.
+    public void removeTransaction(Transaction transaction) {
+        removeTransaction(transaction, false);
     }
 
     public void modifyTransaction(Transaction transaction) {
