@@ -13,15 +13,27 @@ public class CategoryTracker {
     private History history;
     private GoalAdapter adapter;
 
-    public CategoryTracker(ArrayList<Category> categories, History history, boolean orderedHandling) {
+    public CategoryTracker() {
+
+    }
+
+    public void setup(ArrayList<Category> categories, History history, boolean orderedHandling) {
         this.categories = categories;
         this.history = history;
         this.adapter = new GoalAdapter(categories, orderedHandling);
     }
 
+    public void setup(ArrayList<Category> categories, History history) {
+        setup(categories, history, false);
+    }
+
+    public CategoryTracker(ArrayList<Category> categories, History history, boolean orderedHandling) {
+        setup(categories, history, orderedHandling);
+    }
+
     // Default constructor, does not have ordered handling.
     public CategoryTracker(ArrayList<Category> categories, History history) {
-        this(categories, history, false);
+        setup(categories, history);
     }
 
     // Constructor overload for arrays.
