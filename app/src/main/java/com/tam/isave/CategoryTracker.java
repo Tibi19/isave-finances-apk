@@ -50,7 +50,7 @@ public class CategoryTracker {
     public void removeCategory(Category category) {
         if( (category == null) || !categories.contains(category) ) { return; }
         categories.remove(category);
-        // category.dispose();
+        category.dispose();
     }
 
     // Change name/goal of target category
