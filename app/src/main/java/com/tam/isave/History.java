@@ -181,12 +181,19 @@ public class History {
         return historyList.isEmpty();
     }
 
-    // History handles transactions' dispose.
+    // Default History dispose does not dispose transactions.
     public void dispose() {
+        dispose(false);
+    }
+
+    // History handles transactions' dispose.
+    public void dispose(boolean disposeTransactions) {
         if(historyList == null || historyList.isEmpty()) { return; }
 
-        for(Transaction tran : historyList) {
-            tran.dispose();
+        if(disposeTransactions) {
+            for (Transaction tran : historyList) {
+                tran.dispose();
+            }
         }
         historyList.clear();
         historyList = null;
