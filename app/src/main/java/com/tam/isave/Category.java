@@ -104,18 +104,16 @@ public class Category implements IProgressDisplayable{
 
     /**
      * Resets state relating to progress:
-     * Amount spent; goal modification; how much has been spent over the goal; transactions history.
-     * @return True if there is overflow as a result of resetting state.
+     * Amount spent and transactions history.
+     * If goalPassed >0, there will be a negative overflow which should be handled.
+     * After handling, goalPassed will also be reset.
+     * @return True if there is overflow as a result of resetting progress.
      */
     public boolean reset() {
         this.spent = 0.0;
-        // Overflow check is dependent on goal modifier and goal passed.
-        boolean hasOverflow = hasOverflow();
-        this.goalModifier = 0.0;
-        this.goalPassed = 0.0;
         history.reset();
 
-        return hasOverflow;
+        return hasOverflow();
     }
 
     // To be used in case the goal is passed for another category (it overflows).
