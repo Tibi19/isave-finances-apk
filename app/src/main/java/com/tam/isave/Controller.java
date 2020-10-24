@@ -6,26 +6,29 @@ package com.tam.isave;
 // X Do IntervalTracker
 // X Make sure history is always sorted.
 // X Make an OverflowHandler class and add it to CategoryTracker's composition.
-// ~ Make an overview sketch of the app so far. (maybe draw.io)
-// ~ Check for Interfaces for makePayment, removePayment, modifyPayment
+// X Make an overview sketch of the app so far. (maybe draw.io)
+// X Check for Interfaces for makePayment, removePayment, modifyPayment
 // X Do dispose functionality whenever needed and call it whenever a remove transaction method is called.
 // X Modify spent in category? Think about it and add if needed.
 // X Complete sketches to design 1st version of the app.
 // X Add spent to modify functionality.
-// Try catch for overflow handling?
 // Do SaveHome by following design functionality of home screen.
+    /*
+     X Do newDeposit.
+     X Do newCashing.
+     X Do modify goal organizer
+     X Do modify category
+     X Do resets (goal organizer, category, all categories)
+     X Do remove category
+     X Do add category
+     X Do modify transaction
+     Do remove transaction
+     */
+// Try catch for overflow handling?
 // Clean History for overall history and categories' history
 // Go on to Activities
 
-// X Do newDeposit.
-// X Do newCashing.
-// X Do modify goal organizer
-// X Do modify category
-// X Do resets (goal organizer, category, all categories)
-// X Do remove category
-// X Do add category
-// Do modify transaction
-// Do remove transaction
+
 import java.util.ArrayList;
 
 public class Controller {
@@ -194,6 +197,25 @@ public class Controller {
     public boolean newVault(String name, double goal) {
         if( (name == null) || (goal <= Utils.ZERO_DOUBLE) ) { return false; }
         tracker.addCategory(new Vault(name, goal));
+        return true;
+    }
+
+    /**
+     * Modifies a payment.
+     * @param payment The payment to be modified.
+     * @param newCategory The new parent category of the payment.
+     * @param newName The new name of the payment.
+     * @param newDate The new date when payment happened.
+     * @param newValue The new value of the payment.
+     * @return Whether the payment has been successfully modified.
+     */
+    public boolean modifyPayment(Payment payment, Category newCategory, String newName, Date newDate, double newValue) {
+        if( (payment == null) || (newCategory == null) || (newName == null) || (newDate == null) ) { return false; }
+        if(newValue <= Utils.ZERO_DOUBLE) { return false; }
+
+        double valueDifference = payment.modify(newName, newValue, newDate, newCategory);
+        tracker.modifyPaymentInParent(payment, valueDifference);
+
         return true;
     }
 }
