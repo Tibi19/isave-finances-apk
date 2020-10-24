@@ -20,9 +20,7 @@ public class GoalAdapter {
     // Makes modify requests to categories that can handle the overflow.
     public void handleOverflow(Category solicitor) {
         double overflow = solicitor.getOverflow();
-        if(Utils.isZeroDouble(overflow)) {
-            return;
-        }
+        if(Utils.isZeroDouble(overflow)) { return; }
 
         ArrayList<Category> handlers = new ArrayList<Category>(); // Categories that can handle a part of the overflow.
         double goalsTotal = 0.0; // The goals total of all handlers.
@@ -51,6 +49,7 @@ public class GoalAdapter {
         for(Category category : categories) {
             if(category.hasOverflow()) {
                 handleOverflow(category);
+                break;
             }
         }
     }
