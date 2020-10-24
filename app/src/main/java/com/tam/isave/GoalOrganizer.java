@@ -307,7 +307,7 @@ public class GoalOrganizer implements IProgressDisplayable {
         }
 
         // If interval wasn't changed for the modified payment, let tracker handle value difference.
-        tracker.modifyPayment(interval, payment, valueDiff);
+        tracker.modifyPaymentInInterval(interval, payment, valueDiff);
     }
 
     // Return index of @interval in intervals.

@@ -129,17 +129,42 @@ public class CategoryTracker {
         releaseCategory(payment);
     }
 
-    // Modify payment in its parent category.
-    public void modifyPayment(Payment payment, double valueDiff) {
+    /**
+     * Modify payment in its parent category.
+     * @param payment The payment to be modified.
+     * @param valueDiff The value difference of the payment after modification.
+     */
+    public void modifyPaymentInParent(Payment payment, double valueDiff) {
         if(payment == null) { return; }
+        Category origCategory = getPaymentCategoryByHistory(payment);
+        if(movePayment(origCategory, payment.getParentCategory(), payment)) { return; }
         modifyPayment(payment.getParentCategory(), payment, valueDiff);
     }
 
-    // Modify payment in target category if it exists there.
-    public void modifyPayment(Category category, Payment payment, double valueDiff) {
-        if( (category == null) || (payment == null) ) { return; }
-        if(!category.getHistory().hasTransaction(payment)) { return; }
+    // Return the category where payment parameter is found.
+    // Checks for payment in category history.
+    private Category getPaymentCategoryByHistory(Payment payment) {
+        for(Category category : categories) {
+            if(category.getHistory().hasTransaction(payment)) { return category; }
+        }
+        return null;
+    }
 
+    /**
+     * Modifies payment in an interval.
+     * @param interval The interval where payment should be modified.
+     * @param payment The payment to be modified.
+     * @param valueDiff The value difference of the payment after modification.
+     */
+    public void modifyPaymentInInterval(Interval interval, Payment payment, double valueDiff) {
+        if( (interval == null) || (payment == null) ) { return; }
+        if(!interval.getHistory().hasTransaction(payment)) { return; }
+
+        modifyPayment(interval, payment, valueDiff);
+    }
+
+    // Modify payment in target category and update history.
+    private void modifyPayment(Category category, Payment payment, double valueDiff) {
         history.modifyTransaction(payment);
         if(category.modifyPayment(payment, valueDiff)) {
             adapter.handleOverflow(category);
@@ -148,14 +173,16 @@ public class CategoryTracker {
 
     // Moves @payment from @origCategory to @newCategory.
     // Handles overflow if it's the case.
-    public void movePayment(Category origCategory, Category newCategory, Payment payment) {
-        if( (origCategory == null) || (newCategory == null) ) { return; }
-        if(payment == null) { return; }
+    public boolean movePayment(Category origCategory, Category newCategory, Payment payment) {
+        if( (origCategory == null) || (newCategory == null) || (payment == null) ) { return false; }
+        if(origCategory.equals(newCategory)) { return false; }
 
         // Move payment by removing it from original category,
         // And making the payment in the new category.
         removePayment(origCategory, payment);
         makePayment(newCategory, payment);
+
+        return true;
     }
 
     /**
