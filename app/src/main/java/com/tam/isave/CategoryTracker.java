@@ -176,7 +176,7 @@ public class CategoryTracker {
     public void resetAllCategories() {
         for(Category category : categories) {
             // Spent amount changes, but all categories will be reset so there will not be an overflow to handle.
-            category.reset();
+            category.fullReset();
         }
     }
 

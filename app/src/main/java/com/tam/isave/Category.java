@@ -116,6 +116,17 @@ public class Category implements IProgressDisplayable{
         return hasOverflow();
     }
 
+    /**
+     * Resets the entire state.
+     * Doesn't account for overflow.
+     * To be used when resetting all categories of a tracker.
+     */
+    public void fullReset() {
+        reset();
+        goalModifier = 0.0;
+        goalPassed = 0.0;
+    }
+
     // To be used in case the goal is passed for another category (it overflows).
     // In which case, a request can be made to a flexible object of this class to modify its end goal.
     //
