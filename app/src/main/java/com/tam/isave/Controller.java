@@ -23,7 +23,7 @@ package com.tam.isave;
 // X Do modify category
 // X Do resets (goal organizer, category, all categories)
 // X Do remove category
-// Do add category
+// X Do add category
 // Do modify transaction
 // Do remove transaction
 import java.util.ArrayList;
@@ -136,7 +136,7 @@ public class Controller {
      */
     public boolean modifyCategory(Category category, String newName, double newSpent, double newGoal, boolean newIsFlexible) {
         if( (category == null) || (newName == null) ) { return false; }
-        if( (newSpent <= -Utils.ZERO_DOUBLE) || (newGoal <= -Utils.ZERO_DOUBLE) ) { return false; }
+        if( (newSpent <= -Utils.ZERO_DOUBLE) || (newGoal <= Utils.ZERO_DOUBLE) ) { return false; }
 
         category.modify(newName, newSpent, newGoal, newIsFlexible);
         return true;
@@ -170,5 +170,30 @@ public class Controller {
      */
     public void removeCategory(Category category) {
         tracker.removeCategory(category);
+    }
+
+    /**
+     * Create a new Category.
+     * @param name The name of the category.
+     * @param goal The goal of the category.
+     * @param hasFlexibleGoal Whether category can change its goal to help other categories.
+     * @return True if a category has been successfully created.
+     */
+    public boolean newCategory(String name, double goal, boolean hasFlexibleGoal) {
+        if( (name == null) || (goal <= Utils.ZERO_DOUBLE) ) { return false; }
+        tracker.addCategory(new Category(name, goal, hasFlexibleGoal));
+        return true;
+    }
+
+    /**
+     * Create a new Vault.
+     * @param name The name of the vault.
+     * @param goal The goal of the vault.
+     * @return True if a vault has been successfully created.
+     */
+    public boolean newVault(String name, double goal) {
+        if( (name == null) || (goal <= Utils.ZERO_DOUBLE) ) { return false; }
+        tracker.addCategory(new Vault(name, goal));
+        return true;
     }
 }
