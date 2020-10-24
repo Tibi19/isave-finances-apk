@@ -89,6 +89,14 @@ public class GoalOrganizer implements IProgressDisplayable {
         reassignHistory();
     }
 
+    /**
+     * Modifies goal of goal organizer
+     * @param globalGoal - The new goal.
+     */
+    public void modify(double globalGoal) {
+        modify(globalGoal, this.intervalsNr, this.firstDay, this.firstDay.addDays(this.globalIntervalDays - 1));
+    }
+
     // Reassign history by making each transaction again.
     // Will recalculate state and handle overflow in case of modification.
     private void reassignHistory() {
