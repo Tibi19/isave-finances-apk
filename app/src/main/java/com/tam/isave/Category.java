@@ -75,30 +75,31 @@ public class Category implements IProgressDisplayable{
         return hasOverflow();
     }
 
-    // Changes name/goal.
-    // Goal changes, there might be overflow to be handled.
-    // Returns whether there is overflow.
-    @SuppressWarnings("SimplifiableConditionalExpression")
-    public boolean modify(String name, double spent, double goal) {
+    /**
+     * Modify the state of category.
+     * @param name The new name of the category.
+     * @param spent The new spent amount of the category.
+     * @param goal The new goal of the category.
+     * @param hasFlexibleGoal The new flexibility of this category's goal.
+     * @return Whether there is overflow that should be handled.
+     */
+    @SuppressWarnings("SimplifiableConditionalExpression") // Warning suppressed for readability.
+    public boolean modify(String name, double spent, double goal, boolean hasFlexibleGoal) {
         if(!this.name.equalsIgnoreCase(name)) { this.name = name; }
 
-        // Spent should be changed if param is different than this.spent.
         boolean changeSpent = !Utils.sameDoubles(this.spent, spent);
-        // Goal should be changed if param is different than this.goal.
         boolean changeGoal = !Utils.sameDoubles(this.goal, goal);
+        boolean changeFlexibility = this.hasFlexibleGoal != hasFlexibleGoal;
 
         if(changeSpent) {
             this.spent = spent;
         }
-
         if(changeGoal) {
             this.goal = goal;
         }
+        this.hasFlexibleGoal = hasFlexibleGoal;
 
-        // If spent or goal have been changed, return overflow check.
-        // Otherwise return false because overflow concerning state is the same.
-        // Simplify warning suppressed for readability.
-        return (changeSpent || changeGoal) ? hasOverflow() : false;
+        return (changeSpent || changeGoal || changeFlexibility) ? hasOverflow() : false;
     }
 
     // To be used in case the salary has been cashed in or progress should be reset.
@@ -134,24 +135,30 @@ public class Category implements IProgressDisplayable{
         return true;
     }
 
-    // Returns the unhandled amount that was spent over the goal.
-    // The amount should be handled by making a modify request to the other flexible categories.
-    //
-    // If param @updateGoalPassed is true, goalPassed will be updated and overflow should be handled.
-    // If param @updateGoalPassed is false, goalPassed will not be updated and overflow should not be handled.
-    //
-    // Comments from here on assume a true @updateGoalPassed.
-    private double getOverflow(boolean updateGoalPassed) {
+    /**
+     * The amount that has to be handled by other categories.
+     * If >0.0 a modify goal request should be made to other categories that can help.
+     * If 0.0, there's no overflow to handle.
+     * If <0.0 a modify goal request should be made to other modified categories.
+     * @param shouldUpdateState If false, we are just checking, the state of this category will not be affected.
+     * @return The overflow that has to be handled.
+     */
+    private double getOverflow(boolean shouldUpdateState) {
+        double goal = hasFlexibleGoal ? getEndGoal() : this.goal;
         // The difference between the old amount spent over the goal and the current one is the overflow.
-        double goalPassed = Math.max(spent - getEndGoal(), 0.0); // The real amount spent over the goal. Should not be negative.
+        double goalPassed = Math.max(spent - goal, 0.0); // The real amount spent over the goal. Should not be negative.
         double origGoalPassed = this.goalPassed;  // Original stored amount spent over the goal.
-        if(updateGoalPassed) { this.goalPassed = goalPassed; } // Update amount spent over the goal with the real value.
+        if(shouldUpdateState) { this.goalPassed = goalPassed; } // Update amount spent over the goal with the real value.
 
-        // Return the difference between the real and the original stored amount.
-        // If >0.0 a modify goal request should be made to other flexible categories.
-        // If 0.0, there's no overflow to handle.
-        // If <0.0 a modify goal request should be made to other modified categories.
-        return goalPassed - origGoalPassed;
+        double overflow = goalPassed - origGoalPassed;
+        // If goal is not flexible and goal modifier is different than 0,
+        // We reset goalModifier and account for it in the overflow.
+        if(!hasFlexibleGoal) {
+            overflow -= goalModifier;
+            if(shouldUpdateState) { goalModifier = 0.0; }
+        }
+
+        return overflow;
     }
 
     // Default getOverflow() method to be used, overflow should be handled.
@@ -237,6 +244,13 @@ public class Category implements IProgressDisplayable{
     // To be used when modifying goal by decreasing it.
     public boolean isFlexible() {
         return hasFlexibleGoal;
+    }
+
+    /**
+     * Change whether this category's goal is flexible or not.
+     */
+    public void modifyFlexibility() {
+        this.hasFlexibleGoal = !this.hasFlexibleGoal;
     }
 
     // If category can help with overflow when another category passes its goal.

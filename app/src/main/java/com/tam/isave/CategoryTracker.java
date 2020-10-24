@@ -1,6 +1,5 @@
 package com.tam.isave;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -67,9 +66,11 @@ public class CategoryTracker {
 
     // Change name, spent, goal of target category
     // By calling its modify method.
-    public void modifyCategory(Category category, String name, double spent, double goal) {
+    public void modifyCategory(Category category, String name, double spent, double goal, boolean hasFlexibleGoal) {
         if(category == null) { return; }
-        category.modify(name, spent, goal);
+        if(category.modify(name, spent, goal, hasFlexibleGoal)) {
+            adapter.handleOverflow(category);
+        }
     }
 
     // Make payment in target category and add to history.
