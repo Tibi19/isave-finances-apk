@@ -60,6 +60,10 @@ public class CategoryTracker {
     // Dispose of it as it's no longer needed.
     public void removeCategory(Category category) {
         if( (category == null) || !categories.contains(category) ) { return; }
+        // First reset category to handle overflow if it's the case.
+        if(category.reset()) {
+            adapter.handleOverflow(category);
+        }
         categories.remove(category);
         category.dispose();
     }

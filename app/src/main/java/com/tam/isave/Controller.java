@@ -12,6 +12,7 @@ package com.tam.isave;
 // X Modify spent in category? Think about it and add if needed.
 // X Complete sketches to design 1st version of the app.
 // X Add spent to modify functionality.
+// Try catch for overflow handling?
 // Do SaveHome by following design functionality of home screen.
 // Clean History for overall history and categories' history
 // Go on to Activities
@@ -21,7 +22,7 @@ package com.tam.isave;
 // X Do modify goal organizer
 // X Do modify category
 // X Do resets (goal organizer, category, all categories)
-// Do remove category
+// X Do remove category
 // Do add category
 // Do modify transaction
 // Do remove transaction
@@ -161,5 +162,13 @@ public class Controller {
      */
     public void resetAllCategories() {
         tracker.resetAllCategories();
+    }
+
+    /**
+     * Removes a category
+     * @param category Category to be removed.
+     */
+    public void removeCategory(Category category) {
+        tracker.removeCategory(category);
     }
 }
