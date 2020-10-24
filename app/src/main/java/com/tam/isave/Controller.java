@@ -20,7 +20,7 @@ package com.tam.isave;
 // X Do newCashing.
 // X Do modify goal organizer
 // X Do modify category
-// Do resets (goal organizer, category, all categories)
+// X Do resets (goal organizer, category, all categories)
 // Do remove category
 // Do add category
 // Do modify transaction
@@ -139,5 +139,27 @@ public class Controller {
 
         category.modify(newName, newSpent, newGoal, newIsFlexible);
         return true;
+    }
+
+    /**
+     * Reset the progress of the goal organizer.
+     */
+    public void resetGoalOrganizer() {
+        organizer.reset();
+    }
+
+    /**
+     * Reset the progress of a category.
+     * @param category The category to be reset.
+     */
+    public void resetCategory(Category category) {
+        tracker.resetCategory(category);
+    }
+
+    /**
+     * Reset the progress of all categories.
+     */
+    public void resetAllCategories() {
+        tracker.resetAllCategories();
     }
 }

@@ -152,7 +152,29 @@ public class CategoryTracker {
         // And making the payment in the new category.
         removePayment(origCategory, payment);
         makePayment(newCategory, payment);
-     }
+    }
+
+    /**
+     * Resets the progress of a category.
+     * @param category The category that should be reset.
+     */
+    public void resetCategory(Category category) {
+        if(category == null) { return; }
+        // Spent changes, check and handle overflow.
+        if(category.reset()) {
+            adapter.handleOverflow(category);
+        }
+    }
+
+    /**
+     * Resets the progress of all categories.
+     */
+    public void resetAllCategories() {
+        for(Category category : categories) {
+            // Spent amount changes, but all categories will be reset so there will not be an overflow to handle.
+            category.reset();
+        }
+    }
 
     // Assigns @category to @payment as its parent category.
     public void assignCategory(Category category, Payment payment) {

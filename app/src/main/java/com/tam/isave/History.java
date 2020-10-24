@@ -90,7 +90,7 @@ public class History {
         return olderThanPrev && newerThanNext;
     }
 
-    public void clear() {
+    public void reset() {
         historyList.clear();
     }
 

@@ -67,7 +67,7 @@ public class GoalOrganizer implements IProgressDisplayable {
     // Resets the goal organizer by starting all over again.
     // Keeps the same goal, interval structure and time frame.
     // First day becomes today.
-    public void restart() {
+    public void reset() {
         Date today = Date.today();
         setup(this.globalGoal, this.intervalsNr, today, today.addDays(globalIntervalDays - 1));
     }
@@ -103,7 +103,7 @@ public class GoalOrganizer implements IProgressDisplayable {
         if(history.isEmpty()) { return; }
 
         ArrayList<Transaction> historyList = history.cloneHistoryList();
-        history.clear();
+        history.reset();
         // Inverse iteration through historyList as history assignation will be easier.
         // Newer transactions should be added last.
         for(int i = historyList.size() - 1; i >= 0; i--) {
