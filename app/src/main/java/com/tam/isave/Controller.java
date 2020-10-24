@@ -27,13 +27,13 @@ package com.tam.isave;
 // Do remove transaction
 import java.util.ArrayList;
 
-public class SaveApp {
+public class Controller {
 
     private double balance;
     GoalOrganizer organizer;
     CategoryTracker tracker;
 
-    public SaveApp() {
+    public Controller() {
         setupOrganizer();
         setupTracker();
     }
