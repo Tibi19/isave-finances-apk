@@ -38,6 +38,7 @@ public class GoalAdapter {
             goalsTotal += category.getEndGoal(); // Add category's goal to the total of goals.
         }
 
+        if(handlers.size() <= 0) { return; }
         // Handle overflow by making personalized request for each handler.
         // Request is based on handler's share in the goals total of handlers.
         for(Category handler : handlers) {
