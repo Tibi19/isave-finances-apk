@@ -2,7 +2,7 @@ package com.tam.isave;
 
 public class Vault extends Category {
 
-    public Vault(String name, double goal, boolean hasFlexibleGoal) {
+    public Vault(String name, double goal) {
         super(name, goal, false);
     }
 }
