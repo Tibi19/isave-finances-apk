@@ -108,25 +108,33 @@ public class CategoryTracker {
         makePayment(payment.getParentCategory(), payment, false);
     }
 
-    // Removes payment from target category and history.
-    // Handles overflow if it's the case.
+    /**
+     * Removes payment only from target category.
+     * @param category The category where to remove the payment from.
+     * @param payment The payment to be removed.
+     */
     public void removePayment(Category category, Payment payment) {
         if( (category == null) || (payment == null) ) { return; }
         if(!history.hasTransaction(payment)) { return; }
 
-        // Remove payment from category,
-        // Spent changes, handle overflow if it's the case.
         if(category.removePayment(payment)) {
             adapter.handleOverflow(category);
         }
         history.removeTransaction(payment);
     }
 
-    // Remove payment from its parent category.
-    public void removePayment(Payment payment) {
+    /**
+     * Remove payment from its category and have history dispose of it.
+     * @param payment The payment to be removed.
+     */
+    public void removePaymentGlobally(Payment payment) {
         if(payment == null) { return; }
-        removePayment(payment.getParentCategory(), payment);
-        releaseCategory(payment);
+
+        Category category = payment.getParentCategory();
+        if(category.removePayment(payment)) {
+            adapter.handleOverflow(category);
+        }
+        history.removeTransaction(payment, true);
     }
 
     /**

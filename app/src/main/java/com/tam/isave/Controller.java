@@ -22,7 +22,7 @@ package com.tam.isave;
      X Do remove category
      X Do add category
      X Do modify transaction
-     Do remove transaction
+     X Do remove transaction
      */
 // Try catch for overflow handling?
 // Clean History for overall history and categories' history
@@ -216,6 +216,29 @@ public class Controller {
         double valueDifference = payment.modify(newName, newValue, newDate, newCategory);
         tracker.modifyPaymentInParent(payment, valueDifference);
 
+        return true;
+    }
+
+    /**
+     * Remove payment only from the organizer.
+     * @param payment Payment to be removed.
+     * @return True if payment was removed.
+     */
+    public boolean removePaymentFromOrganizer(Payment payment) {
+        if(payment == null) { return false; }
+        organizer.removePayment(payment);
+        return true;
+    }
+
+    /**
+     * Remove payment from everywhere.
+     * @param payment Payment to be removed.
+     * @return True if payment was removed.
+     */
+    public boolean removePaymentGlobally(Payment payment) {
+        if(payment == null) { return false; }
+        organizer.removePayment(payment);
+        tracker.removePaymentGlobally(payment);
         return true;
     }
 }
