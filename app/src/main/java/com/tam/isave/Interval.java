@@ -14,7 +14,7 @@ public class Interval extends Category {
     }
 
     public boolean modify(double spent, double goal) {
-        return super.modify(DEFAULT_NAME + id, spent, goal);
+        return super.modify(DEFAULT_NAME + id, spent, goal, true);
     }
 
     public int getDays() {
