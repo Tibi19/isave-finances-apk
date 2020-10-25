@@ -286,7 +286,6 @@ public class GoalOrganizer implements IProgressDisplayable {
         if(interval == null) { return; }
 
         tracker.removePayment(interval, payment);
-        history.removeTransaction(payment);
     }
 
     // Handles modification of a payment if it's part of this object's history.
