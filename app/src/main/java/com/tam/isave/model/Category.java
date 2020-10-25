@@ -1,4 +1,4 @@
-package com.tam.isave;
+package com.tam.isave.model;
 
 // Categorises payments and tracks them in a history.
 // Stores how much money is spent on products/services that are part of the category.

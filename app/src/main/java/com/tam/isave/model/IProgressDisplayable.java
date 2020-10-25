@@ -1,4 +1,4 @@
-package com.tam.isave;
+package com.tam.isave.model;
 
 // To be used for UI.
 public interface IProgressDisplayable {
