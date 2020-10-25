@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.tam.isave.R;
 
+// Blank home
 public class Home extends AppCompatActivity {
 
     @Override
