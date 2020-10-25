@@ -82,19 +82,16 @@ public class CategoryTracker {
     // Handles overflow if it's the case.
     public void makePayment(Category category, Payment payment, boolean assign) {
         if( (category == null) || (payment == null) ) { return; }
-        // Protect from duplicate payments.
         if(history.hasTransaction(payment)) { return; }
 
         if(assign) {
             assignCategory(category, payment);
         }
-
-        // Make payment in category,
+        history.addTransaction(payment);
         // Spent changes, handle overflow if it's the case.
         if(category.makePayment(payment)) {
             adapter.handleOverflow(category);
         }
-        history.addTransaction(payment);
     }
 
     // Make payment for target category but don't assign it.
