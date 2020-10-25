@@ -25,7 +25,7 @@ package com.tam.isave;
      X Do remove transaction
      */
 // ... Try catch for overflow handling - asked stackoverflow.
-// Clean History for overall history and categories' history
+// X Clean History for overall history and categories' history
 // Go on to Activities
 
 
@@ -240,5 +240,12 @@ public class Controller {
         organizer.removePayment(payment);
         tracker.removePaymentGlobally(payment);
         return true;
+    }
+
+    /**
+     * Cleans histories of old transactions.
+     */
+    public void cleanHistories() {
+        History.cleanHistories(tracker);
     }
 }
