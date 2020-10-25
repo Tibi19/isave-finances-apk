@@ -45,7 +45,8 @@ public class Category implements IProgressDisplayable{
     // Returns whether there is overflow.
     public boolean makePayment(Payment payment) {
         history.addTransaction(payment);
-        spent += Math.abs(payment.getValue());
+        // Spent changes, there might be overflow.
+        spent += payment.getAbsValue();
 
         return hasOverflow();
     }
@@ -56,7 +57,10 @@ public class Category implements IProgressDisplayable{
     public boolean removePayment(Payment payment) {
         if (!history.hasTransaction(payment)) { return false; }
 
-        payment.setParentCategory(null);
+        history.removeTransaction(payment);
+        if(payment.getParentCategory() == this) {
+            payment.setParentCategory(null);
+        }
         spent -= payment.getAbsValue();
 
         return hasOverflow();
