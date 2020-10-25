@@ -12,7 +12,7 @@ package com.tam.isave;
 // X Modify spent in category? Think about it and add if needed.
 // X Complete sketches to design 1st version of the app.
 // X Add spent to modify functionality.
-// Do SaveHome by following design functionality of home screen.
+// X Do Controller by following design functionality of home screen.
     /*
      X Do newDeposit.
      X Do newCashing.
@@ -24,7 +24,7 @@ package com.tam.isave;
      X Do modify transaction
      X Do remove transaction
      */
-// Try catch for overflow handling?
+// ... Try catch for overflow handling - asked stackoverflow.
 // Clean History for overall history and categories' history
 // Go on to Activities
 
