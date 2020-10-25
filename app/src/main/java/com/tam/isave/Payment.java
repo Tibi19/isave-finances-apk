@@ -27,9 +27,7 @@ public class Payment extends Transaction {
 
     public double getAbsValue() { return Math.abs(getValue()); }
 
-    @Override
     public void dispose() {
         parentCategory = null;
-        super.dispose();
     }
 }
