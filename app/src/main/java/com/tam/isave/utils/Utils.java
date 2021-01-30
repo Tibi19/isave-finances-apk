@@ -1,4 +1,4 @@
-package com.tam.isave.model;
+package com.tam.isave.utils;
 
 public class Utils {
 
@@ -12,7 +12,7 @@ public class Utils {
     }
 
     // Whether parameters are the same with a precision of 2 decimals.
-    public static boolean sameDoubles(double x, double y) {
+    public static boolean isSameDoubles(double x, double y) {
         return twoDecimals(x) == twoDecimals(y);
     }
 

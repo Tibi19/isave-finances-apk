@@ -1,5 +1,8 @@
 package com.tam.isave.model;
 
+import com.tam.isave.utils.Date;
+import com.tam.isave.utils.Utils;
+
 public class Transaction {
 
     private String name;
@@ -24,7 +27,7 @@ public class Transaction {
         if( (newName != null) && !name.equalsIgnoreCase(newName)) { name = newName; }
         if( (newDate != null) && (date.getValue() != newDate.getValue()) ) { date = newDate; }
 
-        if(!Utils.sameDoubles(value, newValue)) {
+        if(!Utils.isSameDoubles(value, newValue)) {
             double origValue = value;
             value = newValue;
             return Math.abs(origValue) - Math.abs(newValue);

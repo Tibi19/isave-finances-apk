@@ -1,5 +1,7 @@
 package com.tam.isave.model;
 
+import com.tam.isave.utils.Utils;
+
 // Categorises payments and tracks them in a history.
 // Stores how much money is spent on products/services that are part of the category.
 // Has a goal and compares total spent to that goal.
@@ -91,8 +93,8 @@ public class Category implements IProgressDisplayable{
     public boolean modify(String name, double spent, double goal, boolean hasFlexibleGoal) {
         if(!this.name.equalsIgnoreCase(name)) { this.name = name; }
 
-        boolean changeSpent = !Utils.sameDoubles(this.spent, spent);
-        boolean changeGoal = !Utils.sameDoubles(this.goal, goal);
+        boolean changeSpent = !Utils.isSameDoubles(this.spent, spent);
+        boolean changeGoal = !Utils.isSameDoubles(this.goal, goal);
         boolean changeFlexibility = this.hasFlexibleGoal != hasFlexibleGoal;
 
         if(changeSpent) {

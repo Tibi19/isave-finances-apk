@@ -1,5 +1,8 @@
 package com.tam.isave.model;
 
+import com.tam.isave.utils.Date;
+import com.tam.isave.utils.Utils;
+
 import java.util.ArrayList;
 
 // GoalOrganizer breaks up the user's goal in smaller goals.

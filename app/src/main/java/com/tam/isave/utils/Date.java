@@ -1,4 +1,4 @@
-package com.tam.isave.model;
+package com.tam.isave.utils;
 
 import androidx.annotation.NonNull;
 

@@ -1,5 +1,7 @@
 package com.tam.isave.model;
 
+import com.tam.isave.utils.Date;
+
 public class Payment extends Transaction {
 
     private Category parentCategory;

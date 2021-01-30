@@ -32,11 +32,11 @@ package com.tam.isave;
 import com.tam.isave.model.Cashing;
 import com.tam.isave.model.Category;
 import com.tam.isave.model.CategoryTracker;
-import com.tam.isave.model.Date;
+import com.tam.isave.utils.Date;
 import com.tam.isave.model.GoalOrganizer;
 import com.tam.isave.model.History;
 import com.tam.isave.model.Payment;
-import com.tam.isave.model.Utils;
+import com.tam.isave.utils.Utils;
 import com.tam.isave.model.Vault;
 
 import java.util.ArrayList;

@@ -1,5 +1,8 @@
 package com.tam.isave.model;
 
+import com.tam.isave.utils.Utils;
+import com.tam.isave.utils.Date;
+
 import java.util.ArrayList;
 
 public class History {
