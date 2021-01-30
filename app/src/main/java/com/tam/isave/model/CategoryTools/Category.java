@@ -1,9 +1,14 @@
 package com.tam.isave.model.CategoryTools;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.tam.isave.model.TransactionTools.History;
 import com.tam.isave.model.IProgressDisplayable;
 import com.tam.isave.model.TransactionTools.Payment;
-import com.tam.isave.utils.Utils;
+import com.tam.isave.utils.Constants;
+import com.tam.isave.utils.NumberUtils;
 
 // Categorises payments and tracks them in a history.
 // Stores how much money is spent on products/services that are part of the category.
@@ -16,16 +21,26 @@ import com.tam.isave.utils.Utils;
 // As a result of goal change / modification or removal of payments, goal modification might need to be adjusted or reset (decreased).
 // In this case, a negative overflow can be requested and a modify request should be made
 // By the parent category tracker to all categories that have been previously modified. (handling overflow)
+@Entity(tableName = Constants.TABLE_NAME_CATEGORY)
 public class Category implements IProgressDisplayable {
 
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
+    @ColumnInfo(name = Constants.COLUMN_NAME)
     private String name;
+    @ColumnInfo(name = Constants.COLUMN_SPENT)
     private double spent;
+    @ColumnInfo(name = Constants.COLUMN_GOAL)
     private double goal;
 
     private History history;
 
+    @ColumnInfo(name = Constants.COLUMN_GOAL_MODIFIER)
     private double goalModifier;
+    @ColumnInfo(name = Constants.COLUMN_GOAL_PASSED)
     private double goalPassed;
+    @ColumnInfo(name = Constants.COLUMN_HAS_FLEXIBLE_GOAL)
     private boolean hasFlexibleGoal;
 
     public Category(String name, double goal, boolean hasFlexibleGoal) {
@@ -71,7 +86,7 @@ public class Category implements IProgressDisplayable {
 
     // Adds to spent amount the difference in value of the modified payment.
     public void modifyPayment(Payment payment, double valueDiff, GoalAdapter adapter) {
-        if( (valueDiff < Utils.ZERO_DOUBLE) && (valueDiff > -Utils.ZERO_DOUBLE) ) { return; }
+        if( (valueDiff < NumberUtils.ZERO_DOUBLE) && (valueDiff > -NumberUtils.ZERO_DOUBLE) ) { return; }
         if (!history.hasTransaction(payment)) { return; }
 
         history.modifyTransaction(payment);
@@ -91,8 +106,8 @@ public class Category implements IProgressDisplayable {
     public void modify(String name, double spent, double goal, boolean hasFlexibleGoal, GoalAdapter adapter) {
         if(!this.name.equalsIgnoreCase(name)) { this.name = name; }
 
-        boolean changeSpent = !Utils.isSameDoubles(this.spent, spent);
-        boolean changeGoal = !Utils.isSameDoubles(this.goal, goal);
+        boolean changeSpent = !NumberUtils.isSameDoubles(this.spent, spent);
+        boolean changeGoal = !NumberUtils.isSameDoubles(this.goal, goal);
         boolean changeFlexibility = this.hasFlexibleGoal != hasFlexibleGoal;
 
         if(changeSpent) {
@@ -162,7 +177,7 @@ public class Category implements IProgressDisplayable {
 
         // If goal for this object was passed and trying to increase goal modifier, stop method.
         // Goal modifier can be decreased.
-        if(goalPassed > Utils.ZERO_DOUBLE && modifyRequest > Utils.ZERO_DOUBLE) {
+        if(goalPassed > NumberUtils.ZERO_DOUBLE && modifyRequest > NumberUtils.ZERO_DOUBLE) {
             return false;
         }
 
@@ -204,7 +219,7 @@ public class Category implements IProgressDisplayable {
     // Checks if there is unhandled overflow.
     public boolean hasOverflow() {
         double overflow = getOverflow(false);
-        return (overflow > Utils.ZERO_DOUBLE) || (overflow < Utils.ZERO_DOUBLE);
+        return (overflow > NumberUtils.ZERO_DOUBLE) || (overflow < NumberUtils.ZERO_DOUBLE);
     }
 
     // Goal after goal modification.
@@ -217,13 +232,13 @@ public class Category implements IProgressDisplayable {
     // Returns a String in format gg.gg (-mm.mm)
     // Returns the progress - a comparison between @totalSpent and end goal.
     public String getEndGoalString() {
-        double endGoalTwoDecimals = Utils.twoDecimals(getEndGoal());
+        double endGoalTwoDecimals = NumberUtils.twoDecimals(getEndGoal());
 
-        if(goalModifier <= Utils.ZERO_DOUBLE) {
+        if(goalModifier <= NumberUtils.ZERO_DOUBLE) {
             return String.valueOf(endGoalTwoDecimals);
         }
 
-        String modifierString = " (-" + Utils.twoDecimals(goalModifier) + ")";
+        String modifierString = " (-" + NumberUtils.twoDecimals(goalModifier) + ")";
         return "" + endGoalTwoDecimals + modifierString;
     }
 
@@ -236,7 +251,7 @@ public class Category implements IProgressDisplayable {
     // If goal has been modified, format will be "tt.tt / gg.gg (-mm.mm)"
     @Override
     public String getProgress() {
-        return Utils.twoDecimals(spent) + " / " + getEndGoalString();
+        return NumberUtils.twoDecimals(spent) + " / " + getEndGoalString();
     }
 
     public String getName() {
@@ -292,7 +307,7 @@ public class Category implements IProgressDisplayable {
     // If goal is flexible and if it hasn't been passed.
     // To be used when increasing goal modifier.
     public boolean canHelp() {
-        return hasFlexibleGoal && (goalPassed <= Utils.ZERO_DOUBLE);
+        return hasFlexibleGoal && (goalPassed <= NumberUtils.ZERO_DOUBLE);
     }
 
     // If category should adjust its goal modification
@@ -300,7 +315,7 @@ public class Category implements IProgressDisplayable {
     // Whether goal has been modified.
     // To be used when decreasing goal modifier.
     public boolean isModified() {
-        return goalModifier > Utils.ZERO_DOUBLE;
+        return goalModifier > NumberUtils.ZERO_DOUBLE;
     }
 
     // If category can handle an overflow based on its sign.
