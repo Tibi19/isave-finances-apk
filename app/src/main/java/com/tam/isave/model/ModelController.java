@@ -1,4 +1,4 @@
-package com.tam.isave;
+package com.tam.isave.model;
 
 //TODO
 // X Continue Category
@@ -24,30 +24,30 @@ package com.tam.isave;
      X Do modify transaction
      X Do remove transaction
      */
-// ... Try catch for overflow handling - asked stackoverflow.
+// - Try catch for overflow handling - asked stackoverflow.
 // X Clean History for overall history and categories' history
+// Pass Overflow handler that will handle overflow
 // Go on to Activities
 
 
-import com.tam.isave.model.Cashing;
-import com.tam.isave.model.Category;
-import com.tam.isave.model.CategoryTracker;
+import com.tam.isave.model.CategoryTools.Category;
+import com.tam.isave.model.CategoryTools.CategoryTracker;
+import com.tam.isave.model.TransactionTools.Cashing;
+import com.tam.isave.model.TransactionTools.History;
+import com.tam.isave.model.TransactionTools.Payment;
 import com.tam.isave.utils.Date;
-import com.tam.isave.model.GoalOrganizer;
-import com.tam.isave.model.History;
-import com.tam.isave.model.Payment;
 import com.tam.isave.utils.Utils;
-import com.tam.isave.model.Vault;
+import com.tam.isave.model.CategoryTools.Vault;
 
 import java.util.ArrayList;
 
-public class Controller {
+public class ModelController {
 
     private double balance;
     GoalOrganizer organizer;
     CategoryTracker tracker;
 
-    public Controller() {
+    public ModelController() {
         setupOrganizer();
         setupTracker();
     }

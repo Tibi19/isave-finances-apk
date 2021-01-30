@@ -1,5 +1,10 @@
 package com.tam.isave.model;
 
+import com.tam.isave.model.CategoryTools.CategoryTracker;
+import com.tam.isave.model.CategoryTools.Interval;
+import com.tam.isave.model.TransactionTools.History;
+import com.tam.isave.model.TransactionTools.Payment;
+import com.tam.isave.model.TransactionTools.Transaction;
 import com.tam.isave.utils.Date;
 import com.tam.isave.utils.Utils;
 

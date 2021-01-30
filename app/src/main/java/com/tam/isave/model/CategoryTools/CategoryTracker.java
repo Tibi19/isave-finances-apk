@@ -1,4 +1,7 @@
-package com.tam.isave.model;
+package com.tam.isave.model.CategoryTools;
+
+import com.tam.isave.model.TransactionTools.History;
+import com.tam.isave.model.TransactionTools.Payment;
 
 import java.util.ArrayList;
 import java.util.Arrays;

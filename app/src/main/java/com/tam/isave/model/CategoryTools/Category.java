@@ -1,5 +1,8 @@
-package com.tam.isave.model;
+package com.tam.isave.model.CategoryTools;
 
+import com.tam.isave.model.TransactionTools.History;
+import com.tam.isave.model.IProgressDisplayable;
+import com.tam.isave.model.TransactionTools.Payment;
 import com.tam.isave.utils.Utils;
 
 // Categorises payments and tracks them in a history.
@@ -13,7 +16,7 @@ import com.tam.isave.utils.Utils;
 // As a result of goal change/modification or removal of payments, goal modification might need to be adjusted or reset (decreased).
 // In this case, a negative overflow can be requested and a modify request should be made
 // By the parent category tracker to all categories that have been previously modified. (handling overflow)
-public class Category implements IProgressDisplayable{
+public class Category implements IProgressDisplayable {
 
     private String name;
     private double spent;
@@ -147,7 +150,7 @@ public class Category implements IProgressDisplayable{
         }
 
         // If goal for this object was passed and trying to increase goal modifier, stop method.
-        // It can be decreased.
+        // Goal modifier can be decreased.
         if(goalPassed > Utils.ZERO_DOUBLE && modifyRequest > Utils.ZERO_DOUBLE) {
             return false;
         }

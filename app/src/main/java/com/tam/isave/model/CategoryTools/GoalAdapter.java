@@ -1,4 +1,4 @@
-package com.tam.isave.model;
+package com.tam.isave.model.CategoryTools;
 
 import com.tam.isave.utils.Utils;
 

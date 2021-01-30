@@ -1,4 +1,4 @@
-package com.tam.isave.model;
+package com.tam.isave.model.CategoryTools;
 
 public class Interval extends Category {
 
