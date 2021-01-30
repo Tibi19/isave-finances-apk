@@ -1,7 +1,7 @@
 package com.tam.isave.model.TransactionTools;
 
 import com.tam.isave.utils.Date;
-import com.tam.isave.utils.Utils;
+import com.tam.isave.utils.NumberUtils;
 
 public class Transaction {
 
@@ -27,7 +27,7 @@ public class Transaction {
         if( (newName != null) && !name.equalsIgnoreCase(newName)) { name = newName; }
         if( (newDate != null) && (date.getValue() != newDate.getValue()) ) { date = newDate; }
 
-        if(!Utils.isSameDoubles(value, newValue)) {
+        if(!NumberUtils.isSameDoubles(value, newValue)) {
             double origValue = value;
             value = newValue;
             return Math.abs(origValue) - Math.abs(newValue);

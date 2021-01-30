@@ -1,6 +1,6 @@
 package com.tam.isave.model.CategoryTools;
 
-import com.tam.isave.utils.Utils;
+import com.tam.isave.utils.NumberUtils;
 
 import java.util.ArrayList;
 
@@ -22,11 +22,11 @@ public class GoalAdapter {
     // Makes modify requests to categories that can handle the overflow.
     public void handleOverflow(Category solicitor) {
         double overflow = solicitor.getOverflow();
-        if(Utils.isZeroDouble(overflow)) { return; }
+        if(NumberUtils.isZeroDouble(overflow)) { return; }
 
         ArrayList<Category> handlers = new ArrayList<Category>(); // Categories that can handle a part of the overflow.
         double goalsTotal = 0.0; // The goals total of all handlers.
-        boolean isPositiveOverflow = overflow > Utils.ZERO_DOUBLE;
+        boolean isPositiveOverflow = overflow > NumberUtils.ZERO_DOUBLE;
         boolean orderedHandling = this.orderedHandling && isPositiveOverflow; // Ordered handling can be done only if overflow is positive.
 
         // If it's an ordered handling, iteration will start immediately after solicitor.

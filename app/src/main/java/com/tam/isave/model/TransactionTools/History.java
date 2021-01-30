@@ -2,7 +2,7 @@ package com.tam.isave.model.TransactionTools;
 
 import com.tam.isave.model.CategoryTools.Category;
 import com.tam.isave.model.CategoryTools.CategoryTracker;
-import com.tam.isave.utils.Utils;
+import com.tam.isave.utils.NumberUtils;
 import com.tam.isave.utils.Date;
 
 import java.util.ArrayList;
@@ -139,7 +139,7 @@ public class History {
 
             // Transactions older than the days limit for new transactions should have already been sorted when they were added.
             // At this point we can safely stop iterating.
-            if(keyValue < Utils.TRANSACTION_DAYS_LIMIT) { break; }
+            if(keyValue < NumberUtils.TRANSACTION_DAYS_LIMIT) { break; }
 
             while(i >= 0 &&  historyList.get(i).getDate().getValue() < keyValue) {
                 historyList.set(i + 1, historyList.get(i));

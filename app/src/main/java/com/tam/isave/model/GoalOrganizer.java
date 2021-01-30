@@ -6,7 +6,7 @@ import com.tam.isave.model.TransactionTools.History;
 import com.tam.isave.model.TransactionTools.Payment;
 import com.tam.isave.model.TransactionTools.Transaction;
 import com.tam.isave.utils.Date;
-import com.tam.isave.utils.Utils;
+import com.tam.isave.utils.NumberUtils;
 
 import java.util.ArrayList;
 
@@ -123,10 +123,10 @@ public class GoalOrganizer implements IProgressDisplayable {
     // If parameter is different than the current goal, than 0 and is positive.
     // Returns true if modification happened.
     private boolean modifyGlobalGoal(double globalGoal) {
-        globalGoal = Utils.twoDecimals(globalGoal);
-        if(globalGoal <= Utils.ZERO_DOUBLE) { return false; }
+        globalGoal = NumberUtils.twoDecimals(globalGoal);
+        if(globalGoal <= NumberUtils.ZERO_DOUBLE) { return false; }
 
-        if(Utils.twoDecimals(this.globalGoal) != globalGoal) {
+        if(NumberUtils.twoDecimals(this.globalGoal) != globalGoal) {
             this.globalGoal = globalGoal;
             return true;
         }
