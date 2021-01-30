@@ -26,8 +26,11 @@ package com.tam.isave.model;
      */
 // - Try catch for overflow handling - asked stackoverflow.
 // X Clean History for overall history and categories' history
-// Pass Overflow handler that will handle overflow
-// Go on to Activities
+// X Pass Overflow handler that will handle overflow
+// Do ROOM Persistence
+// Do UI XMLs
+// Do HomeActivity
+// Do RecyclerViews
 
 
 import com.tam.isave.model.CategoryTools.Category;
@@ -151,7 +154,7 @@ public class ModelController {
         if( (category == null) || (newName == null) ) { return false; }
         if( (newSpent <= -Utils.ZERO_DOUBLE) || (newGoal <= Utils.ZERO_DOUBLE) ) { return false; }
 
-        category.modify(newName, newSpent, newGoal, newIsFlexible);
+        tracker.modifyCategory(category, newName, newSpent, newGoal, newIsFlexible);
         return true;
     }
 
