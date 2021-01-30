@@ -13,7 +13,7 @@ import com.tam.isave.utils.Utils;
 // A modify request will be made by a parent category tracker to all categories that can modify their goals. (those can help)
 // When overflow is requested, the class assumes it will be handled. (a modify request will be made by the parent category tracker).
 //
-// As a result of goal change/modification or removal of payments, goal modification might need to be adjusted or reset (decreased).
+// As a result of goal change / modification or removal of payments, goal modification might need to be adjusted or reset (decreased).
 // In this case, a negative overflow can be requested and a modify request should be made
 // By the parent category tracker to all categories that have been previously modified. (handling overflow)
 public class Category implements IProgressDisplayable {
@@ -46,21 +46,19 @@ public class Category implements IProgressDisplayable {
     }
 
     // Adds payment to category history and adds to total spent.
-    // Spent changes, there might be overflow to be handled.
+
     // Returns whether there is overflow.
-    public boolean makePayment(Payment payment) {
+    public void makePayment(Payment payment, GoalAdapter adapter) {
         history.addTransaction(payment);
         // Spent changes, there might be overflow.
         spent += payment.getAbsValue();
 
-        return hasOverflow();
+        resolveOverflow(adapter); // Spent changes, there might be overflow to be handled.
     }
 
     // Removes a transaction if it exists in object's history and removes from total spent.
-    // Spent changes, there might be overflow to be handled.
-    // Returns whether there is overflow.
-    public boolean removePayment(Payment payment) {
-        if (!history.hasTransaction(payment)) { return false; }
+    public void removePayment(Payment payment, GoalAdapter adapter) {
+        if (!history.hasTransaction(payment)) { return; }
 
         history.removeTransaction(payment);
         if(payment.getParentCategory() == this) {
@@ -68,20 +66,18 @@ public class Category implements IProgressDisplayable {
         }
         spent -= payment.getAbsValue();
 
-        return hasOverflow();
+        resolveOverflow(adapter); // Spent changes, there might be overflow to be handled
     }
 
     // Adds to spent amount the difference in value of the modified payment.
-    // Spent changes, there might be overflow to be handled.
-    // Returns whether there is overflow.
-    public boolean modifyPayment(Payment payment, double valueDiff) {
-        if( (valueDiff < Utils.ZERO_DOUBLE) && (valueDiff > -Utils.ZERO_DOUBLE) ) { return false; }
-        if (!history.hasTransaction(payment)) { return false; }
+    public void modifyPayment(Payment payment, double valueDiff, GoalAdapter adapter) {
+        if( (valueDiff < Utils.ZERO_DOUBLE) && (valueDiff > -Utils.ZERO_DOUBLE) ) { return; }
+        if (!history.hasTransaction(payment)) { return; }
 
         history.modifyTransaction(payment);
         spent += valueDiff;
 
-        return hasOverflow();
+        resolveOverflow(adapter); // Spent changes, there might be overflow to be handled.
     }
 
     /**
@@ -90,10 +86,9 @@ public class Category implements IProgressDisplayable {
      * @param spent The new spent amount of the category.
      * @param goal The new goal of the category.
      * @param hasFlexibleGoal The new flexibility of this category's goal.
-     * @return Whether there is overflow that should be handled.
+     * @param adapter The goal adapter that would handle the overflow.
      */
-    @SuppressWarnings("SimplifiableConditionalExpression") // Warning suppressed for readability.
-    public boolean modify(String name, double spent, double goal, boolean hasFlexibleGoal) {
+    public void modify(String name, double spent, double goal, boolean hasFlexibleGoal, GoalAdapter adapter) {
         if(!this.name.equalsIgnoreCase(name)) { this.name = name; }
 
         boolean changeSpent = !Utils.isSameDoubles(this.spent, spent);
@@ -108,32 +103,48 @@ public class Category implements IProgressDisplayable {
         }
         this.hasFlexibleGoal = hasFlexibleGoal;
 
-        return (changeSpent || changeGoal || changeFlexibility) ? hasOverflow() : false;
+        if (changeSpent || changeGoal || changeFlexibility) {
+            resolveOverflow(adapter);
+        }
     }
 
     /**
      * Resets state relating to progress:
      * Amount spent and transactions history.
-     * If goalPassed >0, there will be a negative overflow which should be handled.
+     * If goalPassed > 0, there will be a negative overflow which should be handled.
      * After handling, goalPassed will also be reset.
-     * @return True if there is overflow as a result of resetting progress.
+     * @param adapter The goal adapter that would handle the overflow.
      */
-    public boolean reset() {
+    public void reset(GoalAdapter adapter) {
         this.spent = 0.0;
         history.reset();
 
-        return hasOverflow();
+        resolveOverflow(adapter); // Progress changes, there might be overflow to be handled.
     }
 
     /**
      * Resets the entire state.
      * Doesn't account for overflow.
      * To be used when resetting all categories of a tracker.
+     * @param adapter The goal adapter that would handle the overflow
      */
-    public void fullReset() {
-        reset();
+    public void fullReset(GoalAdapter adapter) {
+        reset(adapter);
         goalModifier = 0.0;
         goalPassed = 0.0;
+    }
+
+    /**
+     * Checks if this category has an overflow.
+     * If true, solicits overflow handling from goal adapter.
+     * @param adapter The goal adapter that will handle the overflow.
+     */
+    private void resolveOverflow(GoalAdapter adapter) {
+        if(adapter == null) { return; }
+
+        if (hasOverflow()) {
+            adapter.handleOverflow(this);
+        }
     }
 
     // To be used in case the goal is passed for another category (it overflows).

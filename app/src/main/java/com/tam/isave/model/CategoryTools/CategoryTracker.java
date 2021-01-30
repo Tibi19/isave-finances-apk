@@ -64,9 +64,7 @@ public class CategoryTracker {
     public void removeCategory(Category category) {
         if( (category == null) || !categories.contains(category) ) { return; }
         // First reset category to handle overflow if it's the case.
-        if(category.reset()) {
-            adapter.handleOverflow(category);
-        }
+        category.reset(adapter);
         categories.remove(category);
         category.dispose();
     }
@@ -74,10 +72,7 @@ public class CategoryTracker {
     // Change name, spent, goal of target category
     // By calling its modify method.
     public void modifyCategory(Category category, String name, double spent, double goal, boolean hasFlexibleGoal) {
-        if(category == null) { return; }
-        if(category.modify(name, spent, goal, hasFlexibleGoal)) {
-            adapter.handleOverflow(category);
-        }
+        category.modify(name, spent, goal, hasFlexibleGoal, adapter);
     }
 
     // Make payment in target category and add to history.
@@ -92,9 +87,7 @@ public class CategoryTracker {
         }
         history.addTransaction(payment);
         // Spent changes, handle overflow if it's the case.
-        if(category.makePayment(payment)) {
-            adapter.handleOverflow(category);
-        }
+        category.makePayment(payment, adapter);
     }
 
     // Make payment for target category but don't assign it.
@@ -117,9 +110,7 @@ public class CategoryTracker {
         if( (category == null) || (payment == null) ) { return; }
         if(!history.hasTransaction(payment)) { return; }
 
-        if(category.removePayment(payment)) {
-            adapter.handleOverflow(category);
-        }
+        category.removePayment(payment, adapter);
         history.removeTransaction(payment);
     }
 
@@ -131,9 +122,7 @@ public class CategoryTracker {
         if(payment == null) { return; }
 
         Category category = payment.getParentCategory();
-        if(category.removePayment(payment)) {
-            adapter.handleOverflow(category);
-        }
+        category.removePayment(payment, adapter);
         history.removeTransaction(payment, true);
     }
 
@@ -174,9 +163,7 @@ public class CategoryTracker {
     // Modify payment in target category and update history.
     private void modifyPayment(Category category, Payment payment, double valueDiff) {
         history.modifyTransaction(payment);
-        if(category.modifyPayment(payment, valueDiff)) {
-            adapter.handleOverflow(category);
-        }
+        category.modifyPayment(payment, valueDiff, adapter);
     }
 
     // Moves @payment from @origCategory to @newCategory.
@@ -200,9 +187,7 @@ public class CategoryTracker {
     public void resetCategory(Category category) {
         if(category == null) { return; }
         // Spent changes, check and handle overflow.
-        if(category.reset()) {
-            adapter.handleOverflow(category);
-        }
+        category.reset(adapter);
     }
 
     /**
@@ -211,7 +196,7 @@ public class CategoryTracker {
     public void resetAllCategories() {
         for(Category category : categories) {
             // Spent amount changes, but all categories will be reset so there will not be an overflow to handle.
-            category.fullReset();
+            category.fullReset(adapter);
         }
     }
 
