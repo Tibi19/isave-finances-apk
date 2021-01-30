@@ -14,24 +14,28 @@ package com.tam.isave.model;
 // X Add spent to modify functionality.
 // X Do Controller by following design functionality of home screen.
     /*
-     X Do newDeposit.
-     X Do newCashing.
-     X Do modify goal organizer
-     X Do modify category
-     X Do resets (goal organizer, category, all categories)
-     X Do remove category
-     X Do add category
-     X Do modify transaction
-     X Do remove transaction
+     X TODO newDeposit.
+     X TODO newCashing.
+     X TODO modify goal organizer
+     X TODO modify category
+     X TODO resets (goal organizer, category, all categories)
+     X TODO remove category
+     X TODO add category
+     X TODO modify transaction
+     X TODO remove transaction
      */
-// - Try catch for overflow handling - asked stackoverflow.
-// X Clean History for overall history and categories' history
-// X Pass Overflow handler that will handle overflow
-// Do ROOM Persistence
-// Do UI XMLs
-// Do HomeActivity
-// Do RecyclerViews
-
+// TODO
+//  - Try catch for overflow handling - asked stackoverflow.
+//  X Clean History for overall history and categories' history
+//  X Pass Overflow handler that will handle overflow
+//  Do ROOM Persistence
+    /*
+       Finish Category persistence
+       Find a way to connect category's persistence to history's
+     */
+//  Do UI XMLs
+//  Do HomeActivity
+//  Do RecyclerViews
 
 import com.tam.isave.model.CategoryTools.Category;
 import com.tam.isave.model.CategoryTools.CategoryTracker;
@@ -39,7 +43,7 @@ import com.tam.isave.model.TransactionTools.Cashing;
 import com.tam.isave.model.TransactionTools.History;
 import com.tam.isave.model.TransactionTools.Payment;
 import com.tam.isave.utils.Date;
-import com.tam.isave.utils.Utils;
+import com.tam.isave.utils.NumberUtils;
 import com.tam.isave.model.CategoryTools.Vault;
 
 import java.util.ArrayList;
@@ -76,7 +80,7 @@ public class ModelController {
      */
     public boolean newPayment(Date date, String name, double value, Category parentCategory, boolean organizable) {
         if( (date == null) || (name == null) || (parentCategory == null) ) { return false; }
-        if(value <= Utils.ZERO_DOUBLE) { return false; }
+        if(value <= NumberUtils.ZERO_DOUBLE) { return false; }
 
         Payment payment = new Payment(name, date, value, parentCategory);
         balance = payment.makeTransaction(balance); // Update balance.
@@ -113,7 +117,7 @@ public class ModelController {
      * @return True if a cashing has been created successfully.
      */
     public boolean newCashing(Date date, String name, double value, boolean modifiesOrganizer) {
-        if( (date == null) || (name == null) || (value <= Utils.ZERO_DOUBLE) ) { return false; }
+        if( (date == null) || (name == null) || (value <= NumberUtils.ZERO_DOUBLE) ) { return false; }
 
         Cashing cashing = new Cashing(name, date, value);
         balance = cashing.makeTransaction(balance);
@@ -135,7 +139,7 @@ public class ModelController {
      */
     public boolean modifyGoalOrganizer(Date newStart, Date newEnd, int newIntervalsNr, double newGoal) {
         if ( (newStart == null) || (newEnd == null) || (newIntervalsNr <= 0) ) { return false; }
-        if (newGoal <= Utils.ZERO_DOUBLE) { return false; }
+        if (newGoal <= NumberUtils.ZERO_DOUBLE) { return false; }
 
         organizer.modify(newGoal, newIntervalsNr, newStart, newEnd);
         return true;
@@ -152,7 +156,7 @@ public class ModelController {
      */
     public boolean modifyCategory(Category category, String newName, double newSpent, double newGoal, boolean newIsFlexible) {
         if( (category == null) || (newName == null) ) { return false; }
-        if( (newSpent <= -Utils.ZERO_DOUBLE) || (newGoal <= Utils.ZERO_DOUBLE) ) { return false; }
+        if( (newSpent <= -NumberUtils.ZERO_DOUBLE) || (newGoal <= NumberUtils.ZERO_DOUBLE) ) { return false; }
 
         tracker.modifyCategory(category, newName, newSpent, newGoal, newIsFlexible);
         return true;
@@ -196,7 +200,7 @@ public class ModelController {
      * @return True if a category has been successfully created.
      */
     public boolean newCategory(String name, double goal, boolean hasFlexibleGoal) {
-        if( (name == null) || (goal <= Utils.ZERO_DOUBLE) ) { return false; }
+        if( (name == null) || (goal <= NumberUtils.ZERO_DOUBLE) ) { return false; }
         tracker.addCategory(new Category(name, goal, hasFlexibleGoal));
         return true;
     }
@@ -208,7 +212,7 @@ public class ModelController {
      * @return True if a vault has been successfully created.
      */
     public boolean newVault(String name, double goal) {
-        if( (name == null) || (goal <= Utils.ZERO_DOUBLE) ) { return false; }
+        if( (name == null) || (goal <= NumberUtils.ZERO_DOUBLE) ) { return false; }
         tracker.addCategory(new Vault(name, goal));
         return true;
     }
@@ -224,7 +228,7 @@ public class ModelController {
      */
     public boolean modifyPayment(Payment payment, Category newCategory, String newName, Date newDate, double newValue) {
         if( (payment == null) || (newCategory == null) || (newName == null) || (newDate == null) ) { return false; }
-        if(newValue <= Utils.ZERO_DOUBLE) { return false; }
+        if(newValue <= NumberUtils.ZERO_DOUBLE) { return false; }
 
         double valueDifference = payment.modify(newName, newValue, newDate, newCategory);
         tracker.modifyPaymentInParent(payment, valueDifference);
