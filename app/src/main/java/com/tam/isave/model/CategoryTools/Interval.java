@@ -13,8 +13,8 @@ public class Interval extends Category {
         this.id = id;
     }
 
-    public boolean modify(double spent, double goal) {
-        return super.modify(DEFAULT_NAME + id, spent, goal, true);
+    public void modify(double spent, double goal, GoalAdapter adapter) {
+        super.modify(DEFAULT_NAME + id, spent, goal, true, adapter);
     }
 
     public int getDays() {
