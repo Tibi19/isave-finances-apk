@@ -32,6 +32,8 @@ package com.tam.isave.model;
     /*
        Finish Category persistence
        Find a way to connect category's persistence to history's
+
+       Do Category ViewModel
      */
 //  Do UI XMLs
 //  Do HomeActivity
