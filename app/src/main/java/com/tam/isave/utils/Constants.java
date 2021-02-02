@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 public class Constants {
 
     public final static String TABLE_NAME_CATEGORY = "category-table";
-    //public final static String TABLE_NAME_CATEGORY_HISTORY = "category-history-table";
+    public final static String TABLE_NAME_HISTORY = "history-table";
 
     public final static String COLUMN_NAME = "name";
     public final static String COLUMN_SPENT = "spent";
