@@ -48,13 +48,13 @@ import com.tam.isave.model.CategoryTools.Vault;
 
 import java.util.ArrayList;
 
-public class ModelController {
+public class ModelRepository {
 
     private double balance;
     GoalOrganizer organizer;
     CategoryTracker tracker;
 
-    public ModelController() {
+    public ModelRepository() {
         setupOrganizer();
         setupTracker();
     }
