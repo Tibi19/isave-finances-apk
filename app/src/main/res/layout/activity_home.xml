@@ -7,78 +7,66 @@
     tools:context=".view.Home">
 
     <LinearLayout
-        android:id="@+id/home_layout"
+        android:id="@+id/layout_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/home_header_layout"
+            android:id="@+id/layout_home_top_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/home_menu_button"
-                android:layout_width="104dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Button" />
-
-            <EditText
-                android:id="@+id/home_balance_text"
+                android:id="@+id/button_home_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:ems="10"
-                android:inputType="numberDecimal" />
+                android:text="MENU" />
 
-            <Button
-                android:id="@+id/home_add_payment_button"
-                android:layout_width="107dp"
+            <TextView
+                android:id="@+id/text_balance"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="BALANCE" />
 
+            <Button
+                android:id="@+id/button_add_transaction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="ADD" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/goal_organizer_layout"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_category"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"></LinearLayout>
+            android:layout_height="wrap_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
 
         <LinearLayout
-            android:id="@+id/vault0_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"></LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/category0_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"></LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/home_footer_layout"
+            android:id="@+id/layout_categories_controller"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/add_category_button"
+                android:id="@+id/button_add_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="ADD" />
 
             <Button
-                android:id="@+id/reset_categories_button"
+                android:id="@+id/button_reset_progress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="RESET" />
+
         </LinearLayout>
 
     </LinearLayout>
