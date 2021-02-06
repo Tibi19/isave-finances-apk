@@ -35,6 +35,7 @@ package com.tam.isave.model;
 //  Do recyclerview code
 //  Hook up home activity with the xml
 //  Prepopulate database with a couple categories
+//  Clean model
 //  Do add category popup
 //  Hook up model with the viewmodel
 
