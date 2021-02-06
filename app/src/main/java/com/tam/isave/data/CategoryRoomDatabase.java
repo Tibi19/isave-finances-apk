@@ -12,7 +12,7 @@ import com.tam.isave.utils.Constants;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Category.class}, version = 1)
+@Database(entities = {Category.class}, version = 1, exportSchema = false)
 public abstract class CategoryRoomDatabase extends RoomDatabase {
 
     private static volatile CategoryRoomDatabase INSTANCE;
