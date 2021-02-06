@@ -2,6 +2,7 @@ package com.tam.isave.model.CategoryTools;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.tam.isave.model.TransactionTools.History;
@@ -34,8 +35,6 @@ public class Category implements IProgressDisplayable {
     @ColumnInfo(name = Constants.COLUMN_GOAL)
     private double goal;
 
-    private History history;
-
     @ColumnInfo(name = Constants.COLUMN_GOAL_MODIFIER)
     private double goalModifier;
     @ColumnInfo(name = Constants.COLUMN_GOAL_PASSED)
@@ -43,6 +42,13 @@ public class Category implements IProgressDisplayable {
     @ColumnInfo(name = Constants.COLUMN_HAS_FLEXIBLE_GOAL)
     private boolean hasFlexibleGoal;
 
+    @Ignore
+    private History history;
+
+    public Category() {
+    }
+
+    @Ignore
     public Category(String name, double goal, boolean hasFlexibleGoal) {
         this.name = name;
         this.goal = goal;
@@ -56,6 +62,7 @@ public class Category implements IProgressDisplayable {
         this.goalPassed = 0.0;
     }
 
+    @Ignore
     public Category(String name, double goal) {
         this(name, goal, true);
     }
@@ -288,6 +295,30 @@ public class Category implements IProgressDisplayable {
 
     public void setGoalModifier(double goalModifier) {
         this.goalModifier = goalModifier;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setGoalPassed(double goalPassed) {
+        this.goalPassed = goalPassed;
+    }
+
+    public void setHasFlexibleGoal(boolean hasFlexibleGoal) {
+        this.hasFlexibleGoal = hasFlexibleGoal;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public double getGoalPassed() {
+        return goalPassed;
+    }
+
+    public boolean isHasFlexibleGoal() {
+        return hasFlexibleGoal;
     }
 
     // If goal is inherently flexible and if it hasn't been passed.
