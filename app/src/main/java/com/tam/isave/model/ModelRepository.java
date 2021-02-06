@@ -28,16 +28,15 @@ package com.tam.isave.model;
 //  - Try catch for overflow handling - asked stackoverflow.
 //  X Clean History for overall history and categories' history
 //  X Pass Overflow handler that will handle overflow
-//  Do ROOM Persistence
-    /*
-       Finish Category persistence
-       Find a way to connect category's persistence to history's
-
-       Do Category ViewModel
-     */
-//  Do UI XMLs
-//  Do HomeActivity
-//  Do RecyclerViews
+//  X Do ROOM Persistence for Category
+//  X Do Category ViewModel
+//  X Do XML for main activity
+//  X Do XMLs for category recyclerviews
+//  Do recyclerview code
+//  Hook up home activity with the xml
+//  Prepopulate database with a couple categories
+//  Do add category popup
+//  Hook up model with the viewmodel
 
 import com.tam.isave.model.CategoryTools.Category;
 import com.tam.isave.model.CategoryTools.CategoryTracker;
@@ -46,7 +45,6 @@ import com.tam.isave.model.TransactionTools.History;
 import com.tam.isave.model.TransactionTools.Payment;
 import com.tam.isave.utils.Date;
 import com.tam.isave.utils.NumberUtils;
-import com.tam.isave.model.CategoryTools.Vault;
 
 import java.util.ArrayList;
 
@@ -93,21 +91,6 @@ public class ModelRepository {
         }
 
         return true;
-    }
-
-    /**
-     * Create a new deposit.
-     * @param date When the deposit took place.
-     * @param name The name of the deposit.
-     * @param value The value of the deposit.
-     * @param parentVault In what vault should the deposit be tracked.
-     * @param organizable Whether this deposit should also be tracked by the goal organizer.
-     * @return True if a deposit has been created successfully.
-     */
-    public boolean newDeposit(Date date, String name, double value, Vault parentVault, boolean organizable) {
-        if(parentVault == null) { return false; }
-        // Deposit is just a payment in a vault.
-        return newPayment(date, name, value, parentVault, organizable);
     }
 
     /**
@@ -208,18 +191,6 @@ public class ModelRepository {
     }
 
     /**
-     * Create a new Vault.
-     * @param name The name of the vault.
-     * @param goal The goal of the vault.
-     * @return True if a vault has been successfully created.
-     */
-    public boolean newVault(String name, double goal) {
-        if( (name == null) || (goal <= NumberUtils.ZERO_DOUBLE) ) { return false; }
-        tracker.addCategory(new Vault(name, goal));
-        return true;
-    }
-
-    /**
      * Modifies a payment.
      * @param payment The payment to be modified.
      * @param newCategory The new parent category of the payment.
@@ -267,4 +238,33 @@ public class ModelRepository {
     public void cleanHistories() {
         History.cleanHistories(tracker);
     }
+
+    /*
+     * Create a new deposit.
+     * @param date When the deposit took place.
+     * @param name The name of the deposit.
+     * @param value The value of the deposit.
+     * @param parentVault In what vault should the deposit be tracked.
+     * @param organizable Whether this deposit should also be tracked by the goal organizer.
+     * @return True if a deposit has been created successfully.
+     *
+    public boolean newDeposit(Date date, String name, double value, Vault parentVault, boolean organizable) {
+        if(parentVault == null) { return false; }
+        // Deposit is just a payment in a vault.
+        return newPayment(date, name, value, parentVault, organizable);
+    }
+    */
+
+    /*
+     * Create a new Vault.
+     * @param name The name of the vault.
+     * @param goal The goal of the vault.
+     * @return True if a vault has been successfully created.
+     *
+    public boolean newVault(String name, double goal) {
+        if( (name == null) || (goal <= NumberUtils.ZERO_DOUBLE) ) { return false; }
+        tracker.addCategory(new Vault(name, goal));
+        return true;
+    }
+     */
 }
