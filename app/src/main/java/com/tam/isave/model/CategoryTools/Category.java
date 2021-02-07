@@ -256,9 +256,26 @@ public class Category implements IProgressDisplayable {
 
     // Returns a String in format "tt.tt / gg.gg"
     // If goal has been modified, format will be "tt.tt / gg.gg (-mm.mm)"
+//    @Override
+//    public String getProgress() {
+//        return NumberUtils.twoDecimals(spent) + " / " + getEndGoalString();
+//    }
+
+    /**
+     * The amount left that can be spent.
+     * Also offers information regarding goal modification.
+     * To be used for displaying category progress.
+     * @return a string in format "ll.ll (-mm.mm)" or "ll.ll" if goal was not modified.
+     */
     @Override
     public String getProgress() {
-        return NumberUtils.twoDecimals(spent) + " / " + getEndGoalString();
+        double leftAmount = getEndGoal() - spent;
+        String leftAmountString = String.valueOf(leftAmount);
+        if (!NumberUtils.isZeroDouble(goalModifier)) {
+            leftAmountString = " (-" + leftAmountString + ")";
+        }
+
+        return leftAmountString;
     }
 
     public String getName() {
