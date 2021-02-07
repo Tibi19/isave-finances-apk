@@ -32,8 +32,9 @@ package com.tam.isave.model;
 //  X Do Category ViewModel
 //  X Do XML for main activity
 //  X Do XMLs for category recyclerviews
-//  Do recyclerview code
-//  Hook up home activity with the xml
+//  X Do recyclerview code
+//  Home Activity (add category button onclick, instantiate recyclerview, adapter, viewmodel, make data observable
+//  Integrate data repository with model repository and use model repository in view model to do all the CRUD
 //  Prepopulate database with a couple categories
 //  Clean model
 //  Do add category popup
