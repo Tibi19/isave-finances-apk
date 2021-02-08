@@ -33,12 +33,13 @@ package com.tam.isave.model;
 //  X Do XML for main activity
 //  X Do XMLs for category recyclerviews
 //  X Do recyclerview code
-//  Home Activity (add category button onclick, instantiate recyclerview, adapter, viewmodel, make data observable)
-//  Prepopulate database with a couple categories and test
+//  X Home Activity (X add category button onclick, X instantiate recyclerview, X adapter, X viewmodel, X make data observable)
+//  X Prepopulate database with a couple categories and test - tested with adding random categories
 //  Integrate data repository with model repository and use model repository in view model to do all the CRUD
 //  Clean model (IProgressDisplayable? Many unneeded methods around, but thank yourself from the past for all the comments! Do some more composition)
 //  Do add category popup
-//  Hook up model with the viewmodel
+//  Do Fragments
+//  Do Payment
 
 import com.tam.isave.model.CategoryTools.Category;
 import com.tam.isave.model.CategoryTools.CategoryTracker;
