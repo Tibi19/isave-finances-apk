@@ -19,15 +19,15 @@ public interface CategoryDao {
     void insert(Category category);
 
     @Update
-    void update(Category category);
+    void update(Category... categories);
 
     @Delete
     void delete(Category category);
 
-    @Query("SELECT * FROM category_table")
-    LiveData<List<Category>> getCategories();
-
     @Query("DELETE FROM category_table")
     void deleteAll();
+
+    @Query("SELECT * FROM category_table")
+    LiveData<List<Category>> getCategories();
 
 }
