@@ -35,12 +35,19 @@ package com.tam.isave.model;
 //  X Do recyclerview code
 //  X Home Activity (X add category button onclick, X instantiate recyclerview, X adapter, X viewmodel, X make data observable)
 //  X Prepopulate database with a couple categories and test - tested with adding random categories
-//  Integrate data repository with model repository and use model repository in view model to do all the CRUD
+//  X Integrate data repository with model repository and use model repository in view model to do all the CRUD
+//  Finish integrating modelRepository with category view model (create live data get categories in modelRepository, udate viewmodel methods to mirror
+//      modelRepository functionality)
 //  Clean model (IProgressDisplayable? Many unneeded methods around, but thank yourself from the past for all the comments! Do some more composition)
 //  Do add category popup
 //  Do Fragments
 //  Do Payment
 
+import android.app.Application;
+import android.view.Display;
+
+import com.tam.isave.data.CategoryDao;
+import com.tam.isave.data.DataRepository;
 import com.tam.isave.model.CategoryTools.Category;
 import com.tam.isave.model.CategoryTools.CategoryTracker;
 import com.tam.isave.model.TransactionTools.Cashing;
@@ -56,10 +63,23 @@ public class ModelRepository {
     private double balance;
     GoalOrganizer organizer;
     CategoryTracker tracker;
+    DataRepository dataRepository;
 
-    public ModelRepository() {
+    // Singleton of the ModelRepository.
+    private static ModelRepository INSTANCE;
+
+    public static synchronized ModelRepository getModelRepository(final Application application) {
+        if (INSTANCE == null) {
+            INSTANCE = new ModelRepository(application);
+        }
+
+        return INSTANCE;
+    }
+
+    public ModelRepository(Application application) {
         setupOrganizer();
         setupTracker();
+        dataRepository = new DataRepository(application);
     }
 
     private void setupOrganizer() {
@@ -147,6 +167,7 @@ public class ModelRepository {
         if( (newSpent <= -NumberUtils.ZERO_DOUBLE) || (newGoal <= NumberUtils.ZERO_DOUBLE) ) { return false; }
 
         tracker.modifyCategory(category, newName, newSpent, newGoal, newIsFlexible);
+        dataRepository.updateCategory(category);
         return true;
     }
 
@@ -163,6 +184,7 @@ public class ModelRepository {
      */
     public void resetCategory(Category category) {
         tracker.resetCategory(category);
+        dataRepository.updateCategory(category);
     }
 
     /**
@@ -170,6 +192,7 @@ public class ModelRepository {
      */
     public void resetAllCategories() {
         tracker.resetAllCategories();
+        dataRepository.updateAllCategories(tracker.getCategories());
     }
 
     /**
@@ -178,6 +201,7 @@ public class ModelRepository {
      */
     public void removeCategory(Category category) {
         tracker.removeCategory(category);
+        dataRepository.deleteCategory(category);
     }
 
     /**
@@ -189,7 +213,9 @@ public class ModelRepository {
      */
     public boolean newCategory(String name, double goal, boolean hasFlexibleGoal) {
         if( (name == null) || (goal <= NumberUtils.ZERO_DOUBLE) ) { return false; }
-        tracker.addCategory(new Category(name, goal, hasFlexibleGoal));
+        Category category = new Category(name, goal, hasFlexibleGoal);
+        tracker.addCategory(category);
+        dataRepository.insertCategory(category);
         return true;
     }
 
