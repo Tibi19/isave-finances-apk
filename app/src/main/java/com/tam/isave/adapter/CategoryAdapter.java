@@ -36,13 +36,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public void onBindViewHolder(@NonNull CategoryHolder holder, int position) {
         if (categories == null) {
-            holder.categoryNameView.setText(R.string.error);
+            holder.nameView.setText(R.string.error);
             return;
         }
 
         Category category = categories.get(position);
-        holder.categoryNameView.setText(category.getName());
-        holder.categoryNameView.setText(category.getProgress());
+        holder.nameView.setText(category.getName());
+        holder.progressView.setText(category.getProgress());
     }
 
     public void setCategories(List<Category> categories) {
@@ -59,7 +59,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     public static class CategoryHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        public TextView categoryNameView;
+        public TextView nameView;
         public TextView progressView;
 
         public Button historyButton;
@@ -71,7 +71,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             super(categoryView);
 
             // Initialize category description views.
-            categoryNameView = categoryView.findViewById(R.id.text_category_name);
+            nameView = categoryView.findViewById(R.id.text_category_name);
             progressView = categoryView.findViewById(R.id.text_category_progress);
             // Initialize category controller views.
             historyButton = categoryView.findViewById(R.id.button_category_history);
