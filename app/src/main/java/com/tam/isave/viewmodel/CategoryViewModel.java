@@ -8,18 +8,19 @@ import androidx.lifecycle.LiveData;
 
 import com.tam.isave.data.DataRepository;
 import com.tam.isave.model.CategoryTools.Category;
+import com.tam.isave.model.ModelRepository;
 
 import java.util.List;
 
 public class CategoryViewModel extends AndroidViewModel {
 
-    private DataRepository dataRepository;
+    private ModelRepository modelRepository;
     private LiveData<List<Category>> categories;
 
     public CategoryViewModel(@NonNull Application application) {
         super(application);
-        dataRepository = new DataRepository(application);
-        categories = dataRepository.getCategories();
+        modelRepository = ModelRepository.getModelRepository(application);
+        categories = modelRepository.getCategories();
     }
 
     public LiveData<List<Category>> getCategories() {
