@@ -50,4 +50,13 @@ public class DataRepository {
         });
     }
 
+    public void deleteAllCategories() {
+        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(new Runnable() {
+            @Override
+            public void run() {
+                categoryDao.deleteAll();
+            }
+        });
+    }
+
 }

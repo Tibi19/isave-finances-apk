@@ -5,7 +5,6 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.tam.isave.data.DataRepository;
 import com.tam.isave.model.CategoryTools.Category;
@@ -37,6 +36,10 @@ public class CategoryViewModel extends AndroidViewModel {
 
     public void delete(Category category) {
         dataRepository.deleteCategory(category);
+    }
+
+    public void deleteAll() {
+        dataRepository.deleteAllCategories();
     }
 
 }
