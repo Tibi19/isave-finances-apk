@@ -57,7 +57,6 @@ public class Category implements IProgressDisplayable {
         history = new History();
 
         this.spent = 0.0;
-        this.goal = 0.0;
         this.goalModifier = 0.0;
         this.goalPassed = 0.0;
     }
@@ -269,10 +268,10 @@ public class Category implements IProgressDisplayable {
      */
     @Override
     public String getProgress() {
-        double leftAmount = getEndGoal() - spent;
+        double leftAmount = NumberUtils.twoDecimals(getEndGoal() - spent);
         String leftAmountString = String.valueOf(leftAmount);
         if (!NumberUtils.isZeroDouble(goalModifier)) {
-            leftAmountString = " (-" + leftAmountString + ")";
+            leftAmountString += " (-" + NumberUtils.twoDecimals(goalModifier) + ")";
         }
 
         return leftAmountString;
