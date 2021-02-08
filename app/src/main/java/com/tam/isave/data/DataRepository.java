@@ -41,6 +41,19 @@ public class DataRepository {
         });
     }
 
+    public void updateAllCategories(final List<Category> categories) {
+        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(new Runnable() {
+            @Override
+            public void run() {
+                // A temporary category array;
+                // To be used for converting categories list into an array.
+                Category[] tempCategoryArray = new Category[categories.size()];
+                // Convert categories list to an array and pass to dao update.
+                categoryDao.update(categories.toArray(tempCategoryArray));
+            }
+        });
+    }
+
     public void deleteCategory(final Category category) {
         CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(new Runnable() {
             @Override
