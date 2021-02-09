@@ -38,10 +38,12 @@ package com.tam.isave.model;
 //  X Integrate data repository with model repository and use model repository in view model to do all the CRUD
 //  X Finish integrating modelRepository with category view model (create live data get categories in modelRepository, udate viewmodel methods to mirror
 //      modelRepository functionality)
-//  Clean model (IProgressDisplayable? Many unneeded methods around, but thank yourself from the past for all the comments! Do some more composition)
+//  Clean model (X IProgressDisplayable? Many unneeded methods around, but thank yourself from the past for all the comments! Do some more composition)
+//      was left at category tracker inclusive
 //  Do add category popup
 //  Do Fragments
 //  Do Payment
+//  Initialize other part of the model - category tracker, goal organizer etc. maybe save them in database with embedded entities or relational database?
 
 import android.app.Application;
 import android.view.Display;
