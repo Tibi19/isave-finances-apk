@@ -12,7 +12,7 @@ import com.tam.isave.utils.Constants;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Category.class}, version = 1, exportSchema = false)
+@Database(entities = {Category.class}, version = Constants.VERSION_CATEGORY_TABLE, exportSchema = false)
 public abstract class CategoryRoomDatabase extends RoomDatabase {
 
     private static volatile CategoryRoomDatabase INSTANCE;
@@ -29,6 +29,7 @@ public abstract class CategoryRoomDatabase extends RoomDatabase {
             if (INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                         CategoryRoomDatabase.class, Constants.DATABASE_NAME)
+                        .fallbackToDestructiveMigration()
                         .build();
             }
         }
