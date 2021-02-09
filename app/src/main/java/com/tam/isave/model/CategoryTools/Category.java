@@ -6,7 +6,6 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.tam.isave.model.TransactionTools.History;
-import com.tam.isave.model.IProgressDisplayable;
 import com.tam.isave.model.TransactionTools.Payment;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.NumberUtils;
@@ -39,8 +38,8 @@ public class Category{
     private double goalModifier;
     @ColumnInfo(name = Constants.COLUMN_GOAL_PASSED)
     private double goalPassed;
-    @ColumnInfo(name = Constants.COLUMN_HAS_FLEXIBLE_GOAL)
-    private boolean hasFlexibleGoal;
+    @ColumnInfo(name = Constants.COLUMN_FLEXIBLE_GOAL)
+    private boolean flexibleGoal;
 
     @Ignore
     private History history;
@@ -49,10 +48,10 @@ public class Category{
     }
 
     @Ignore
-    public Category(String name, double goal, boolean hasFlexibleGoal) {
+    public Category(String name, double goal, boolean flexibleGoal) {
         this.name = name;
         this.goal = goal;
-        this.hasFlexibleGoal = hasFlexibleGoal;
+        this.flexibleGoal = flexibleGoal;
 
         history = new History();
 
@@ -114,7 +113,7 @@ public class Category{
 
         boolean changeSpent = !NumberUtils.isSameDoubles(this.spent, spent);
         boolean changeGoal = !NumberUtils.isSameDoubles(this.goal, goal);
-        boolean changeFlexibility = this.hasFlexibleGoal != hasFlexibleGoal;
+        boolean changeFlexibility = this.flexibleGoal != hasFlexibleGoal;
 
         if(changeSpent) {
             this.spent = spent;
@@ -122,7 +121,7 @@ public class Category{
         if(changeGoal) {
             this.goal = goal;
         }
-        this.hasFlexibleGoal = hasFlexibleGoal;
+        this.flexibleGoal = hasFlexibleGoal;
 
         if (changeSpent || changeGoal || changeFlexibility) {
             resolveOverflow(adapter);
@@ -145,7 +144,6 @@ public class Category{
 
     /**
      * Resets the entire state.
-     * Doesn't account for overflow.
      * To be used when resetting all categories of a tracker.
      * @param adapter The goal adapter that would handle the overflow
      */
@@ -177,7 +175,7 @@ public class Category{
     //
     // Add @modifyRequest to this.goalModifier.
     public boolean modifyGoal(double modifyRequest) {
-        if(!hasFlexibleGoal) {
+        if(!flexibleGoal) {
             return false;
         }
 
@@ -200,7 +198,7 @@ public class Category{
      * @return The overflow that has to be handled.
      */
     private double getOverflow(boolean shouldUpdateState) {
-        double goal = hasFlexibleGoal ? getEndGoal() : this.goal;
+        double goal = flexibleGoal ? getEndGoal() : this.goal;
         // The difference between the old amount spent over the goal and the current one is the overflow.
         double goalPassed = Math.max(spent - goal, 0.0); // The real amount spent over the goal. Should not be negative.
         double origGoalPassed = this.goalPassed;  // Original stored amount spent over the goal.
@@ -209,7 +207,7 @@ public class Category{
         double overflow = goalPassed - origGoalPassed;
         // If goal is not flexible and goal modifier is different than 0,
         // We reset goalModifier and account for it in the overflow.
-        if(!hasFlexibleGoal) {
+        if(!flexibleGoal) {
             overflow -= goalModifier;
             if(shouldUpdateState) { goalModifier = 0.0; }
         }
@@ -232,28 +230,6 @@ public class Category{
     public double getEndGoal() {
         return goal - goalModifier;
     }
-
-    // End goal to be displayed after modified by this.goalModifier.
-    // Returns the end goal and specifies how the goal was modified in case this.goalModifier > 0;
-    // Returns a String in format gg.gg (-mm.mm)
-    // Returns the progress - a comparison between @totalSpent and end goal.
-    public String getEndGoalString() {
-        double endGoalTwoDecimals = NumberUtils.twoDecimals(getEndGoal());
-
-        if(goalModifier <= NumberUtils.ZERO_DOUBLE) {
-            return String.valueOf(endGoalTwoDecimals);
-        }
-
-        String modifierString = " (-" + NumberUtils.twoDecimals(goalModifier) + ")";
-        return "" + endGoalTwoDecimals + modifierString;
-    }
-
-    // Returns a String in format "tt.tt / gg.gg"
-    // If goal has been modified, format will be "tt.tt / gg.gg (-mm.mm)"
-//    @Override
-//    public String getProgress() {
-//        return NumberUtils.twoDecimals(spent) + " / " + getEndGoalString();
-//    }
 
     /**
      * The amount left that can be spent.
@@ -315,8 +291,8 @@ public class Category{
         this.goalPassed = goalPassed;
     }
 
-    public void setHasFlexibleGoal(boolean hasFlexibleGoal) {
-        this.hasFlexibleGoal = hasFlexibleGoal;
+    public void setFlexibleGoal(boolean flexibleGoal) {
+        this.flexibleGoal = flexibleGoal;
     }
 
     public int getId() {
@@ -327,28 +303,15 @@ public class Category{
         return goalPassed;
     }
 
-    public boolean isHasFlexibleGoal() {
-        return hasFlexibleGoal;
-    }
-
-    // If goal is inherently flexible and if it hasn't been passed.
-    // To be used when modifying goal by decreasing it.
-    public boolean isFlexible() {
-        return hasFlexibleGoal;
-    }
-
-    /**
-     * Change whether this category's goal is flexible or not.
-     */
-    public void modifyFlexibility() {
-        this.hasFlexibleGoal = !this.hasFlexibleGoal;
+    public boolean isFlexibleGoal() {
+        return flexibleGoal;
     }
 
     // If category can help with overflow when another category passes its goal.
     // If goal is flexible and if it hasn't been passed.
     // To be used when increasing goal modifier.
     public boolean canHelp() {
-        return hasFlexibleGoal && (goalPassed <= NumberUtils.ZERO_DOUBLE);
+        return flexibleGoal && (goalPassed <= NumberUtils.ZERO_DOUBLE);
     }
 
     // If category should adjust its goal modification
@@ -367,18 +330,11 @@ public class Category{
     }
 
     public void setFlexibility(boolean hasFlexibleGoal) {
-        this.hasFlexibleGoal = hasFlexibleGoal;
+        this.flexibleGoal = hasFlexibleGoal;
     }
 
     public void setHistory(History history) {
         this.history = history;
     }
 
-    public void dispose() {
-        name = null;
-        if(history != null) {
-            history.dispose();
-            history = null;
-        }
-    }
 }
