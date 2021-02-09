@@ -1,16 +1,8 @@
 package com.tam.isave.view;
 
 import android.os.Bundle;
-import android.os.Debug;
-import android.util.Log;
 import android.view.View;
-import android.view.Menu;
-import android.widget.Button;
-import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
 import com.tam.isave.R;
 import com.tam.isave.adapter.CategoryAdapter;
 import com.tam.isave.model.CategoryTools.Category;
@@ -19,13 +11,7 @@ import com.tam.isave.viewmodel.CategoryViewModel;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -90,7 +76,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void addCategory() {
         DebugUtils.makeToast(this, "added category");
         Category category = getRandomCategory();
-        categoryViewModel.addCategory(category.getName(), category.getGoal(), category.isHasFlexibleGoal());
+        categoryViewModel.addCategory(category.getName(), category.getGoal(), category.isFlexibleGoal());
     }
 
     private Category getRandomCategory() {
