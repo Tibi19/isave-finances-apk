@@ -223,6 +223,8 @@ public class GoalOrganizer implements IProgressDisplayable {
     // EX: Let there be 4 intervals of 5 days each.
     // EX: If we're halfway through the 3rd interval, method will return 5 + 5 + 5 (15);
     private int getIntervalsDays(Interval targetInterval) {
+        if ( (targetInterval == null) || (intervals == null) ) { return 0; }
+
         int intervalsDays = 0;
         for(int i = 0; i <= getIntervalIndex(targetInterval); i++) {
             intervalsDays += intervals[i].getDays();
@@ -319,6 +321,8 @@ public class GoalOrganizer implements IProgressDisplayable {
 
     // Return index of @interval in intervals.
     private int getIntervalIndex(Interval interval) {
+        if(intervals == null) { return -1; }
+
         for(int i = 0; i < intervals.length; i++) {
             if(interval.equals(intervals[i])) {
                 return i;
