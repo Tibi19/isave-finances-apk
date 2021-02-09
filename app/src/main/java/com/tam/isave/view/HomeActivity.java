@@ -90,7 +90,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void addCategory() {
         DebugUtils.makeToast(this, "added category");
         Category category = getRandomCategory();
-        categoryViewModel.insert(category);
+        categoryViewModel.addCategory(category.getName(), category.getGoal(), category.isHasFlexibleGoal());
     }
 
     private Category getRandomCategory() {
