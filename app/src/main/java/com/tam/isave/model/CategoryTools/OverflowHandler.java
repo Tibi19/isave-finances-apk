@@ -30,7 +30,7 @@ public class OverflowHandler {
      * @param shouldUpdateState If false, we are just checking, the state of this category will not be affected.
      * @return The overflow that has to be handled.
      */
-    private double getOverflow(boolean shouldUpdateState) {
+    public double getOverflow(boolean shouldUpdateState) {
         boolean flexibleGoal = parentCategory.isFlexibleGoal();
         double endGoal = parentCategory.getEndGoal();
         double spent = parentCategory.getSpent();
