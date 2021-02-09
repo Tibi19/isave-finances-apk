@@ -36,7 +36,7 @@ package com.tam.isave.model;
 //  X Home Activity (X add category button onclick, X instantiate recyclerview, X adapter, X viewmodel, X make data observable)
 //  X Prepopulate database with a couple categories and test - tested with adding random categories
 //  X Integrate data repository with model repository and use model repository in view model to do all the CRUD
-//  Finish integrating modelRepository with category view model (create live data get categories in modelRepository, udate viewmodel methods to mirror
+//  X Finish integrating modelRepository with category view model (create live data get categories in modelRepository, udate viewmodel methods to mirror
 //      modelRepository functionality)
 //  Clean model (IProgressDisplayable? Many unneeded methods around, but thank yourself from the past for all the comments! Do some more composition)
 //  Do add category popup
@@ -45,6 +45,8 @@ package com.tam.isave.model;
 
 import android.app.Application;
 import android.view.Display;
+
+import androidx.lifecycle.LiveData;
 
 import com.tam.isave.data.CategoryDao;
 import com.tam.isave.data.DataRepository;
@@ -57,6 +59,7 @@ import com.tam.isave.utils.Date;
 import com.tam.isave.utils.NumberUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ModelRepository {
 
@@ -90,6 +93,10 @@ public class ModelRepository {
         ArrayList<Category> categories = new ArrayList<>();
         History history = new History();
         tracker = new CategoryTracker(categories, history);
+    }
+
+    public LiveData<List<Category>> getCategories() {
+        return dataRepository.getCategories();
     }
 
     /**
@@ -202,6 +209,12 @@ public class ModelRepository {
     public void removeCategory(Category category) {
         tracker.removeCategory(category);
         dataRepository.deleteCategory(category);
+    }
+
+    // Only for testing
+    // User shouldn't be able to delete all categories at once
+    public void removeAllCategories() {
+        dataRepository.deleteAllCategories();
     }
 
     /**
