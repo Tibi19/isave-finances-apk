@@ -23,7 +23,7 @@ import com.tam.isave.utils.NumberUtils;
 // In this case, a negative overflow can be requested and a modify request should be made
 // By the parent category tracker to all categories that have been previously modified. (handling overflow)
 @Entity(tableName = Constants.TABLE_NAME_CATEGORY)
-public class Category implements IProgressDisplayable {
+public class Category{
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -248,11 +248,6 @@ public class Category implements IProgressDisplayable {
         return "" + endGoalTwoDecimals + modifierString;
     }
 
-    @Override
-    public String getInfoAboutProgress() {
-        return getName();
-    }
-
     // Returns a String in format "tt.tt / gg.gg"
     // If goal has been modified, format will be "tt.tt / gg.gg (-mm.mm)"
 //    @Override
@@ -266,7 +261,6 @@ public class Category implements IProgressDisplayable {
      * To be used for displaying category progress.
      * @return a string in format "ll.ll (-mm.mm)" or "ll.ll" if goal was not modified.
      */
-    @Override
     public String getProgress() {
         double leftAmount = NumberUtils.twoDecimals(getEndGoal() - spent);
         String leftAmountString = String.valueOf(leftAmount);

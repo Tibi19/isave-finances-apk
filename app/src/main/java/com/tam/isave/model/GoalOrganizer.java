@@ -18,7 +18,7 @@ import java.util.ArrayList;
 //
 // Has a category tracker that tracks and handles overflow for intervals.
 // Updates active interval to be displayed based on today's date.
-public class GoalOrganizer implements IProgressDisplayable {
+public class GoalOrganizer{
 
     private final static int DEFAULT_GLOBAL_INTERVAL_DAYS = 30; // 1 month as default.
 
@@ -349,8 +349,7 @@ public class GoalOrganizer implements IProgressDisplayable {
     //
     // If today's date is not between goal organizer's first and last days,
     // Returns appropriate message.
-    @Override
-    public String getInfoAboutProgress() {
+    public String getIntervalsProgress() {
         // toString with "Day x in y - z: intervalSpent / intervalGoal"
         int startDaysDifference = firstDay.differenceInDays(Date.today());
         final String BEFORE_START_DATE = startDaysDifference + " days until next goal";
@@ -379,7 +378,6 @@ public class GoalOrganizer implements IProgressDisplayable {
 
     // Spending progress of active interval
     // In format "spent / goal" and goal modification info "(-goalModification)".
-    @Override
     public String getProgress() {
         return activeInterval.getSpent() + " / " + activeInterval.getEndGoalString();
     }
