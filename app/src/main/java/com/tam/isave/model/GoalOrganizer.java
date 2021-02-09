@@ -1,5 +1,6 @@
 package com.tam.isave.model;
 
+import com.tam.isave.model.CategoryTools.Category;
 import com.tam.isave.model.CategoryTools.CategoryTracker;
 import com.tam.isave.model.CategoryTools.Interval;
 import com.tam.isave.model.TransactionTools.History;
@@ -9,6 +10,7 @@ import com.tam.isave.utils.Date;
 import com.tam.isave.utils.NumberUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 // GoalOrganizer breaks up the user's goal in smaller goals.
 // Functionality based on "how to eat an elephant: one bite at a time".
@@ -43,11 +45,6 @@ public class GoalOrganizer{
     // Constructor with a start date and end date.
     public GoalOrganizer(double globalGoal, int intervalsNr, Date firstDay, Date lastDay) {
         setup(globalGoal, intervalsNr, firstDay, lastDay);
-    }
-
-    // Constructor with default period of 30 days starting from today.
-    public GoalOrganizer(double globalGoal, int intervalsNr) {
-        this(globalGoal, intervalsNr, DEFAULT_GLOBAL_INTERVAL_DAYS);
     }
 
     // Constructor with a set number of days starting from today.
@@ -202,7 +199,9 @@ public class GoalOrganizer{
         // Intervals are ordered chronologically.
         // Only intervals that follow an interval solicitor should help with positive overflow.
         // Therefore, OrderedHandling is set to true.
-        tracker = new CategoryTracker(intervals, history, true);
+        Category[] categoryArray = intervals;
+        ArrayList<Category> categoryList = new ArrayList<Category>(Arrays.asList(categoryArray));
+        tracker = new CategoryTracker(categoryList, history, true);
     }
 
     // Updates:
