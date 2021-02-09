@@ -377,9 +377,8 @@ public class GoalOrganizer{
     }
 
     // Spending progress of active interval
-    // In format "spent / goal" and goal modification info "(-goalModification)".
     public String getProgress() {
-        return activeInterval.getSpent() + " / " + activeInterval.getEndGoalString();
+        return activeInterval.getProgress();
     }
 
     public double getGlobalGoal() {
@@ -408,25 +407,5 @@ public class GoalOrganizer{
 
     public Interval[] getIntervals() {
         return intervals;
-    }
-
-    public void dispose() {
-        if(firstDay != null) {
-            firstDay.dispose();
-            firstDay = null;
-        }
-
-        if(history != null) {
-            history.dispose();
-            history = null;
-        }
-
-        if(tracker != null) {
-            tracker.dispose();
-            tracker = null;
-        }
-
-        activeInterval = null;
-        intervals = null;
     }
 }
