@@ -27,20 +27,28 @@ public class CategoryViewModel extends AndroidViewModel {
         return categories;
     }
 
-    public void insert(Category category) {
-        dataRepository.insertCategory(category);
+    public void addCategory(String name, double goal, boolean hasFlexibleGoal) {
+        modelRepository.newCategory(name, goal, hasFlexibleGoal);
     }
 
-    public void update(Category category) {
-        dataRepository.updateCategory(category);
+    public void modifyCategory(Category category, String newName, double newSpent, double newGoal, boolean newHasFlexibleGoal) {
+        modelRepository.modifyCategory(category, newName, newSpent, newGoal, newHasFlexibleGoal);
     }
 
-    public void delete(Category category) {
-        dataRepository.deleteCategory(category);
+    public void deleteCategory(Category category) {
+        modelRepository.removeCategory(category);
+    }
+
+    public void resetCategory(Category category) {
+        modelRepository.resetCategory(category);
+    }
+
+    public void resetAllCategories() {
+        modelRepository.resetAllCategories();
     }
 
     public void deleteAll() {
-        dataRepository.deleteAllCategories();
+        modelRepository.removeAllCategories();
     }
 
 }
