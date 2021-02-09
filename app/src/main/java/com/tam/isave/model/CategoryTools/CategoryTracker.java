@@ -66,7 +66,6 @@ public class CategoryTracker {
         // First reset category to handle overflow if it's the case.
         category.reset(adapter);
         categories.remove(category);
-        category.dispose();
     }
 
     // Change name, spent, goal of target category
@@ -228,24 +227,4 @@ public class CategoryTracker {
         this.history = history;
     }
 
-    // Category tracker will handle dispose for categories.
-    public void dispose() {
-        if(categories != null && !categories.isEmpty()) {
-            for(Category category : categories) {
-                category.dispose();
-            }
-            categories.clear();
-            categories = null;
-        }
-
-        if(history != null) {
-            history.dispose();
-            history = null;
-        }
-
-        if(adapter != null) {
-            adapter.dispose();
-            adapter = null;
-        }
-    }
 }
