@@ -43,12 +43,17 @@ public class Category{
 
     @Ignore
     private History history;
+    @Ignore
+    private OverflowHandler overflowHandler;
 
     public Category() {
+        overflowHandler = new OverflowHandler(this);
     }
 
     @Ignore
     public Category(String name, double goal, boolean flexibleGoal) {
+        this();
+
         this.name = name;
         this.goal = goal;
         this.flexibleGoal = flexibleGoal;
@@ -73,7 +78,7 @@ public class Category{
         // Spent changes, there might be overflow.
         spent += payment.getAbsValue();
 
-        resolveOverflow(adapter); // Spent changes, there might be overflow to be handled.
+        overflowHandler.resolveOverflow(adapter); // Spent changes, there might be overflow to be handled.
     }
 
     // Removes a transaction if it exists in object's history and removes from total spent.
@@ -86,7 +91,7 @@ public class Category{
         }
         spent -= payment.getAbsValue();
 
-        resolveOverflow(adapter); // Spent changes, there might be overflow to be handled
+        overflowHandler.resolveOverflow(adapter); // Spent changes, there might be overflow to be handled
     }
 
     // Adds to spent amount the difference in value of the modified payment.
@@ -97,7 +102,7 @@ public class Category{
         history.modifyTransaction(payment);
         spent += valueDiff;
 
-        resolveOverflow(adapter); // Spent changes, there might be overflow to be handled.
+        overflowHandler.resolveOverflow(adapter); // Spent changes, there might be overflow to be handled.
     }
 
     /**
@@ -124,7 +129,7 @@ public class Category{
         this.flexibleGoal = hasFlexibleGoal;
 
         if (changeSpent || changeGoal || changeFlexibility) {
-            resolveOverflow(adapter);
+            overflowHandler.resolveOverflow(adapter);
         }
     }
 
@@ -139,7 +144,7 @@ public class Category{
         this.spent = 0.0;
         history.reset();
 
-        resolveOverflow(adapter); // Progress changes, there might be overflow to be handled.
+        overflowHandler.resolveOverflow(adapter); // Progress changes, there might be overflow to be handled.
     }
 
     /**
@@ -153,19 +158,6 @@ public class Category{
         goalPassed = 0.0;
     }
 
-    /**
-     * Checks if this category has an overflow.
-     * If true, solicits overflow handling from goal adapter.
-     * @param adapter The goal adapter that will handle the overflow.
-     */
-    private void resolveOverflow(GoalAdapter adapter) {
-        if(adapter == null) { return; }
-
-        if (hasOverflow()) {
-            adapter.handleOverflow(this);
-        }
-    }
-
     // To be used in case the goal is passed for another category (it overflows).
     // In which case, a request can be made to a flexible object of this class to modify its end goal.
     //
@@ -174,56 +166,14 @@ public class Category{
     // Parameter should be negative based on a negative overflow.
     //
     // Add @modifyRequest to this.goalModifier.
-    public boolean modifyGoal(double modifyRequest) {
-        if(!flexibleGoal) {
-            return false;
-        }
+    public void modifyGoal(double modifyRequest) {
+        if(!flexibleGoal) { return; }
 
         // If goal for this object was passed and trying to increase goal modifier, stop method.
         // Goal modifier can be decreased.
-        if(goalPassed > NumberUtils.ZERO_DOUBLE && modifyRequest > NumberUtils.ZERO_DOUBLE) {
-            return false;
-        }
+        if(goalPassed > NumberUtils.ZERO_DOUBLE && modifyRequest > NumberUtils.ZERO_DOUBLE) { return; }
 
         goalModifier += modifyRequest;
-        return true;
-    }
-
-    /**
-     * The amount that has to be handled by other categories.
-     * If >0.0 a modify goal request should be made to other categories that can help.
-     * If 0.0, there's no overflow to handle.
-     * If <0.0 a modify goal request should be made to other modified categories.
-     * @param shouldUpdateState If false, we are just checking, the state of this category will not be affected.
-     * @return The overflow that has to be handled.
-     */
-    private double getOverflow(boolean shouldUpdateState) {
-        double goal = flexibleGoal ? getEndGoal() : this.goal;
-        // The difference between the old amount spent over the goal and the current one is the overflow.
-        double goalPassed = Math.max(spent - goal, 0.0); // The real amount spent over the goal. Should not be negative.
-        double origGoalPassed = this.goalPassed;  // Original stored amount spent over the goal.
-        if(shouldUpdateState) { this.goalPassed = goalPassed; } // Update amount spent over the goal with the real value.
-
-        double overflow = goalPassed - origGoalPassed;
-        // If goal is not flexible and goal modifier is different than 0,
-        // We reset goalModifier and account for it in the overflow.
-        if(!flexibleGoal) {
-            overflow -= goalModifier;
-            if(shouldUpdateState) { goalModifier = 0.0; }
-        }
-
-        return overflow;
-    }
-
-    // Default getOverflow() method to be used, overflow should be handled.
-    public double getOverflow() {
-        return getOverflow(true);
-    }
-
-    // Checks if there is unhandled overflow.
-    public boolean hasOverflow() {
-        double overflow = getOverflow(false);
-        return (overflow > NumberUtils.ZERO_DOUBLE) || (overflow < NumberUtils.ZERO_DOUBLE);
     }
 
     // Goal after goal modification.
@@ -247,16 +197,44 @@ public class Category{
         return leftAmountString;
     }
 
+    // If category can help with overflow when another category passes its goal.
+    // If goal is flexible and if it hasn't been passed.
+    // To be used when increasing goal modifier.
+    public boolean canHelp() {
+        return flexibleGoal && (goalPassed <= NumberUtils.ZERO_DOUBLE);
+    }
+
+    // If category should adjust its goal modification
+    // As a result of another category subtracting its overflow. (there is negative overflow)
+    // Whether goal has been modified.
+    // To be used when decreasing goal modifier.
+    public boolean isModified() {
+        return goalModifier > NumberUtils.ZERO_DOUBLE;
+    }
+
+    // If category can handle an overflow based on its sign.
+    // If it's positive overflow, it will be able to handle if it's available to help (canHelp())
+    // If it's negative overflow, it will be able to handle if it has been modified (isModified())
+    public boolean canHandleOverflow(boolean isPositiveOverflow) {
+        return isPositiveOverflow ? canHelp() : isModified();
+    }
+
+    /******************* GETTERS AND SETTERS *******************/
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public History getHistory() {
         return history;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setHistory(History history) {
+        this.history = history;
     }
 
     public double getSpent() {
@@ -283,12 +261,16 @@ public class Category{
         this.goalModifier = goalModifier;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public double getGoalPassed() {
+        return goalPassed;
     }
 
     public void setGoalPassed(double goalPassed) {
         this.goalPassed = goalPassed;
+    }
+
+    public boolean isFlexibleGoal() {
+        return flexibleGoal;
     }
 
     public void setFlexibleGoal(boolean flexibleGoal) {
@@ -299,42 +281,8 @@ public class Category{
         return id;
     }
 
-    public double getGoalPassed() {
-        return goalPassed;
-    }
-
-    public boolean isFlexibleGoal() {
-        return flexibleGoal;
-    }
-
-    // If category can help with overflow when another category passes its goal.
-    // If goal is flexible and if it hasn't been passed.
-    // To be used when increasing goal modifier.
-    public boolean canHelp() {
-        return flexibleGoal && (goalPassed <= NumberUtils.ZERO_DOUBLE);
-    }
-
-    // If category should adjust its goal modification
-    // As a result of another category subtracting its overflow. (there is negative overflow)
-    // Whether goal has been modified.
-    // To be used when decreasing goal modifier.
-    public boolean isModified() {
-        return goalModifier > NumberUtils.ZERO_DOUBLE;
-    }
-
-    // If category can handle an overflow based on its sign.
-    // If it's positive overflow, it will be able to handle if it's available to help (canHelp())
-    // If it's negative overflow, it will be able to handle if it has been modified (isModified())
-    public boolean canHandleOverflow(boolean isPositiveOverflow) {
-        return isPositiveOverflow ? canHelp() : isModified();
-    }
-
-    public void setFlexibility(boolean hasFlexibleGoal) {
-        this.flexibleGoal = hasFlexibleGoal;
-    }
-
-    public void setHistory(History history) {
-        this.history = history;
+    public void setId(int id) {
+        this.id = id;
     }
 
 }
