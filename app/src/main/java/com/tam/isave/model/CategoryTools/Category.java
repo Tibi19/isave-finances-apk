@@ -219,6 +219,14 @@ public class Category{
         return isPositiveOverflow ? canHelp() : isModified();
     }
 
+    public boolean hasOverflow() {
+        return overflowHandler.hasOverflow();
+    }
+
+    public double getOverflow() {
+        return overflowHandler.getOverflow();
+    }
+
     /******************* GETTERS AND SETTERS *******************/
 
     public String getName() {
