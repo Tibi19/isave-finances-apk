@@ -1,7 +1,7 @@
-package com.tam.isave.model.TransactionTools;
+package com.tam.isave.model.transaction;
 
-import com.tam.isave.model.CategoryTools.Category;
-import com.tam.isave.model.CategoryTools.CategoryTracker;
+import com.tam.isave.model.category.Category;
+import com.tam.isave.model.category.CategoryTracker;
 import com.tam.isave.utils.NumberUtils;
 import com.tam.isave.utils.Date;
 

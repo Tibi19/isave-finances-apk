@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.tam.isave.model.CategoryTools.Category;
+import com.tam.isave.model.category.Category;
 import com.tam.isave.utils.Constants;
 
 import java.util.concurrent.ExecutorService;

@@ -1,10 +1,10 @@
-package com.tam.isave.model.CategoryTools;
+package com.tam.isave.model.category;
 
-import com.tam.isave.model.TransactionTools.History;
-import com.tam.isave.model.TransactionTools.Payment;
+import com.tam.isave.model.goalorganizer.Interval;
+import com.tam.isave.model.transaction.History;
+import com.tam.isave.model.transaction.Payment;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 // Tracks a list of categories.
 // Keeps track of all payments made in these categories in a history.

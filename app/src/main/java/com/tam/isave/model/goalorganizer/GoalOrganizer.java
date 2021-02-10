@@ -1,11 +1,10 @@
-package com.tam.isave.model;
+package com.tam.isave.model.goalorganizer;
 
-import com.tam.isave.model.CategoryTools.Category;
-import com.tam.isave.model.CategoryTools.CategoryTracker;
-import com.tam.isave.model.CategoryTools.Interval;
-import com.tam.isave.model.TransactionTools.History;
-import com.tam.isave.model.TransactionTools.Payment;
-import com.tam.isave.model.TransactionTools.Transaction;
+import com.tam.isave.model.category.Category;
+import com.tam.isave.model.category.CategoryTracker;
+import com.tam.isave.model.transaction.History;
+import com.tam.isave.model.transaction.Payment;
+import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Date;
 import com.tam.isave.utils.NumberUtils;
 

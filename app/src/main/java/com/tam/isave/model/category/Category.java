@@ -1,12 +1,12 @@
-package com.tam.isave.model.CategoryTools;
+package com.tam.isave.model.category;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.tam.isave.model.TransactionTools.History;
-import com.tam.isave.model.TransactionTools.Payment;
+import com.tam.isave.model.transaction.History;
+import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.NumberUtils;
 

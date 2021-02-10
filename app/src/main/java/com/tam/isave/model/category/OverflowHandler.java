@@ -1,4 +1,4 @@
-package com.tam.isave.model.CategoryTools;
+package com.tam.isave.model.category;
 
 import com.tam.isave.utils.NumberUtils;
 

@@ -1,6 +1,6 @@
-package com.tam.isave.model.TransactionTools;
+package com.tam.isave.model.transaction;
 
-import com.tam.isave.model.CategoryTools.Category;
+import com.tam.isave.model.category.Category;
 import com.tam.isave.utils.Date;
 
 public class Payment extends Transaction {

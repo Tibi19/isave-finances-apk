@@ -1,4 +1,7 @@
-package com.tam.isave.model.CategoryTools;
+package com.tam.isave.model.goalorganizer;
+
+import com.tam.isave.model.category.Category;
+import com.tam.isave.model.category.GoalAdapter;
 
 public class Interval extends Category {
 
