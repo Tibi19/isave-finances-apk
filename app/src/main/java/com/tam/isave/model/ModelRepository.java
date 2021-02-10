@@ -46,11 +46,9 @@ package com.tam.isave.model;
 //  Initialize other part of the model - category tracker, goal organizer etc. maybe save them in database with embedded entities or relational database?
 
 import android.app.Application;
-import android.view.Display;
 
 import androidx.lifecycle.LiveData;
 
-import com.tam.isave.data.CategoryDao;
 import com.tam.isave.data.DataRepository;
 import com.tam.isave.model.CategoryTools.Category;
 import com.tam.isave.model.CategoryTools.CategoryTracker;
@@ -171,13 +169,12 @@ public class ModelRepository {
      * @param newIsFlexible The new flexibility of the category.
      * @return True if the category has been modified.
      */
-    public boolean modifyCategory(Category category, String newName, double newSpent, double newGoal, boolean newIsFlexible) {
-        if( (category == null) || (newName == null) ) { return false; }
-        if( (newSpent <= -NumberUtils.ZERO_DOUBLE) || (newGoal <= NumberUtils.ZERO_DOUBLE) ) { return false; }
+    public void modifyCategory(Category category, String newName, double newSpent, double newGoal, boolean newIsFlexible) {
+        if( (category == null) || (newName == null) ) { return; }
+        if( (newSpent <= -NumberUtils.ZERO_DOUBLE) || (newGoal <= NumberUtils.ZERO_DOUBLE) ) { return; }
 
         tracker.modifyCategory(category, newName, newSpent, newGoal, newIsFlexible);
         dataRepository.updateCategory(category);
-        return true;
     }
 
     /**
@@ -224,14 +221,12 @@ public class ModelRepository {
      * @param name The name of the category.
      * @param goal The goal of the category.
      * @param hasFlexibleGoal Whether category can change its goal to help other categories.
-     * @return True if a category has been successfully created.
      */
-    public boolean newCategory(String name, double goal, boolean hasFlexibleGoal) {
-        if( (name == null) || (goal <= NumberUtils.ZERO_DOUBLE) ) { return false; }
+    public void newCategory(String name, double goal, boolean hasFlexibleGoal) {
+        if( (name == null) || (goal <= NumberUtils.ZERO_DOUBLE) ) { return; }
         Category category = new Category(name, goal, hasFlexibleGoal);
         tracker.addCategory(category);
         dataRepository.insertCategory(category);
-        return true;
     }
 
     /**
@@ -241,39 +236,32 @@ public class ModelRepository {
      * @param newName The new name of the payment.
      * @param newDate The new date when payment happened.
      * @param newValue The new value of the payment.
-     * @return Whether the payment has been successfully modified.
      */
-    public boolean modifyPayment(Payment payment, Category newCategory, String newName, Date newDate, double newValue) {
-        if( (payment == null) || (newCategory == null) || (newName == null) || (newDate == null) ) { return false; }
-        if(newValue <= NumberUtils.ZERO_DOUBLE) { return false; }
+    public void modifyPayment(Payment payment, Category newCategory, String newName, Date newDate, double newValue) {
+        if( (payment == null) || (newCategory == null) || (newName == null) || (newDate == null) ) { return; }
+        if(newValue <= NumberUtils.ZERO_DOUBLE) { return; }
 
         double valueDifference = payment.modify(newName, newValue, newDate, newCategory);
         tracker.modifyPaymentInParent(payment, valueDifference);
-
-        return true;
     }
 
     /**
      * Remove payment only from the organizer.
      * @param payment Payment to be removed.
-     * @return True if payment was removed.
      */
-    public boolean removePaymentFromOrganizer(Payment payment) {
-        if(payment == null) { return false; }
+    public void removePaymentFromOrganizer(Payment payment) {
+        if(payment == null) { return; }
         organizer.removePayment(payment);
-        return true;
     }
 
     /**
      * Remove payment from everywhere.
      * @param payment Payment to be removed.
-     * @return True if payment was removed.
      */
-    public boolean removePaymentGlobally(Payment payment) {
-        if(payment == null) { return false; }
+    public void removePaymentGlobally(Payment payment) {
+        if(payment == null) { return; }
         organizer.removePayment(payment);
         tracker.removePaymentGlobally(payment);
-        return true;
     }
 
     /**
@@ -282,33 +270,4 @@ public class ModelRepository {
     public void cleanHistories() {
         History.cleanHistories(tracker);
     }
-
-    /*
-     * Create a new deposit.
-     * @param date When the deposit took place.
-     * @param name The name of the deposit.
-     * @param value The value of the deposit.
-     * @param parentVault In what vault should the deposit be tracked.
-     * @param organizable Whether this deposit should also be tracked by the goal organizer.
-     * @return True if a deposit has been created successfully.
-     *
-    public boolean newDeposit(Date date, String name, double value, Vault parentVault, boolean organizable) {
-        if(parentVault == null) { return false; }
-        // Deposit is just a payment in a vault.
-        return newPayment(date, name, value, parentVault, organizable);
-    }
-    */
-
-    /*
-     * Create a new Vault.
-     * @param name The name of the vault.
-     * @param goal The goal of the vault.
-     * @return True if a vault has been successfully created.
-     *
-    public boolean newVault(String name, double goal) {
-        if( (name == null) || (goal <= NumberUtils.ZERO_DOUBLE) ) { return false; }
-        tracker.addCategory(new Vault(name, goal));
-        return true;
-    }
-     */
 }
