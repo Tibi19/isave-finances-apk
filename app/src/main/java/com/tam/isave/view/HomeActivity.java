@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.tam.isave.R;
 import com.tam.isave.adapter.CategoryAdapter;
-import com.tam.isave.model.CategoryTools.Category;
+import com.tam.isave.model.category.Category;
 import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.viewmodel.CategoryViewModel;
 

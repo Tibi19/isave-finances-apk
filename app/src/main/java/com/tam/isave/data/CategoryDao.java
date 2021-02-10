@@ -7,8 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.tam.isave.model.CategoryTools.Category;
-import com.tam.isave.utils.Constants;
+import com.tam.isave.model.category.Category;
 
 import java.util.List;
 

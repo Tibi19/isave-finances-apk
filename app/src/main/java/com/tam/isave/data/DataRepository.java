@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import com.tam.isave.model.CategoryTools.Category;
+import com.tam.isave.model.category.Category;
 
 import java.util.List;
 

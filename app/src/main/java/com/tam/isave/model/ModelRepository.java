@@ -50,11 +50,12 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.tam.isave.data.DataRepository;
-import com.tam.isave.model.CategoryTools.Category;
-import com.tam.isave.model.CategoryTools.CategoryTracker;
-import com.tam.isave.model.TransactionTools.Cashing;
-import com.tam.isave.model.TransactionTools.History;
-import com.tam.isave.model.TransactionTools.Payment;
+import com.tam.isave.model.category.Category;
+import com.tam.isave.model.category.CategoryTracker;
+import com.tam.isave.model.goalorganizer.GoalOrganizer;
+import com.tam.isave.model.transaction.Cashing;
+import com.tam.isave.model.transaction.History;
+import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.utils.Date;
 import com.tam.isave.utils.NumberUtils;
 

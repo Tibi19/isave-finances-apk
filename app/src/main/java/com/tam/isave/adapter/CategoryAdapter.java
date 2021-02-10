@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tam.isave.R;
-import com.tam.isave.model.CategoryTools.Category;
+import com.tam.isave.model.category.Category;
 
 import java.util.List;
 
