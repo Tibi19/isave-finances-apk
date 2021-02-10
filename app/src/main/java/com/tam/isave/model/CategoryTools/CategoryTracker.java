@@ -47,7 +47,6 @@ public class CategoryTracker {
     }
 
     // Remove category from list of categories;
-    // Dispose of it as it's no longer needed.
     public void removeCategory(Category category) {
         if( (category == null) || !categories.contains(category) ) { return; }
         // First reset category to handle overflow if it's the case.
@@ -63,7 +62,6 @@ public class CategoryTracker {
 
     // Make payment in target category and add to history.
     // Assign category as payment's parent category if @assign is true.
-    // Handles overflow if it's the case.
     public void makePayment(Category category, Payment payment, boolean assign) {
         if( (category == null) || (payment == null) ) { return; }
         if(history.hasTransaction(payment)) { return; }
