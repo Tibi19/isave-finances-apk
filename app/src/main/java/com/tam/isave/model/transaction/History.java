@@ -169,27 +169,6 @@ public class History {
         }
     }
 
-//    // Sorts history and removes entries older than 6 months.
-//    public void update() {
-//        sortHistory();
-//        cleanHistory();
-//    }
-
-    // Returns all transactions from @date until latest entries.
-    public ArrayList<Transaction> getTransactionsFromDate(Date date) {
-        if(historyList.isEmpty()) { return null; }
-        validateSorting();
-
-        ArrayList<Transaction> transactions = new ArrayList<Transaction>();
-        for(Transaction transaction : historyList) {
-            // If transaction date is older than @date, break loop and return.
-            // History is sorted, therefore all transaction dates would be older than @date from here on.
-            if (transaction.getDate().getValue() < date.getValue()) { break; }
-            transactions.add(transaction);
-        }
-        return transactions;
-    }
-
     public boolean hasTransaction(Transaction transaction) {
         if(transaction == null) { return false; }
         return historyList.contains(transaction);
