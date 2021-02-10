@@ -21,14 +21,14 @@ import java.util.Arrays;
 // Updates active interval to be displayed based on today's date.
 public class GoalOrganizer{
 
-    private final static int DEFAULT_GLOBAL_INTERVAL_DAYS = 30; // 1 month as default.
-
     private double globalGoal; // How much should be spent in @globalIntervalDays.
     private int globalIntervalDays; // How many days for the whole interval.
     private int daysProgress; // Day number since beginning the global Interval (starts from 1).
     private Date firstDay; // First day of the global interval.
 
     private History history; // Tracks all payments made in the global interval.
+    private IntervalsAnalyzer intervalsAnalyzer;
+    private IntervalsProgress intervalsProgress;
 
     private CategoryTracker tracker; // Tracks intervals.
     private int intervalsNr; // How many intervals are desired.
@@ -37,18 +37,14 @@ public class GoalOrganizer{
 
     // Blank Constructor.
     public GoalOrganizer() {
-        this(0.0, 0, 0);
-        this.daysProgress = 0;
+        this(0.0, 0, null, null);
     }
 
     // Constructor with a start date and end date.
     public GoalOrganizer(double globalGoal, int intervalsNr, Date firstDay, Date lastDay) {
         setup(globalGoal, intervalsNr, firstDay, lastDay);
-    }
-
-    // Constructor with a set number of days starting from today.
-    public GoalOrganizer(double globalGoal, int intervalsNr, int globalIntervalDays) {
-        this(globalGoal, intervalsNr, Date.today(), Date.today().addDays(globalIntervalDays));
+        this.intervalsAnalyzer = new IntervalsAnalyzer(this);
+        this.intervalsProgress = new IntervalsProgress(this);
     }
 
     // Sets up the instance.
@@ -58,7 +54,9 @@ public class GoalOrganizer{
     public void setup(double globalGoal, int intervalsNr, Date firstDay, Date lastDay) {
         this.globalGoal = globalGoal;
         this.intervalsNr = intervalsNr;
-        this.globalIntervalDays = firstDay.differenceInDays(lastDay);
+        if( (firstDay != null) && (lastDay != null) ) {
+            this.globalIntervalDays = firstDay.differenceInDays(lastDay);
+        }
 
         this.firstDay = firstDay;
         this.activeInterval = null;
@@ -91,6 +89,56 @@ public class GoalOrganizer{
         setupIntervals();
         update();
         reassignHistory();
+    }
+
+    // Set up days for each interval.
+    // Initializes spending tracker for intervals.
+    // Initializes goals for each interval.
+    // Initializes category tracker of intervals.
+    private void setupIntervals() {
+        if(globalIntervalDays <= 0 || intervalsNr <= 0) { return; }
+
+        intervals = new Interval[intervalsNr];
+
+        // How many days are left after dividing the total number of days to the number of intervals.
+        int leftoverDays = globalIntervalDays % intervalsNr;
+        // General goal for each interval.
+        // The total that wants to be spent divided by the number of intervals.
+        double goal = this.globalGoal / this.intervalsNr;
+
+        // Set up each interval.
+        for(int i = 0; i < intervalsNr; i++) {
+            // Global days are divided equally for each interval.
+            // Any leftover days are added 1 by 1 to each interval until none are left.
+            int intervalDays = globalIntervalDays / intervalsNr;
+            if(leftoverDays-- > 0) { intervalDays++; }
+
+            // Assign interval to its place in the array.
+            intervals[i] = new Interval(i, intervalDays, goal);
+        }
+
+        // Set up category tracker of intervals;
+        // Intervals are ordered chronologically.
+        // Only intervals that follow an interval solicitor should help with positive overflow.
+        // Therefore, OrderedHandling is set to true.
+        Category[] categoryArray = intervals;
+        ArrayList<Category> categoryList = new ArrayList<Category>(Arrays.asList(categoryArray));
+        tracker = new CategoryTracker(categoryList, history, true);
+    }
+
+    // Updates:
+    // The current day number since the first day of the interval.
+    // The current interval tracked.
+    public void update() {
+        if ( (firstDay == null) || (activeInterval == null) || (intervals == null) ) { return; }
+
+        daysProgress = firstDay.differenceInDays(Date.today()) + 1;
+        // Increment current interval until the current day is less than the total amount of days between all intervals tracked so far.
+        while(daysProgress > intervalsAnalyzer.getIntervalsDays(activeInterval)) {
+            int activeIntervalIndex = intervalsAnalyzer.getIntervalIndex(activeInterval);
+            if(activeIntervalIndex < 0) { break; } // Break if index indicates an error (should be -1).
+            activeInterval = intervals[activeIntervalIndex + 1];
+        }
     }
 
     /**
@@ -168,68 +216,6 @@ public class GoalOrganizer{
         return modified;
     }
 
-    // Set up days for each interval.
-    // Initializes spending tracker for intervals.
-    // Initializes goals for each interval.
-    // Initializes category tracker of intervals.
-    private void setupIntervals() {
-        if(globalIntervalDays <= 0 || intervalsNr <= 0) { return; }
-
-        intervals = new Interval[intervalsNr];
-
-        // How many days are left after dividing the total number of days to the number of intervals.
-        int leftoverDays = globalIntervalDays % intervalsNr;
-        // General goal for each interval.
-        // The total that wants to be spent divided by the number of intervals.
-        double goal = this.globalGoal / this.intervalsNr;
-
-        // Set up each interval.
-        for(int i = 0; i < intervalsNr; i++) {
-            // Global days are divided equally for each interval.
-            // Any leftover days are added 1 by 1 to each interval until none are left.
-            int intervalDays = globalIntervalDays / intervalsNr;
-            if(leftoverDays-- > 0) { intervalDays++; }
-
-            // Assign interval to its place in the array.
-            intervals[i] = new Interval(i, intervalDays, goal);
-        }
-
-        // Set up category tracker of intervals;
-        // Intervals are ordered chronologically.
-        // Only intervals that follow an interval solicitor should help with positive overflow.
-        // Therefore, OrderedHandling is set to true.
-        Category[] categoryArray = intervals;
-        ArrayList<Category> categoryList = new ArrayList<Category>(Arrays.asList(categoryArray));
-        tracker = new CategoryTracker(categoryList, history, true);
-    }
-
-    // Updates:
-    // The current day number since the first day of the interval.
-    // The current interval tracked.
-    public void update() {
-        daysProgress = firstDay.differenceInDays(Date.today()) + 1;
-        // Increment current interval until the current day is less than the total amount of days between all intervals tracked so far.
-        while(daysProgress > getIntervalsDays(activeInterval)) {
-            int activeIntervalIndex = getIntervalIndex(activeInterval);
-            if(activeIntervalIndex < 0) { break; } // Break if index indicates an error (should be -1).
-            activeInterval = intervals[activeIntervalIndex + 1];
-        }
-    }
-
-    // The total amount of days between all intervals until target interval inclusively.
-    // Returns int1.days + int2.days + ... + target.days.
-    // EX: Let there be 4 intervals of 5 days each.
-    // EX: If we're halfway through the 3rd interval, method will return 5 + 5 + 5 (15);
-    private int getIntervalsDays(Interval targetInterval) {
-        if ( (targetInterval == null) || (intervals == null) ) { return 0; }
-
-        int intervalsDays = 0;
-        for(int i = 0; i <= getIntervalIndex(targetInterval); i++) {
-            intervalsDays += intervals[i].getDays();
-        }
-        return intervalsDays;
-    }
-
     // Makes payment in category tracker for the right interval.
     // Interval is assigned by payment's date.
     // Adds payment to history.
@@ -237,60 +223,17 @@ public class GoalOrganizer{
         // Protect from duplicate payments.
         if(history.hasTransaction(payment)) { return; }
 
-        Interval interval = getPaymentIntervalByDate(payment);
+        Interval interval = intervalsAnalyzer.getPaymentIntervalByDate(payment);
         if(interval == null) { return; }
 
         tracker.makePayment(interval, payment);
         history.addTransaction(payment);
     }
 
-    // Returns the interval where @payment has been made by its date.
-    private Interval getPaymentIntervalByDate(Payment payment) {
-        int tranValue = payment.getDate().getValue();
-        // If payment's date is older than first day of the global interval,
-        // Or more recent than its last day,
-        // payment is not valid and shouldn't be tracked, return null.
-        if(tranValue < firstDay.getValue()) { return null; }
-        if(tranValue > firstDay.addDays(globalIntervalDays - 1).getValue()) { return null; }
-
-        int intervalIndex = 0; // Index to iterate through intervals
-        // Iterate through pairs of dates representing the first and last day of each interval.
-        Date earlyBoundDate = firstDay;
-        Date lateBoundDate = firstDay.addDays(intervals[0].getDays() - 1);
-        while(true) {
-            Interval interval = intervals[intervalIndex];
-            // If payment's date is in between an interval's date bounds,
-            // Interval where payment has been made was found.
-            if( (earlyBoundDate.getValue() <= tranValue) && (lateBoundDate.getValue() >= tranValue) ) {
-                return interval;
-            }
-
-            if(intervalIndex >= (intervalsNr - 1)) { return null; } // Return null if max index has been reached.
-
-            // Update iteration.
-            intervalIndex++;
-            earlyBoundDate = lateBoundDate.addDays(1);
-            lateBoundDate = lateBoundDate.addDays(intervals[intervalIndex].getDays());
-        }
-    }
-
-    // Returns interval where payment happened by checking each interval's history
-    private Interval getPaymentIntervalByHistory(Payment payment) {
-        if(!history.hasTransaction(payment)) { return null; }
-
-        for(Interval interval : intervals) {
-            if(interval.getHistory().hasTransaction(payment)) {
-                return interval;
-            }
-        }
-
-        return null;
-    }
-
     // Removes payment from the interval where it was made.
     // Removes payment from history.
     public void removePayment(Payment payment) {
-        Interval interval = getPaymentIntervalByHistory(payment);
+        Interval interval = intervalsAnalyzer.getPaymentIntervalByHistory(payment);
         if(interval == null) { return; }
 
         tracker.removePayment(interval, payment);
@@ -305,8 +248,8 @@ public class GoalOrganizer{
         // Compare the interval of the payment by its old date (interval wasn't updated yet)
         // And the interval of the payment by its new date.
         // If intervals are different, remove payment from the old interval and add to new interval.
-        Interval interval = getPaymentIntervalByHistory(payment);
-        Interval newInterval = getPaymentIntervalByDate(payment);
+        Interval interval = intervalsAnalyzer.getPaymentIntervalByHistory(payment);
+        Interval newInterval = intervalsAnalyzer.getPaymentIntervalByDate(payment);
         if(interval == null || newInterval == null) { return; }
         if(!interval.equals(newInterval)) {
             tracker.movePayment(interval, newInterval, payment);
@@ -317,70 +260,40 @@ public class GoalOrganizer{
         tracker.modifyPaymentInInterval(interval, payment, valueDiff);
     }
 
-    // Return index of @interval in intervals.
-    private int getIntervalIndex(Interval interval) {
-        if(intervals == null) { return -1; }
-
-        for(int i = 0; i < intervals.length; i++) {
-            if(interval.equals(intervals[i])) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    // Processes payments in History starting from firstDay;
-    public void makePaymentsFromHistory(History history) {
-        ArrayList<Transaction> transactions = history.getTransactionsFromDate(firstDay);
-        if(transactions.isEmpty()) { return; }
-
-        for(Transaction transaction : transactions) {
-            if( !( transaction instanceof Payment ) ) { continue; }
-            makePayment((Payment) transaction);
-        }
-    }
-
-    // Returns the string to be displayed
-    // In format "Day X in Y - Z";
-    // X: day number since first day of goal organizer (this.daysProgress).
-    // Y - Z: day numbers of first and last days of the active interval.
-    //
-    // If today's date is not between goal organizer's first and last days,
-    // Returns appropriate message.
+    /**
+     * Returns a string in format "Day X in Y - Z" where,
+     * X: day number since first day of goal organizer (this.daysProgress).
+     * Y - Z: day numbers of first and last days of the active interval.
+     * If today's date is not between goal organizer's first and last days,
+     * Returns appropriate message.
+     * @return info about the progress.
+     */
     public String getIntervalsProgress() {
-        // toString with "Day x in y - z: intervalSpent / intervalGoal"
-        int startDaysDifference = firstDay.differenceInDays(Date.today());
-        final String BEFORE_START_DATE = startDaysDifference + " days until next goal";
-        final String AFTER_END_DATE = "Goal time frame has been passed";
-
-        // If Today is older than first day, return status until next goal.
-        if(Date.today().isOlderThan(firstDay)) { return BEFORE_START_DATE; }
-
-        // If today is newer than last day, return warning that goal has been passed.
-        // At this point, we know today is newer than firstDay,
-        // If days since start date are >= goal organizer's time frame, today is newer than last day.
-        boolean isTodayNewerThanLastDay = startDaysDifference >= globalIntervalDays;
-        if(isTodayNewerThanLastDay) { return AFTER_END_DATE; }
-
-        int daysAtIntStart = 1; // How many days have been progressed at interval start day.
-        // If we are at first interval, @daysAtIntStart remains 1.
-        if(getIntervalIndex(activeInterval) != 0) {
-            // If we are not at first interval, calculate how many days have been progressed
-            Interval prevInterval = intervals[getIntervalIndex(activeInterval) - 1]; // The previous interval.
-            daysAtIntStart += getIntervalsDays(prevInterval); // @daysAtIntStart is 1 + the sum of days between preceding intervals.
-        }
-        int daysAtIntEnd = daysAtIntStart + (activeInterval.getDays() - 1); // How many days have been progressed at interval end day.
-
-        return "Day " + daysProgress + " in " + daysAtIntStart + " - " + daysAtIntEnd;
+        return intervalsProgress.getIntervalsProgress();
     }
 
-    // Spending progress of active interval
-    public String getProgress() {
-        return activeInterval.getProgress();
+    /**
+     * Spending progress of current interval.
+     * @return Info about spending progress.
+     */
+    public String getBudgetProgress() {
+        return intervalsProgress.getBudgetProgress();
     }
 
     public double getGlobalGoal() {
         return globalGoal;
+    }
+
+    public IntervalsAnalyzer getIntervalsAnalyzer() {
+        return intervalsAnalyzer;
+    }
+
+    public void setIntervalsAnalyzer(IntervalsAnalyzer intervalsAnalyzer) {
+        this.intervalsAnalyzer = intervalsAnalyzer;
+    }
+
+    public History getHistory() {
+        return history;
     }
 
     public int getGlobalIntervalDays() {
