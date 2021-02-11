@@ -9,8 +9,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
 
 import com.tam.isave.R;
+import com.tam.isave.databinding.RecyclerCategoryRowBinding;
 import com.tam.isave.model.category.Category;
 
 import java.util.List;
@@ -24,25 +26,36 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         this.context = context;
     }
 
+    public static class CategoryHolder extends RecyclerView.ViewHolder{
+
+        RecyclerCategoryRowBinding binding;
+
+        public CategoryHolder(@NonNull RecyclerCategoryRowBinding categoryRowBinding) {
+            super(categoryRowBinding.getRoot());
+            binding = categoryRowBinding;
+        }
+    }
+
     @NonNull
     @Override
     public CategoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View categoryView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycler_category_row, parent, false);
+        RecyclerCategoryRowBinding categoryRowBinding = RecyclerCategoryRowBinding.inflate(
+                LayoutInflater.from(parent.getContext()), parent, false
+        );
 
-        return new CategoryHolder(categoryView);
+        return new CategoryHolder(categoryRowBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CategoryHolder holder, int position) {
         if (categories == null) {
-            holder.nameView.setText(R.string.error);
+            holder.binding.textCategoryName.setText(R.string.error);
             return;
         }
 
         Category category = categories.get(position);
-        holder.nameView.setText(category.getName());
-        holder.progressView.setText(category.getProgress());
+        holder.binding.textCategoryName.setText(category.getName());
+        holder.binding.textCategoryProgress.setText(category.getProgress());
     }
 
     public void setCategories(List<Category> categories) {
@@ -57,42 +70,4 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         return 0;
     }
 
-    public static class CategoryHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-
-        public TextView nameView;
-        public TextView progressView;
-
-        public Button historyButton;
-        public Button editButton;
-        public Button resetButton;
-        public Button deleteButton;
-
-        public CategoryHolder(@NonNull View categoryView) {
-            super(categoryView);
-
-            // Initialize category description views.
-            nameView = categoryView.findViewById(R.id.text_category_name);
-            progressView = categoryView.findViewById(R.id.text_category_progress);
-            // Initialize category controller views.
-            historyButton = categoryView.findViewById(R.id.button_category_history);
-            editButton = categoryView.findViewById(R.id.button_category_edit);
-            resetButton = categoryView.findViewById(R.id.button_category_reset);
-            deleteButton = categoryView.findViewById(R.id.button_category_delete);
-        }
-
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.button_category_history:
-                    break;
-                case R.id.button_category_edit:
-                    break;
-                case R.id.button_category_reset:
-                    break;
-                case R.id.button_category_delete:
-                    break;
-            }
-        }
-
-    }
 }
