@@ -1,13 +1,15 @@
 package com.tam.isave.view;
 
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.Window;
 
 import com.tam.isave.adapter.CategoryAdapter;
 import com.tam.isave.databinding.ActivityHomeBinding;
-import com.tam.isave.model.category.Category;
-import com.tam.isave.utils.DebugUtils;
+import com.tam.isave.databinding.PopupAddCategoryBinding;
 import com.tam.isave.viewmodel.CategoryViewModel;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,28 +52,54 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void initCategoryController(){
-        // Set functionality of add category button.
-        homeBinding.buttonAddCategory.setOnClickListener(view -> addCategory());
-        // Set functionality of menu button.
-        homeBinding.buttonHomeMenu.setOnClickListener(view -> deleteAllCategories());
-
+        // Set functionality of menu button, current functionality is only for testing purposes.
+        homeBinding.buttonHomeMenu.setOnClickListener(listener -> deleteAllCategories());
+        // Functionality of add category button
+        homeBinding.buttonAddCategory.setOnClickListener(listener -> showAddCategoryPopup());
     }
 
     private void deleteAllCategories() {
         categoryViewModel.deleteAll();
     }
 
-    private void addCategory() {
-        DebugUtils.makeToast(this, "added category");
-        Category category = getRandomCategory();
-        categoryViewModel.addCategory(category.getName(), category.getGoal(), category.isFlexibleGoal());
+//    private void addCategory() {
+//        DebugUtils.makeToast(this, "added category");
+//        Category category = getRandomCategory();
+//        categoryViewModel.addCategory(category.getName(), category.getGoal(), category.isFlexibleGoal());
+//    }
+
+//    private Category getRandomCategory() {
+//        int randomGoal = DebugUtils.getRandomIntInRange(150, 800);
+//        Category category = new Category(DebugUtils.getRandomCategoryName(), randomGoal);
+//        category.setSpent(DebugUtils.getRandomDouble(randomGoal));
+//
+//        return category;
+//    }
+
+    private void showAddCategoryPopup() {
+        AlertDialog addCategoryDialog;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        PopupAddCategoryBinding addCategoryBinding = PopupAddCategoryBinding.inflate(getLayoutInflater());
+
+        builder.setView(addCategoryBinding.getRoot());
+        addCategoryDialog = builder.create();
+        addCategoryDialog.setCancelable(true);
+        Window addCategoryWindow = addCategoryDialog.getWindow();
+        addCategoryDialog.getWindow().setGravity(Gravity.BOTTOM);
+
+        addCategoryBinding.buttonAddCategoryCancel.setOnClickListener(listener -> addCategoryDialog.dismiss());
+        addCategoryBinding.buttonAddCategorySubmit.setOnClickListener(listener -> {
+            addNewCategory(addCategoryBinding);
+            addCategoryDialog.dismiss();
+        });
+
+        addCategoryDialog.show();
     }
 
-    private Category getRandomCategory() {
-        int randomGoal = DebugUtils.getRandomIntInRange(150, 800);
-        Category category = new Category(DebugUtils.getRandomCategoryName(), randomGoal);
-        category.setSpent(DebugUtils.getRandomDouble(randomGoal));
-
-        return category;
+    private void addNewCategory(PopupAddCategoryBinding addCategoryBinding) {
+        boolean categoryFlexibility = addCategoryBinding.checkAddCategoryIsFlexible.isChecked();
+        String categoryName = addCategoryBinding.editAddCategoryName.getText().toString();
+        double categoryGoal = Double.parseDouble(addCategoryBinding.editAddCategoryBudget.getText().toString());
+        categoryViewModel.addCategory(categoryName, categoryGoal, categoryFlexibility);
     }
 }
