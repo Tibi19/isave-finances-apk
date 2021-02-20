@@ -8,7 +8,8 @@ public class NumberUtils {
     public static final int TRANSACTION_DAYS_LIMIT = 60; // User should not add transactions older than 2 months.
 
     public static double twoDecimals(double value) {
-        return value - ( Math.signum(value) * (value % 0.01) );
+        int tempValue = (int) (value * 100.0);
+        return tempValue / 100.0;
     }
 
     // Whether parameters are the same with a precision of 2 decimals.
