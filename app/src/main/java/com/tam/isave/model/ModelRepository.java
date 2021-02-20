@@ -41,7 +41,7 @@ package com.tam.isave.model;
 //  X Clean model (X IProgressDisplayable? Many unneeded methods around, but thank yourself from the past for all the comments! Do some more composition)
 //      was left at category tracker inclusive
 //  X Add ViewBinding
-//  Do add category popup
+//  X Do add category popup
 //  Do Fragments
 //  Do Payment
 //  Initialize other part of the model - category tracker, goal organizer etc. maybe save them in database with embedded entities or relational database?
