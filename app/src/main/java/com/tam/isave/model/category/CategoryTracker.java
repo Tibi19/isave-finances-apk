@@ -3,6 +3,7 @@ package com.tam.isave.model.category;
 import com.tam.isave.model.goalorganizer.Interval;
 import com.tam.isave.model.transaction.History;
 import com.tam.isave.model.transaction.Payment;
+import com.tam.isave.view.CategoriesFragment;
 
 import java.util.ArrayList;
 
@@ -82,7 +83,8 @@ public class CategoryTracker {
     // Make payment in payment's parent category.
     public void makePayment(Payment payment) {
         if(payment == null) { return; }
-        makePayment(payment.getParentCategory(), payment, false);
+        Category paymentCategory = getCategoryById(payment.getParentId());
+        makePayment(paymentCategory, payment, false);
     }
 
     /**
@@ -105,9 +107,9 @@ public class CategoryTracker {
     public void removePaymentGlobally(Payment payment) {
         if(payment == null) { return; }
 
-        Category category = payment.getParentCategory();
+        Category category = getCategoryById(payment.getParentId());
         category.removePayment(payment, adapter);
-        history.removeTransaction(payment, true);
+        history.removeTransaction(payment);
     }
 
     /**
@@ -118,8 +120,9 @@ public class CategoryTracker {
     public void modifyPaymentInParent(Payment payment, double valueDiff) {
         if(payment == null) { return; }
         Category origCategory = getPaymentCategoryByHistory(payment);
-        if(movePayment(origCategory, payment.getParentCategory(), payment)) { return; }
-        modifyPayment(payment.getParentCategory(), payment, valueDiff);
+        Category currentParentCategory = getCategoryById(payment.getParentId());
+        if(movePayment(origCategory, currentParentCategory, payment)) { return; }
+        modifyPayment(currentParentCategory, payment, valueDiff);
     }
 
     // Return the category where payment parameter is found.
@@ -187,13 +190,24 @@ public class CategoryTracker {
     // Assigns @category to @payment as its parent category.
     public void assignCategory(Category category, Payment payment) {
         if(payment == null) { return; }
-        payment.setParentCategory(category);
+        payment.setParentId(category.getId());
     }
 
-    // Sets payment's category to null.
+    // Sets payment's parentId to -1.
+    // Payment won't have a parent category anymore.
     public void releaseCategory(Payment payment) {
         if(payment == null) { return; }
-        payment.setParentCategory(null);
+        payment.setParentId(-1);
+    }
+
+    public Category getCategoryById(int categoryId) {
+        for (Category category : categories) {
+            if (category.getId() == categoryId) {
+                return category;
+            }
+        }
+
+        return null;
     }
 
     public ArrayList<Category> getCategories() {

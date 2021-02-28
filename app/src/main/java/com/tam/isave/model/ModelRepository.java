@@ -107,15 +107,15 @@ public class ModelRepository {
      * @param date When the payment took place.
      * @param name The name of the payment.
      * @param value The value of the payment.
-     * @param parentCategory In which category should the payment be tracked.
+     * @param newParentId In which category should the payment be tracked.
      * @param organizable Whether this payment should also be tracked by the goal organizer.
      * @return True if a payment has been created successfully.
      */
-    public boolean newPayment(Date date, String name, double value, Category parentCategory, boolean organizable) {
-        if( (date == null) || (name == null) || (parentCategory == null) ) { return false; }
+    public boolean newPayment(Date date, String name, double value, int newParentId, boolean organizable) {
+        if( (date == null) || (name == null) ) { return false; }
         if(value <= NumberUtils.ZERO_DOUBLE) { return false; }
 
-        Payment payment = new Payment(name, date, value, parentCategory);
+        Payment payment = new Payment(name, date, value, newParentId);
         balance = payment.makeTransaction(balance); // Update balance.
         tracker.makePayment(payment);
 
@@ -235,16 +235,16 @@ public class ModelRepository {
     /**
      * Modifies a payment.
      * @param payment The payment to be modified.
-     * @param newCategory The new parent category of the payment.
+     * @param newParentId The new parent category of the payment.
      * @param newName The new name of the payment.
      * @param newDate The new date when payment happened.
      * @param newValue The new value of the payment.
      */
-    public void modifyPayment(Payment payment, Category newCategory, String newName, Date newDate, double newValue) {
-        if( (payment == null) || (newCategory == null) || (newName == null) || (newDate == null) ) { return; }
+    public void modifyPayment(Payment payment, int newParentId, String newName, Date newDate, double newValue) {
+        if( (payment == null) || (newName == null) || (newDate == null) ) { return; }
         if(newValue <= NumberUtils.ZERO_DOUBLE) { return; }
 
-        double valueDifference = payment.modify(newName, newValue, newDate, newCategory);
+        double valueDifference = payment.modify(newName, newValue, newDate, newParentId);
         tracker.modifyPaymentInParent(payment, valueDifference);
     }
 
