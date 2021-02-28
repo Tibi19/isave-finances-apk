@@ -43,7 +43,11 @@ package com.tam.isave.model;
 //  X Add ViewBinding
 //  X Do add category popup
 //  X Do Fragments
-//  Do Payment data
+//  Annotate Transaction as entity
+//  Do Transaction database and ViewModel
+//  Do Global History XML with history list fragment container
+//  Do History List Fragment with recyclerView (this will be used by multiple History activities for Global history, category history and intervals history)
+//  Do History RecyclerView
 //  Do History integration with payment data
 //  Initialize other part of the model - category tracker, goal organizer etc. maybe save them in database with embedded entities or relational database?
 
