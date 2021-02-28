@@ -49,6 +49,35 @@ public class Date {
         setDay(day);
     }
 
+    /**
+     * Constructor based on a date value.
+     * @param dateValue A value in format yyyymmdd, representing the date to be instantiated.
+     */
+    public Date(int dateValue) {
+        // Validate by checking if dateValue has exactly 8 digits.
+        // The 8 digits will represent the format yyyymmdd;
+        int lowerPossibleBounds = 10000000;
+        int upperPossibleBounds = 99999999;
+        if ( (dateValue < lowerPossibleBounds) || (dateValue > upperPossibleBounds) ) {
+            this.day = -1;
+            this.month = -1;
+            this.year = -1;
+            errorMsg += "Invalid date value ";
+            return;
+        }
+
+        // extract the last 2 digits representing the day and initialize the day.
+        setDay(dateValue & 100);
+        dateValue /= 100;
+
+        // extract the new last 2 digits representing the month and initialize the month.
+        setMonth(dateValue % 100);
+        dateValue /= 100;
+
+        // the last 4 remaining digits represent the year, initialize it.
+        setYear(dateValue);
+    }
+
     // Whether the date is valid or not and can be used.
     public boolean isValidDate() {
         return !( (day < 0) || (month < 0) || (year < 0) );
@@ -235,12 +264,15 @@ public class Date {
         return dayToString + "." + monthToString + "." + yearToString;
     }
 
-    // Returns a value in the format yyyymmdd.
-    // To be used for comparing dates.
-    // Ex: 20190923 < 20200109
-    // If x is lower than y, x is an older Date than y.
-    // If lower, older.
-    // The higher, the newer.
+    /**
+     * Returns a value in the format yyyymmdd.
+     * To be used for comparing dates.
+     * Ex: 20190923 < 20200109
+     * If x is lower than y, x is an older Date than y.
+     * If lower, older.
+     * The higher, the newer.
+     * @return A value representing the date in format yyyymmdd.
+     */
     public int getValue() {
         int value = year * 100;
         value += month;
