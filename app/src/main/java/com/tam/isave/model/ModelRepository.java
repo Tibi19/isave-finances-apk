@@ -42,8 +42,9 @@ package com.tam.isave.model;
 //      was left at category tracker inclusive
 //  X Add ViewBinding
 //  X Do add category popup
-//  Do Fragments
-//  Do Payment
+//  X Do Fragments
+//  Do Payment data
+//  Do History integration with payment data
 //  Initialize other part of the model - category tracker, goal organizer etc. maybe save them in database with embedded entities or relational database?
 
 import android.app.Application;
