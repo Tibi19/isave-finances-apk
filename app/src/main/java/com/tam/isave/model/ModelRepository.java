@@ -50,6 +50,7 @@ package com.tam.isave.model;
 //  Do History RecyclerView
 //  Do History integration with payment data
 //  Initialize other part of the model - category tracker, goal organizer etc. maybe save them in database with embedded entities or relational database?
+//  Fix Scrolling bug
 
 import android.app.Application;
 
