@@ -28,7 +28,7 @@ public abstract class CategoryRoomDatabase extends RoomDatabase {
         synchronized (CategoryRoomDatabase.class) {
             if (INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                        CategoryRoomDatabase.class, Constants.DATABASE_NAME)
+                        CategoryRoomDatabase.class, Constants.CATEGORY_DATABASE)
                         .fallbackToDestructiveMigration()
                         .build();
             }
