@@ -27,18 +27,18 @@ public class Category{
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    @ColumnInfo(name = Constants.COLUMN_NAME)
+    @ColumnInfo(name = Constants.CATEGORY_COLUMN_NAME)
     private String name;
-    @ColumnInfo(name = Constants.COLUMN_SPENT)
+    @ColumnInfo(name = Constants.CATEGORY_COLUMN_SPENT)
     private double spent;
-    @ColumnInfo(name = Constants.COLUMN_GOAL)
+    @ColumnInfo(name = Constants.CATEGORY_COLUMN_GOAL)
     private double goal;
 
-    @ColumnInfo(name = Constants.COLUMN_GOAL_MODIFIER)
+    @ColumnInfo(name = Constants.CATEGORY_COLUMN_GOAL_MODIFIER)
     private double goalModifier;
-    @ColumnInfo(name = Constants.COLUMN_GOAL_PASSED)
+    @ColumnInfo(name = Constants.CATEGORY_COLUMN_GOAL_PASSED)
     private double goalPassed;
-    @ColumnInfo(name = Constants.COLUMN_FLEXIBLE_GOAL)
+    @ColumnInfo(name = Constants.CATEGORY_COLUMN_FLEXIBLE_GOAL)
     private boolean flexibleGoal;
 
     @Ignore
