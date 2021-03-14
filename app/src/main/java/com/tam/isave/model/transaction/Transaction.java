@@ -1,19 +1,32 @@
 package com.tam.isave.model.transaction;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.tam.isave.model.category.Category;
+import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.Date;
 import com.tam.isave.utils.NumberUtils;
 
+@Entity(tableName = Constants.TABLE_NAME_TRANSACTION)
 public class Transaction {
 
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
+    @ColumnInfo(name = Constants.TRANSACTION_COLUMN_NAME)
     private String name;
+    @ColumnInfo(name = Constants.TRANSACTION_COLUMN_VALUE)
     private double value;
+    @Ignore
     private Date date;
 
+    @ColumnInfo(name = Constants.TRANSACTION_COLUMN_DATE_VALUE)
     private int dateValue; // The int representation of this object's date class.
+    @ColumnInfo(name = Constants.TRANSACTION_COLUMN_PARENT_ID)
     private int parentId; // The id of a parent category.
-
-    private int id;
 
     // Database constructor.
     public Transaction() {
