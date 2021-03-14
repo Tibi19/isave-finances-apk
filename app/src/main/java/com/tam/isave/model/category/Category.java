@@ -86,8 +86,8 @@ public class Category{
         if (!history.hasTransaction(payment)) { return; }
 
         history.removeTransaction(payment);
-        if(payment.getParentCategory() == this) {
-            payment.setParentCategory(null);
+        if(payment.getParentId() == id) {
+            payment.setParentId(-1);
         }
         spent -= payment.getAbsValue();
 
