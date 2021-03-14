@@ -43,8 +43,8 @@ package com.tam.isave.model;
 //  X Add ViewBinding
 //  X Do add category popup
 //  X Do Fragments
-//  Annotate Transaction as entity
-//  Do Transaction database and ViewModel
+//  X Annotate Transaction as entity
+//  X Do Transaction database and ViewModel
 //  Do Global History XML with history list fragment container
 //  Do History List Fragment with recyclerView (this will be used by multiple History activities for Global history, category history and intervals history)
 //  Do History RecyclerView
@@ -62,6 +62,7 @@ import com.tam.isave.model.goalorganizer.GoalOrganizer;
 import com.tam.isave.model.transaction.Cashing;
 import com.tam.isave.model.transaction.History;
 import com.tam.isave.model.transaction.Payment;
+import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Date;
 import com.tam.isave.utils.NumberUtils;
 
@@ -106,26 +107,32 @@ public class ModelRepository {
         return dataRepository.getCategories();
     }
 
+    public LiveData<List<Transaction>> getTransactions() {
+        return dataRepository.getTransactions();
+    }
+
     /**
      * Create a new payment.
      * @param date When the payment took place.
      * @param name The name of the payment.
      * @param value The value of the payment.
-     * @param newParentId In which category should the payment be tracked.
+     * @param parentId In which category should the payment be tracked.
      * @param organizable Whether this payment should also be tracked by the goal organizer.
      * @return True if a payment has been created successfully.
      */
-    public boolean newPayment(Date date, String name, double value, int newParentId, boolean organizable) {
+    public boolean newPayment(Date date, String name, double value, int parentId, boolean organizable) {
         if( (date == null) || (name == null) ) { return false; }
         if(value <= NumberUtils.ZERO_DOUBLE) { return false; }
 
-        Payment payment = new Payment(name, date, value, newParentId);
+        Payment payment = new Payment(name, date, value, parentId);
         balance = payment.makeTransaction(balance); // Update balance.
         tracker.makePayment(payment);
 
         if(organizable) {
             organizer.makePayment(payment);
         }
+
+        dataRepository.insertTransaction(payment);
 
         return true;
     }
@@ -147,6 +154,8 @@ public class ModelRepository {
         if(modifiesOrganizer) {
             organizer.modify(organizer.getGlobalGoal() + cashing.getValue());
         }
+
+        dataRepository.insertTransaction(cashing);
 
         return true;
     }
@@ -250,6 +259,13 @@ public class ModelRepository {
 
         double valueDifference = payment.modify(newName, newValue, newDate, newParentId);
         tracker.modifyPaymentInParent(payment, valueDifference);
+        organizer.modifyPayment(payment, valueDifference);
+
+        dataRepository.updateTransaction(payment);
+        Category parentCategory = tracker.getCategoryById(payment.getParentId());
+        if (parentCategory != null) {
+            dataRepository.updateCategory(parentCategory);
+        }
     }
 
     /**
@@ -261,14 +277,34 @@ public class ModelRepository {
         organizer.removePayment(payment);
     }
 
+    public void deleteTransaction(Transaction transaction) {
+        if (transaction == null) { return; }
+
+        if (transaction instanceof Payment) {
+            deletePayment((Payment) transaction);
+        } else if (transaction instanceof Cashing) {
+            deleteCashing((Cashing) transaction);
+        }
+    }
+
     /**
-     * Remove payment from everywhere.
-     * @param payment Payment to be removed.
+     * Delete Payment.
+     * @param payment Payment to be deleted.
      */
-    public void removePaymentGlobally(Payment payment) {
+    public void deletePayment(Payment payment) {
         if(payment == null) { return; }
         organizer.removePayment(payment);
         tracker.removePaymentGlobally(payment);
+        dataRepository.deleteTransaction(payment);
+    }
+
+    /**
+     * Delete Cashing.
+     * @param cashing Payment to be deleted.
+     */
+    public void deleteCashing(Cashing cashing) {
+        if(cashing == null) { return; }
+        dataRepository.deleteTransaction(cashing);
     }
 
     /**
