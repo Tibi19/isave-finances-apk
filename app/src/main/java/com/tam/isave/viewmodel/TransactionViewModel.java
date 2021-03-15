@@ -16,16 +16,22 @@ import java.util.List;
 public class TransactionViewModel extends AndroidViewModel {
 
     private ModelRepository modelRepository;
-    private LiveData<List<Transaction>> transactions;
 
     public TransactionViewModel(@NonNull Application application) {
         super(application);
         modelRepository = ModelRepository.getModelRepository(application);
-        transactions = modelRepository.getTransactions();
     }
 
     public LiveData<List<Transaction>> getTransactions() {
-        return transactions;
+        return modelRepository.getTransactions();
+    }
+
+    public LiveData<List<Transaction>> getCategoryTransactions(int categoryId) {
+        return modelRepository.getCategoryTransactions(categoryId);
+    }
+
+    public LiveData<List<Transaction>> getIntervalTransactions(int startDateValue, int endDateValue) {
+        return modelRepository.getIntervalTransactions(startDateValue, endDateValue);
     }
 
     public void addPayment(Date date, String name, double value, int parentId, boolean organizable) {

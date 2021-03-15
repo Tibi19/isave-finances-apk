@@ -45,9 +45,11 @@ package com.tam.isave.model;
 //  X Do Fragments
 //  X Annotate Transaction as entity
 //  X Do Transaction database and ViewModel
-//  Do Global History XML with history list fragment container
-//  Do History List Fragment with recyclerView (this will be used by multiple History activities for Global history, category history and intervals history)
-//  Do History RecyclerView
+//  X Do Global History XML with history list fragment container
+//  X Do History List Fragment with recyclerView (this will be used by multiple History activities for Global history, category history and intervals history)
+//  X Do History RecyclerView
+//  Do History Activity
+//  Do Add Payment
 //  Do History integration with payment data
 //  Initialize other part of the model - category tracker, goal organizer etc. maybe save them in database with embedded entities or relational database?
 //  Fix Scrolling bug
@@ -110,6 +112,14 @@ public class ModelRepository {
 
     public LiveData<List<Transaction>> getTransactions() {
         return dataRepository.getTransactions();
+    }
+
+    public LiveData<List<Transaction>> getCategoryTransactions(int categoryId) {
+        return dataRepository.getCategoryTransactions(categoryId);
+    }
+
+    public LiveData<List<Transaction>> getIntervalTransactions(int startDateValue, int endDateValue) {
+        return dataRepository.getIntervalTransactions(startDateValue, endDateValue);
     }
 
     /**
