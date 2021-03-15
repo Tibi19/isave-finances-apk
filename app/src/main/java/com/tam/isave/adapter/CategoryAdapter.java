@@ -40,8 +40,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public CategoryHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerCategoryRowBinding categoryRowBinding = RecyclerCategoryRowBinding.inflate(
-                LayoutInflater.from(parent.getContext()), parent, false
-        );
+                LayoutInflater.from(parent.getContext()), parent, false);
 
         return new CategoryHolder(categoryRowBinding);
     }
@@ -65,8 +64,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
     @Override
     public int getItemCount() {
-        if (categories != null)
+        if (categories != null) {
             return categories.size();
+        }
         return 0;
     }
 
