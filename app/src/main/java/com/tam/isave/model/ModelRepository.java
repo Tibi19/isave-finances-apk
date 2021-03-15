@@ -48,6 +48,7 @@ package com.tam.isave.model;
 //  X Do Global History XML with history list fragment container
 //  X Do History List Fragment with recyclerView (this will be used by multiple History activities for Global history, category history and intervals history)
 //  X Do History RecyclerView
+//  Do History Fragment
 //  Do History Activity
 //  Do Add Payment
 //  Do History integration with payment data
