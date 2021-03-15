@@ -15,7 +15,6 @@ public class DataRepository {
     private LiveData<List<Category>> categories;
 
     private TransactionDao transactionDao;
-    private LiveData<List<Transaction>> transactions;
 
     public DataRepository(Application application) {
         CategoryRoomDatabase categoryDatabase = CategoryRoomDatabase.getDatabase(application);
@@ -24,7 +23,6 @@ public class DataRepository {
 
         TransactionRoomDatabase transactionDatabase = TransactionRoomDatabase.getDatabase(application);
         transactionDao = transactionDatabase.transactionDao();
-        transactions = transactionDao.getTransactions();
     }
 
     public LiveData<List<Category>> getCategories() {
@@ -32,104 +30,66 @@ public class DataRepository {
     }
 
     public void insertCategory(final Category category) {
-        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(new Runnable() {
-            @Override
-            public void run() {
-                categoryDao.insert(category);
-            }
-        });
+        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(() -> categoryDao.insert(category));
     }
 
     public void updateCategory(final Category category) {
-        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(new Runnable() {
-            @Override
-            public void run() {
-                categoryDao.update(category);
-            }
-        });
+        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(() -> categoryDao.update(category));
     }
 
     public void updateAllCategories(final List<Category> categories) {
-        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(new Runnable() {
-            @Override
-            public void run() {
-                // A temporary category array;
-                // To be used for converting categories list into an array.
-                Category[] tempCategoryArray = new Category[categories.size()];
-                // Convert categories list to an array and pass to dao update.
-                categoryDao.update(categories.toArray(tempCategoryArray));
-            }
+        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(() -> {
+            // A temporary category array;
+            // To be used for converting categories list into an array.
+            Category[] tempCategoryArray = new Category[categories.size()];
+            // Convert categories list to an array and pass to dao update.
+            categoryDao.update(categories.toArray(tempCategoryArray));
         });
     }
 
     public void deleteCategory(final Category category) {
-        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(new Runnable() {
-            @Override
-            public void run() {
-                categoryDao.delete(category);
-            }
-        });
+        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(() -> categoryDao.delete(category));
     }
 
     public void deleteAllCategories() {
-        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(new Runnable() {
-            @Override
-            public void run() {
-                categoryDao.deleteAll();
-            }
-        });
+        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(() -> categoryDao.deleteAll());
     }
 
     public LiveData<List<Transaction>> getTransactions() {
-        return transactions;
+        return transactionDao.getTransactions();
+    }
+
+    public LiveData<List<Transaction>> getCategoryTransactions(int categoryId) {
+        return transactionDao.getCategoryTransactions(categoryId);
+    }
+
+    public LiveData<List<Transaction>> getIntervalTransactions(int startDateValue, int endDateValue) {
+        return transactionDao.getIntervalTransactions(startDateValue, endDateValue);
     }
 
     public void insertTransaction(final Transaction transaction) {
-        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(new Runnable() {
-            @Override
-            public void run() {
-                transactionDao.insert(transaction);
-            }
-        });
+        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(() -> transactionDao.insert(transaction));
     }
 
     public void updateTransaction(final Transaction transaction) {
-        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(new Runnable() {
-            @Override
-            public void run() {
-                transactionDao.update(transaction);
-            }
-        });
+        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(() -> transactionDao.update(transaction));
     }
 
     public void updateAllTransactions(final List<Transaction> transactions) {
-        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(new Runnable() {
-            @Override
-            public void run() {
-                // A temporary transactions array;
-                // To be used for converting transactions list into an array.
-                Transaction[] tempTransactionArray = new Transaction[transactions.size()];
-                // Convert transactions list to an array and pass to dao update.
-                transactionDao.update(transactions.toArray(tempTransactionArray));
-            }
+        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(() -> {
+            // A temporary transactions array;
+            // To be used for converting transactions list into an array.
+            Transaction[] tempTransactionArray = new Transaction[transactions.size()];
+            // Convert transactions list to an array and pass to dao update.
+            transactionDao.update(transactions.toArray(tempTransactionArray));
         });
     }
 
     public void deleteTransaction(final Transaction transaction) {
-        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(new Runnable() {
-            @Override
-            public void run() {
-                transactionDao.delete(transaction);
-            }
-        });
+        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(() -> transactionDao.delete(transaction));
     }
 
     public void deleteAllTransactions() {
-        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(new Runnable() {
-            @Override
-            public void run() {
-                transactionDao.deleteAll();
-            }
-        });
+        CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(() -> transactionDao.deleteAll());
     }
 }
