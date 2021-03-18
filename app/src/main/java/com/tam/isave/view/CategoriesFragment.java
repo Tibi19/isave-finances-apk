@@ -47,7 +47,6 @@ public class CategoriesFragment extends Fragment {
         categoryAdapter = new CategoryAdapter(getContext());
         // Set recycler's adapter.
         categoryRecycler.setAdapter(categoryAdapter);
-        categoryRecycler.setAdapter(categoryAdapter);
         // Set recycler's layout manager.
         categoryRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
     }
