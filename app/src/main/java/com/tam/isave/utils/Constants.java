@@ -27,4 +27,10 @@ public class Constants {
     public final static String TRANSACTION_COLUMN_VALUE = "value";
     public final static String TRANSACTION_COLUMN_DATE_VALUE = "date_value";
     public final static String TRANSACTION_COLUMN_PARENT_ID = "parent_id";
+
+    // Bundle Keys
+    public static final String KEY_HISTORY_TYPE = "history_type_key";
+    public static final String KEY_CATEGORY_ID = "category_id_key";
+    public static final String KEY_START_DATE_VALUE = "start_date_value_key";
+    public static final String KEY_END_DATE_VALUE = "end_date_value_key";
 }
