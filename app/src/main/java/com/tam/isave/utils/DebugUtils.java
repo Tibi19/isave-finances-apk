@@ -7,11 +7,14 @@ import java.util.Random;
 
 public class DebugUtils {
 
+    public static int toastedIterations = 0;
+
     public static String categoryNames[] = {"Groceries", "Toys", "Clothing", "Sweets", "Notebooks", "Extra", "Health",
             "Hygiene", "Learning", "Self-Development", "Others", "Going out", "Take out", "Tobacco"};
     public static Random random = new Random();
 
     public static void makeToast(Context context, String text) {
+        text += toastedIterations++;
         Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 
