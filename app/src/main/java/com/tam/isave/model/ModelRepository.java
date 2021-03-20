@@ -49,10 +49,12 @@ package com.tam.isave.model;
 //  X Do History List Fragment with recyclerView (this will be used by multiple History activities for Global history, category history and intervals history)
 //  X Do History RecyclerView
 //  X Do History Fragment
-//  Do History Activity
-//  Do Add Payment
+//  X Do History Activity
+//  Do Add Payment (see more in HomeActivity)
+//  Make get transactions method in transaction dao return elements inversely ordered by datevalue
 //  Do History integration with payment data
 //  Initialize other part of the model - category tracker, goal organizer etc. maybe save them in database with embedded entities or relational database?
+//  Make HistoryIdentifier parcelable and pass it through bundle to the history fragment
 //  Fix Scrolling bug
 
 import android.app.Application;
