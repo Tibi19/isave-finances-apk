@@ -32,6 +32,33 @@ public class HistoryFragment extends Fragment {
     private TransactionViewModel transactionViewModel;
     private HistoryIdentifier historyIdentifier;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setupHistoryIdentifier();
+    }
+
+    private void setupHistoryIdentifier() {
+        Bundle args = getArguments();
+        if (args == null) { return; }
+
+        String historyType = args.getString(Constants.KEY_HISTORY_TYPE);
+        switch(Objects.requireNonNull(historyType)) {
+            case HistoryIdentifier.HISTORY_TYPE_GLOBAL:
+                this.historyIdentifier = new HistoryIdentifier();
+                break;
+            case HistoryIdentifier.HISTORY_TYPE_CATEGORY:
+                int categoryId = args.getInt(Constants.KEY_CATEGORY_ID);
+                this.historyIdentifier = new HistoryIdentifier(categoryId);
+                break;
+            case HistoryIdentifier.HISTORY_TYPE_INTERVAL:
+                int startDateValue = args.getInt(Constants.KEY_START_DATE_VALUE);
+                int endDateValue = args.getInt(Constants.KEY_END_DATE_VALUE);
+                this.historyIdentifier = new HistoryIdentifier(startDateValue, endDateValue);
+                break;
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,29 +69,8 @@ public class HistoryFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupHistoryIdentifier(savedInstanceState);
         setupHistoryAdapter();
         setupTransactionViewModel();
-    }
-
-    private void setupHistoryIdentifier(Bundle savedInstanceState) {
-        if (savedInstanceState == null) { return; }
-
-        String historyType = savedInstanceState.getString(Constants.KEY_HISTORY_TYPE);
-        switch(Objects.requireNonNull(historyType)) {
-            case HistoryIdentifier.HISTORY_TYPE_GLOBAL:
-                this.historyIdentifier = new HistoryIdentifier();
-                break;
-            case HistoryIdentifier.HISTORY_TYPE_CATEGORY:
-                int categoryId = savedInstanceState.getInt(Constants.KEY_CATEGORY_ID);
-                this.historyIdentifier = new HistoryIdentifier(categoryId);
-                break;
-            case HistoryIdentifier.HISTORY_TYPE_INTERVAL:
-                int startDateValue = savedInstanceState.getInt(Constants.KEY_START_DATE_VALUE);
-                int endDateValue = savedInstanceState.getInt(Constants.KEY_END_DATE_VALUE);
-                this.historyIdentifier = new HistoryIdentifier(startDateValue, endDateValue);
-                break;
-        }
     }
 
     private void setupHistoryAdapter() {
@@ -78,6 +84,8 @@ public class HistoryFragment extends Fragment {
     }
 
     private void setupTransactionViewModel() {
+        if(historyIdentifier == null) { return; }
+
         transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
         // Setup Observer depending on history type.
         switch(historyIdentifier.getHistoryType()) {
