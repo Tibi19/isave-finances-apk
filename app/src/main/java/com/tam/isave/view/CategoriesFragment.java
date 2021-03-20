@@ -36,33 +36,28 @@ public class CategoriesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupCategoryController();
+        categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+        setupCategoriesController();
         setupCategoryRecycler();
-        setupCategoryViewModel();
+        categoryViewModel.getCategories().observe(getViewLifecycleOwner(), categories ->
+                categoryAdapter.setCategories(categories));
     }
 
     private void setupCategoryRecycler() {
         // Instantiate recyclerview and its adapter.
         RecyclerView categoryRecycler = binding.recyclerCategory;
         categoryAdapter = new CategoryAdapter(getContext());
+        // Give adapter the method for deleting Category data.
+        categoryAdapter.setDeleteItemData( (category) -> categoryViewModel.deleteCategory(category) );
         // Set recycler's adapter.
         categoryRecycler.setAdapter(categoryAdapter);
         // Set recycler's layout manager.
         categoryRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    private void setupCategoryViewModel() {
-        categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
-        // Observer
-        categoryViewModel.getCategories().observe(getViewLifecycleOwner(), categories ->
-                categoryAdapter.setCategories(categories));
-    }
-
-    private void setupCategoryController(){
+    private void setupCategoriesController(){
         // Functionality of add category button
         binding.buttonAddCategory.setOnClickListener(listener -> showAddCategoryPopup());
-        // Set functionality of menu button, current functionality is only for testing purposes.
-        getActivity().findViewById(R.id.button_home_menu).setOnClickListener(listener -> categoryViewModel.deleteAll());
     }
 
     private void showAddCategoryPopup() {

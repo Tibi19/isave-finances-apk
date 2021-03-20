@@ -2,25 +2,23 @@ package com.tam.isave.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewbinding.ViewBinding;
 
 import com.tam.isave.R;
 import com.tam.isave.databinding.RecyclerCategoryRowBinding;
 import com.tam.isave.model.category.Category;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryHolder> {
 
     private Context context;
     private List<Category> categories;
+    private Consumer<Category> deleteItemData;
 
     public CategoryAdapter(Context context) {
         this.context = context;
@@ -55,6 +53,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         Category category = categories.get(position);
         holder.binding.textCategoryName.setText(category.getName());
         holder.binding.textCategoryProgress.setText(category.getProgress());
+        holder.binding.buttonCategoryDelete.setOnClickListener( deleteData -> deleteItemData.accept(categories.get(position)) );
+    }
+
+    public void setDeleteItemData(Consumer<Category> callback) {
+        deleteItemData = callback;
     }
 
     public void setCategories(List<Category> categories) {
