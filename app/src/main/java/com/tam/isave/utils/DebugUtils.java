@@ -7,6 +7,8 @@ import java.util.Random;
 
 public class DebugUtils {
 
+    public static Context context;
+
     public static int toastedIterations = 0;
 
     public static String categoryNames[] = {"Groceries", "Toys", "Clothing", "Sweets", "Notebooks", "Extra", "Health",
@@ -14,8 +16,12 @@ public class DebugUtils {
     public static Random random = new Random();
 
     public static void makeToast(Context context, String text) {
-        text += toastedIterations++;
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+        text += (" toastCount " + toastedIterations++);
+        Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+    }
+
+    public static void makeToast(String text) {
+        makeToast(context, text);
     }
 
     public static String getRandomCategoryName() {
