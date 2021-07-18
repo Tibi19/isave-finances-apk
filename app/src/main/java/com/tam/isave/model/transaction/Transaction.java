@@ -1,5 +1,7 @@
 package com.tam.isave.model.transaction;
 
+import android.util.Log;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -8,6 +10,7 @@ import androidx.room.PrimaryKey;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.Date;
+import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.NumberUtils;
 
 @Entity(tableName = Constants.TABLE_NAME_TRANSACTION)
@@ -29,9 +32,7 @@ public class Transaction {
     private int parentId; // The id of a parent category.
 
     // Database constructor.
-    public Transaction() {
-        this.date = new Date(dateValue);
-    }
+    public Transaction() { }
 
     // Constructor for transactions belonging to a category.
     public Transaction(String name, double value, Date date, int parentId) {
@@ -93,6 +94,7 @@ public class Transaction {
     }
 
     public Date getDate() {
+        if (date == null) { date = new Date(dateValue); }
         return date;
     }
 
