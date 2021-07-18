@@ -1,5 +1,7 @@
 package com.tam.isave.utils;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import java.util.Calendar;
@@ -44,6 +46,29 @@ public class Date {
     }
 
     public Date(int day, int month, int year) {
+        setDate(day, month, year);
+    }
+
+    public Date(String stringDate) {
+        String[] dateStrings = stringDate.split("\\.");
+        if (dateStrings.length != 3) {
+            day = -1;
+            month = -1;
+            year = -1;
+            errorMsg += "Invalid Date Format";
+            return;
+        }
+
+        int day = Integer.parseInt(dateStrings[0]);
+        int month = Integer.parseInt(dateStrings[1]);
+        int year = Integer.parseInt(dateStrings[2]);
+
+        setDate(day, month, year);
+    }
+
+    // Method to be used for initializing date, rather than using setYear, setMonth and setDay separately.
+    private void setDate(int day, int month, int year) {
+        // Year and month have to be initialized first, because setDay calls them.
         setYear(year);
         setMonth(month);
         setDay(day);
@@ -66,16 +91,16 @@ public class Date {
             return;
         }
 
-        // extract the last 2 digits representing the day and initialize the day.
-        setDay(dateValue & 100);
+        // extract the last 2 digits representing the day.
+        int day = dateValue % 100;
         dateValue /= 100;
-
-        // extract the new last 2 digits representing the month and initialize the month.
-        setMonth(dateValue % 100);
+        // extract the new last 2 digits representing the month.
+        int month = dateValue % 100;
         dateValue /= 100;
+        // the last 4 remaining digits represent the year.
+        int year = dateValue;
 
-        // the last 4 remaining digits represent the year, initialize it.
-        setYear(dateValue);
+        setDate(day, month, year);
     }
 
     // Whether the date is valid or not and can be used.
@@ -256,9 +281,11 @@ public class Date {
     @NonNull
     @Override
     public String toString() {
+        if (day == -1 || month == -1 || year == -1) { return errorMsg; }
+
         String dayToString = ( (day < 10) ? "0" : "" ) + day;
         String monthToString = ( (month < 10) ? "0" : "" ) + month;
-        String yearToString = "" + (year & 100);
+        String yearToString = "" + year;
 
         // Returns date in format "dd.mm.yy".
         return dayToString + "." + monthToString + "." + yearToString;
