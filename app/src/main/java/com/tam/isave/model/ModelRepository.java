@@ -50,8 +50,9 @@ package com.tam.isave.model;
 //  X Do History RecyclerView
 //  X Do History Fragment
 //  X Do History Activity
-//  Do Add Payment (see more in HomeActivity)
-//  Make get transactions method in transaction dao return elements inversely ordered by datevalue
+//  X Do Add Payment (see more in HomeActivity)
+//  !Add changes to github when you have internet
+//  !Make get transactions method in transaction dao return elements inversely ordered by datevalue
 //  Do History integration with payment data
 //  Initialize other part of the model - category tracker, goal organizer etc. maybe save them in database with embedded entities or relational database?
 //  Make HistoryIdentifier parcelable and pass it through bundle to the history fragment
@@ -70,6 +71,7 @@ import com.tam.isave.model.transaction.History;
 import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Date;
+import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.NumberUtils;
 
 import java.util.ArrayList;
@@ -94,7 +96,7 @@ public class ModelRepository {
     }
 
     public ModelRepository(Application application) {
-        setupOrganizer();
+        //setupOrganizer();
         setupTracker();
         dataRepository = new DataRepository(application);
     }
@@ -142,7 +144,7 @@ public class ModelRepository {
         balance = payment.makeTransaction(balance); // Update balance.
         tracker.makePayment(payment);
 
-        if(organizable) {
+        if(organizable && organizer != null) {
             organizer.makePayment(payment);
         }
 
@@ -165,7 +167,7 @@ public class ModelRepository {
         Cashing cashing = new Cashing(name, date, value);
         balance = cashing.makeTransaction(balance);
 
-        if(modifiesOrganizer) {
+        if(modifiesOrganizer && organizer != null) {
             organizer.modify(organizer.getGlobalGoal() + cashing.getValue());
         }
 
@@ -185,6 +187,7 @@ public class ModelRepository {
     public boolean modifyGoalOrganizer(Date newStart, Date newEnd, int newIntervalsNr, double newGoal) {
         if ( (newStart == null) || (newEnd == null) || (newIntervalsNr <= 0) ) { return false; }
         if (newGoal <= NumberUtils.ZERO_DOUBLE) { return false; }
+        if (organizer == null) { return false; }
 
         organizer.modify(newGoal, newIntervalsNr, newStart, newEnd);
         return true;
@@ -211,6 +214,7 @@ public class ModelRepository {
      * Reset the progress of the goal organizer.
      */
     public void resetGoalOrganizer() {
+        if (organizer == null) { return; }
         organizer.reset();
     }
 
@@ -272,11 +276,17 @@ public class ModelRepository {
         if(newValue <= NumberUtils.ZERO_DOUBLE) { return; }
 
         double valueDifference = payment.modify(newName, newValue, newDate, newParentId);
-        tracker.modifyPaymentInParent(payment, valueDifference);
-        organizer.modifyPayment(payment, valueDifference);
+        Category parentCategory = null;
+        if (tracker != null) {
+            tracker.modifyPaymentInParent(payment, valueDifference);
+            parentCategory = tracker.getCategoryById(payment.getParentId());
+        }
+        if (organizer != null) {
+            organizer.modifyPayment(payment, valueDifference);
+        }
 
         dataRepository.updateTransaction(payment);
-        Category parentCategory = tracker.getCategoryById(payment.getParentId());
+
         if (parentCategory != null) {
             dataRepository.updateCategory(parentCategory);
         }
@@ -287,7 +297,7 @@ public class ModelRepository {
      * @param payment Payment to be removed.
      */
     public void removePaymentFromOrganizer(Payment payment) {
-        if(payment == null) { return; }
+        if(payment == null || organizer == null) { return; }
         organizer.removePayment(payment);
     }
 
@@ -307,8 +317,8 @@ public class ModelRepository {
      */
     public void deletePayment(Payment payment) {
         if(payment == null) { return; }
-        organizer.removePayment(payment);
-        tracker.removePaymentGlobally(payment);
+        if(organizer != null) { organizer.removePayment(payment); }
+        if(tracker != null) { tracker.removePaymentGlobally(payment); }
         dataRepository.deleteTransaction(payment);
     }
 
