@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.view.Gravity;
 
 import com.tam.isave.databinding.ActivityHomeBinding;
-import com.tam.isave.databinding.PopupAddCategoryBinding;
 import com.tam.isave.databinding.PopupAddPaymentBinding;
+import com.tam.isave.model.category.Category;
+import com.tam.isave.utils.CategoryUtils;
+import com.tam.isave.utils.Date;
+import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.viewmodel.CategoryViewModel;
 import com.tam.isave.viewmodel.TransactionViewModel;
 
@@ -24,6 +27,8 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Initialize the context of DebugUtils only for debug purposes.
+        DebugUtils.context = this;
         homeBinding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(homeBinding.getRoot());
 
@@ -58,23 +63,35 @@ public class HomeActivity extends AppCompatActivity {
         addTransactionDialog.setCancelable(true);
         addTransactionDialog.getWindow().setGravity(Gravity.BOTTOM);
 
+        EditTextDatePicker.build(this, addPaymentBinding.etAddPaymentDate);
+        CategorySpinnerPicker.build(this, addPaymentBinding.spinAddPaymentCategories, categoryViewModel.getCategories().getValue());
+
         addPaymentBinding.buttonAddPaymentyCancel.setOnClickListener(listener -> addTransactionDialog.dismiss());
         addPaymentBinding.buttonAddPaymentSubmit.setOnClickListener(listener -> {
             addNewPayment(addPaymentBinding);
             addTransactionDialog.dismiss();
         });
-        //TODO setup datePicker: https://stackoverflow.com/questions/14933330/datepicker-how-to-popup-datepicker-when-click-on-edittext
-        //TODO setup categories dropdown: https://developer.android.com/guide/topics/ui/controls/spinner
 
         addTransactionDialog.show();
     }
 
     private void addNewPayment(PopupAddPaymentBinding addPaymentBinding) {
-        boolean paymentIsOrganizable = addPaymentBinding.checkAddPaymentIsOrganizable.isChecked();
+        boolean organizablePayment = addPaymentBinding.checkAddPaymentIsOrganizable.isChecked();
+
         String paymentName = addPaymentBinding.editAddPaymentName.getText().toString();
-        double paymentValue = Double.parseDouble(addPaymentBinding.editAddPaymentValue.getText().toString());
-        //TODO get date from datePicker
-        //TODO get parent category from dropDownList
+
+        String paymentValueString = addPaymentBinding.editAddPaymentValue.getText().toString();
+        double paymentValue = paymentValueString.isEmpty() ? 0.0 : Double.parseDouble(paymentValueString);
+
+        Date paymentDate = new Date(addPaymentBinding.etAddPaymentDate.getText().toString());
+
+        String categoryName = addPaymentBinding.spinAddPaymentCategories.getSelectedItem().toString();
+        Category category = CategoryUtils.getCategoryByName(categoryViewModel.getCategories().getValue(), categoryName);
+        if (category == null) { return; }
+
+        transactionViewModel.addPayment(paymentDate, paymentName, paymentValue, category.getId(), organizablePayment);
+        //X TODO get date from datePicker
+        //X TODO get parent category from dropDownList
         //TODO add payment through transactionViewModel
     }
 
