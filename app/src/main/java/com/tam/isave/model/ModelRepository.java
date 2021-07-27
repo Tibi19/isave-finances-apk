@@ -51,11 +51,16 @@ package com.tam.isave.model;
 //  X Do History Fragment
 //  X Do History Activity
 //  X Do Add Payment (see more in HomeActivity)
-//  !Add changes to github when you have internet
-//  !Make get transactions method in transaction dao return elements inversely ordered by datevalue
-//  Do History integration with payment data
+//  X !Add changes to github when you have internet
+//  X Make get transactions method in transaction dao return elements inversely ordered by datevalue
+//  X Do History integration with payment data
+//  Do history payment buttons (see design)
+//      - Transaction delete not working, stops in model repo at delete transaction, payment is not an instance of transaction after queried from database
+//      - Redo delete transaction, maybe add separate delete cashing method
+// TODO
+//  Do category histories
 //  Initialize other part of the model - category tracker, goal organizer etc. maybe save them in database with embedded entities or relational database?
-//  Make HistoryIdentifier parcelable and pass it through bundle to the history fragment
+//  Make HistoryIdentifier parcelable and pass it through bundle to the history fragment?
 //  Fix Scrolling bug
 
 import android.app.Application;
@@ -306,6 +311,7 @@ public class ModelRepository {
 
         if (transaction instanceof Payment) {
             deletePayment((Payment) transaction);
+            DebugUtils.makeToast("In instanceof check");
         } else if (transaction instanceof Cashing) {
             deleteCashing((Cashing) transaction);
         }
