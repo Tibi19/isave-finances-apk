@@ -9,15 +9,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tam.isave.R;
 import com.tam.isave.databinding.RecyclerHistoryRowBinding;
+import com.tam.isave.model.category.Category;
+import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.NumberUtils;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryHolder>{
 
     private Context context;
     private List<Transaction> transactions;
+    private Consumer<Transaction> deleteItemData;
+    private Consumer<Transaction> editItemData;
 
     public HistoryAdapter(Context context) {
         this.context = context;
@@ -54,6 +59,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
         String transactionValueString = String.valueOf(NumberUtils.twoDecimals(transaction.getValue()));
         holder.binding.textTransactionValue.setText(transactionValueString);
         holder.binding.textTransactionDate.setText(transaction.getDate().toString());
+        holder.binding.buttonTransactionDelete.setOnClickListener( deleteData -> deleteItemData.accept(transactions.get(position)) );
+    }
+
+    public void setDeleteItemData(Consumer<Transaction> callback) {
+        deleteItemData = callback;
     }
 
     public void setTransactions(List<Transaction> transactions) {
