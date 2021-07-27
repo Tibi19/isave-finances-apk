@@ -68,31 +68,11 @@ public class HomeActivity extends AppCompatActivity {
 
         addPaymentBinding.buttonAddPaymentyCancel.setOnClickListener(listener -> addTransactionDialog.dismiss());
         addPaymentBinding.buttonAddPaymentSubmit.setOnClickListener(listener -> {
-            addNewPayment(addPaymentBinding);
+            transactionViewModel.addPayment(addPaymentBinding, categoryViewModel);
             addTransactionDialog.dismiss();
         });
 
         addTransactionDialog.show();
-    }
-
-    private void addNewPayment(PopupAddPaymentBinding addPaymentBinding) {
-        boolean organizablePayment = addPaymentBinding.checkAddPaymentIsOrganizable.isChecked();
-
-        String paymentName = addPaymentBinding.editAddPaymentName.getText().toString();
-
-        String paymentValueString = addPaymentBinding.editAddPaymentValue.getText().toString();
-        double paymentValue = paymentValueString.isEmpty() ? 0.0 : Double.parseDouble(paymentValueString);
-
-        Date paymentDate = new Date(addPaymentBinding.etAddPaymentDate.getText().toString());
-
-        String categoryName = addPaymentBinding.spinAddPaymentCategories.getSelectedItem().toString();
-        Category category = CategoryUtils.getCategoryByName(categoryViewModel.getCategories().getValue(), categoryName);
-        if (category == null) { return; }
-
-        transactionViewModel.addPayment(paymentDate, paymentName, paymentValue, category.getId(), organizablePayment);
-        //X TODO get date from datePicker
-        //X TODO get parent category from dropDownList
-        //TODO add payment through transactionViewModel
     }
 
     private void startCategoriesTransaction() {

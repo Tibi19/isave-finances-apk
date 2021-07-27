@@ -6,9 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.tam.isave.databinding.PopupAddPaymentBinding;
 import com.tam.isave.model.ModelRepository;
+import com.tam.isave.model.category.Category;
 import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.model.transaction.Transaction;
+import com.tam.isave.utils.CategoryUtils;
 import com.tam.isave.utils.Date;
 
 import java.util.List;
@@ -34,8 +37,21 @@ public class TransactionViewModel extends AndroidViewModel {
         return modelRepository.getIntervalTransactions(startDateValue, endDateValue);
     }
 
-    public void addPayment(Date date, String name, double value, int parentId, boolean organizable) {
-        modelRepository.newPayment(date, name, value, parentId, organizable);
+    public void addPayment(PopupAddPaymentBinding addPaymentBinding, CategoryViewModel categoryViewModel) {
+        boolean organizablePayment = addPaymentBinding.checkAddPaymentIsOrganizable.isChecked();
+
+        String paymentName = addPaymentBinding.editAddPaymentName.getText().toString();
+
+        String paymentValueString = addPaymentBinding.editAddPaymentValue.getText().toString();
+        double paymentValue = paymentValueString.isEmpty() ? 0.0 : Double.parseDouble(paymentValueString);
+
+        Date paymentDate = new Date(addPaymentBinding.etAddPaymentDate.getText().toString());
+
+        String categoryName = addPaymentBinding.spinAddPaymentCategories.getSelectedItem().toString();
+        Category category = CategoryUtils.getCategoryByName(categoryViewModel.getCategories().getValue(), categoryName);
+        if (category == null) { return; }
+
+        modelRepository.newPayment(paymentDate, paymentName, paymentValue, category.getId(), organizablePayment);
     }
 
     public void addCashing(Date date, String name, double value, boolean modifiesOrganizer) {
