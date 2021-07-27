@@ -69,14 +69,16 @@ public class HistoryFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupHistoryAdapter();
         setupTransactionViewModel();
+        setupHistoryAdapter();
     }
 
     private void setupHistoryAdapter() {
         // Instantiate recyclerview and its adapter.
         RecyclerView historyRecycler = binding.recyclerHistory;
         historyAdapter = new HistoryAdapter(getContext());
+        // Give adapter the methods for editing and deleting transaction data.
+        historyAdapter.setDeleteItemData( (transaction) -> transactionViewModel.deleteTransaction(transaction) );
         // Set recycler's adapter.
         historyRecycler.setAdapter(historyAdapter);
         // Set recycler's layout manager.
