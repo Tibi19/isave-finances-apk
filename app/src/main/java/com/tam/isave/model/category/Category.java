@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey;
 
 import com.tam.isave.model.transaction.History;
 import com.tam.isave.model.transaction.Payment;
+import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.NumberUtils;
 
@@ -82,14 +83,14 @@ public class Category{
     }
 
     // Removes a transaction if it exists in object's history and removes from total spent.
-    public void removePayment(Payment payment, GoalAdapter adapter) {
+    public void removePayment(Transaction payment, GoalAdapter adapter) {
         if (!history.hasTransaction(payment)) { return; }
 
         history.removeTransaction(payment);
         if(payment.getParentId() == id) {
             payment.setParentId(-1);
         }
-        spent -= payment.getAbsValue();
+        spent -= Math.abs(payment.getValue());
 
         overflowHandler.resolveOverflow(adapter); // Spent changes, there might be overflow to be handled
     }

@@ -55,9 +55,11 @@ package com.tam.isave.model;
 //  X Make get transactions method in transaction dao return elements inversely ordered by datevalue
 //  X Do History integration with payment data
 //  Do history payment buttons (see design)
-//      - Transaction delete not working, stops in model repo at delete transaction, payment is not an instance of transaction after queried from database
-//      - Redo delete transaction, maybe add separate delete cashing method
+//      - X Transaction delete not working, stops in model repo at delete transaction, payment is not an instance of transaction after queried from database
+//      - X Redo delete transaction, maybe add separate delete cashing method
+//      - Edit
 // TODO
+//  Do category edit
 //  Do category histories
 //  Initialize other part of the model - category tracker, goal organizer etc. maybe save them in database with embedded entities or relational database?
 //  Make HistoryIdentifier parcelable and pass it through bundle to the history fragment?
@@ -111,6 +113,7 @@ public class ModelRepository {
     }
 
     private void setupTracker() {
+        // Empty initialization for the moment.
         ArrayList<Category> categories = new ArrayList<>();
         History history = new History();
         tracker = new CategoryTracker(categories, history);
@@ -306,22 +309,11 @@ public class ModelRepository {
         organizer.removePayment(payment);
     }
 
-    public void deleteTransaction(Transaction transaction) {
-        if (transaction == null) { return; }
-
-        if (transaction instanceof Payment) {
-            deletePayment((Payment) transaction);
-            DebugUtils.makeToast("In instanceof check");
-        } else if (transaction instanceof Cashing) {
-            deleteCashing((Cashing) transaction);
-        }
-    }
-
     /**
      * Delete Payment.
      * @param payment Payment to be deleted.
      */
-    public void deletePayment(Payment payment) {
+    public void deletePayment(Transaction payment) {
         if(payment == null) { return; }
         if(organizer != null) { organizer.removePayment(payment); }
         if(tracker != null) { tracker.removePaymentGlobally(payment); }
@@ -330,9 +322,9 @@ public class ModelRepository {
 
     /**
      * Delete Cashing.
-     * @param cashing Payment to be deleted.
+     * @param cashing Cashing to be deleted.
      */
-    public void deleteCashing(Cashing cashing) {
+    public void deleteCashing(Transaction cashing) {
         if(cashing == null) { return; }
         dataRepository.deleteTransaction(cashing);
     }

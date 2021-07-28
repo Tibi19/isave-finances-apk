@@ -3,6 +3,7 @@ package com.tam.isave.model.category;
 import com.tam.isave.model.goalorganizer.Interval;
 import com.tam.isave.model.transaction.History;
 import com.tam.isave.model.transaction.Payment;
+import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.view.CategoriesFragment;
 
 import java.util.ArrayList;
@@ -92,7 +93,7 @@ public class CategoryTracker {
      * @param category The category where to remove the payment from.
      * @param payment The payment to be removed.
      */
-    public void removePayment(Category category, Payment payment) {
+    public void removePayment(Category category, Transaction payment) {
         if( (category == null) || (payment == null) ) { return; }
         if(!history.hasTransaction(payment)) { return; }
 
@@ -104,11 +105,15 @@ public class CategoryTracker {
      * Remove payment from its category and have history dispose of it.
      * @param payment The payment to be removed.
      */
-    public void removePaymentGlobally(Payment payment) {
+    public void removePaymentGlobally(Transaction payment) {
         if(payment == null) { return; }
 
         Category category = getCategoryById(payment.getParentId());
-        category.removePayment(payment, adapter);
+
+        if(category != null) {
+            category.removePayment(payment, adapter);
+        }
+
         history.removeTransaction(payment);
     }
 

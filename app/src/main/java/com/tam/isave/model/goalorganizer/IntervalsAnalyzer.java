@@ -1,6 +1,7 @@
 package com.tam.isave.model.goalorganizer;
 
 import com.tam.isave.model.transaction.Payment;
+import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Date;
 
 /**
@@ -77,7 +78,7 @@ public class IntervalsAnalyzer {
     }
 
     // Returns interval where payment happened by checking each interval's history
-    public Interval getPaymentIntervalByHistory(Payment payment) {
+    public Interval getPaymentIntervalByHistory(Transaction payment) {
         if(!goalOrganizer.getHistory().hasTransaction(payment)) { return null; }
 
         for(Interval interval : intervals) {

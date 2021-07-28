@@ -232,7 +232,7 @@ public class GoalOrganizer{
 
     // Removes payment from the interval where it was made.
     // Removes payment from history.
-    public void removePayment(Payment payment) {
+    public void removePayment(Transaction payment) {
         Interval interval = intervalsAnalyzer.getPaymentIntervalByHistory(payment);
         if(interval == null) { return; }
 

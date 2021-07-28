@@ -62,8 +62,12 @@ public class TransactionViewModel extends AndroidViewModel {
         modelRepository.modifyPayment(payment, newParentId, newName, newDate, newValue);
     }
 
-    public void deleteTransaction(Transaction transaction) {
-        modelRepository.deleteTransaction(transaction);
+    public void deletePayment(Transaction payment) {
+        modelRepository.deletePayment(payment);
+    }
+
+    public void deleteCashing(Transaction cashing) {
+        modelRepository.deleteCashing(cashing);
     }
 
 }
