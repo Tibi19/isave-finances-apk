@@ -17,4 +17,16 @@ public class CategoryUtils {
         return null;
     }
 
+    public static Category getCategoryById(List<Category> categories, int categoryId) {
+        if(categories == null || categoryId == -1) { return null; }
+
+        for(Category category : categories) {
+            if(category.getId() == categoryId) {
+                return category;
+            }
+        }
+
+        return null;
+    }
+
 }
