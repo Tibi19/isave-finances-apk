@@ -18,8 +18,8 @@ public class EditTextDatePicker implements View.OnClickListener, DatePickerDialo
 
     private EditText datePickerView;
     private Context context;
-    private Date date;
 
+    private Date date;
     private int year;
     private int month;
     private int day;
@@ -28,10 +28,12 @@ public class EditTextDatePicker implements View.OnClickListener, DatePickerDialo
         new EditTextDatePicker(context, datePickerView);
     }
 
+    public static void build(Context context, EditText datePickerView, Date defaultDate) {
+        new EditTextDatePicker(context, datePickerView, defaultDate);
+    }
+
     public EditTextDatePicker(Context context, EditText datePickerView) {
-        this.context = context;
-        this.datePickerView = datePickerView;
-        this.datePickerView.setOnClickListener(this);
+        setViewState(context, datePickerView);
 
         Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
         year = calendar.get(Calendar.YEAR);
@@ -39,6 +41,22 @@ public class EditTextDatePicker implements View.OnClickListener, DatePickerDialo
         day = calendar.get(Calendar.DAY_OF_MONTH);
         date = new Date(day, month + 1, year); // Month is counted from 1.
         datePickerView.setText(date.toString());
+    }
+
+    public EditTextDatePicker(Context context, EditText datePickerView, Date defaultDate) {
+        setViewState(context, datePickerView);
+
+        date = defaultDate;
+        year = date.getYear();
+        month = date.getMonth() - 1; // Date month is counted from 1, whereas Calendar month is counted from 0.
+        day = date.getDay();
+        datePickerView.setText(date.toString());
+    }
+
+    private void setViewState(Context context, EditText datePickerView) {
+        this.context = context;
+        this.datePickerView = datePickerView;
+        this.datePickerView.setOnClickListener(this);
     }
 
     @Override
