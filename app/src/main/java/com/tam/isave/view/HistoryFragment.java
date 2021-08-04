@@ -1,12 +1,14 @@
 package com.tam.isave.view;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,10 +16,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tam.isave.adapter.HistoryAdapter;
 import com.tam.isave.databinding.FragmentHistoryBinding;
+import com.tam.isave.databinding.PopupAddPaymentBinding;
+import com.tam.isave.databinding.PopupEditPaymentBinding;
+import com.tam.isave.model.category.Category;
+import com.tam.isave.model.transaction.Transaction;
+import com.tam.isave.utils.CategoryUtils;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.HistoryIdentifier;
+import com.tam.isave.viewmodel.CategoryViewModel;
 import com.tam.isave.viewmodel.TransactionViewModel;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -79,10 +88,35 @@ public class HistoryFragment extends Fragment {
         historyAdapter = new HistoryAdapter(getContext());
         // Give adapter the methods for editing and deleting transaction data.
         historyAdapter.setDeleteItemData( (transaction) -> transactionViewModel.deletePayment(transaction) );
+        historyAdapter.setEditItemData( (transaction) -> showEditTransactionPopup(transaction) );
         // Set recycler's adapter.
         historyRecycler.setAdapter(historyAdapter);
         // Set recycler's layout manager.
         historyRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    private void showEditTransactionPopup(Transaction transaction) {
+        AlertDialog editTransactionDialog;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        PopupEditPaymentBinding editPaymentBinding = PopupEditPaymentBinding.inflate(getLayoutInflater());
+        List<Category> categories = new ViewModelProvider(this).get(CategoryViewModel.class).getCategories().getValue();
+
+        builder.setView(editPaymentBinding.getRoot());
+        editTransactionDialog = builder.create();
+        editTransactionDialog.setCancelable(true);
+        editTransactionDialog.getWindow().setGravity(Gravity.BOTTOM);
+
+        EditTextDatePicker.build(getActivity(), editPaymentBinding.etEditPaymentDate, transaction.getDate());
+        CategorySpinnerPicker.build(getActivity(), editPaymentBinding.spinEditPaymentCategories, categories,
+                CategoryUtils.getCategoryById(categories, transaction.getParentId()) );
+
+        editPaymentBinding.buttonEditPaymentyCancel.setOnClickListener(listener -> editTransactionDialog.dismiss());
+        editPaymentBinding.buttonEditPaymentSubmit.setOnClickListener(listener -> {
+            transactionViewModel.editPayment(transaction, editPaymentBinding, categories);
+            editTransactionDialog.dismiss();
+        });
+
+        editTransactionDialog.show();
     }
 
     private void setupTransactionViewModel() {

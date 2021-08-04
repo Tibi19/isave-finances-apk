@@ -60,11 +60,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
         holder.binding.textTransactionValue.setText(transactionValueString);
         holder.binding.textTransactionDate.setText(transaction.getDate().toString());
         holder.binding.buttonTransactionDelete.setOnClickListener( deleteData -> deleteItemData.accept(transactions.get(position)) );
+        holder.binding.buttonTransactionEdit.setOnClickListener( editData -> editItemData.accept(transactions.get(position)) );
     }
 
     public void setDeleteItemData(Consumer<Transaction> callback) {
         deleteItemData = callback;
     }
+    public void setEditItemData(Consumer<Transaction> callback) { editItemData = callback; }
 
     public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
