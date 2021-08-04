@@ -17,6 +17,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.List;
+
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -57,6 +59,7 @@ public class HomeActivity extends AppCompatActivity {
         AlertDialog addTransactionDialog;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         PopupAddPaymentBinding addPaymentBinding = PopupAddPaymentBinding.inflate(getLayoutInflater());
+        List<Category> categories = categoryViewModel.getCategories().getValue();
 
         builder.setView(addPaymentBinding.getRoot());
         addTransactionDialog = builder.create();
@@ -64,11 +67,11 @@ public class HomeActivity extends AppCompatActivity {
         addTransactionDialog.getWindow().setGravity(Gravity.BOTTOM);
 
         EditTextDatePicker.build(this, addPaymentBinding.etAddPaymentDate);
-        CategorySpinnerPicker.build(this, addPaymentBinding.spinAddPaymentCategories, categoryViewModel.getCategories().getValue());
+        CategorySpinnerPicker.build(this, addPaymentBinding.spinAddPaymentCategories, categories);
 
         addPaymentBinding.buttonAddPaymentyCancel.setOnClickListener(listener -> addTransactionDialog.dismiss());
         addPaymentBinding.buttonAddPaymentSubmit.setOnClickListener(listener -> {
-            transactionViewModel.addPayment(addPaymentBinding, categoryViewModel);
+            transactionViewModel.addPayment(addPaymentBinding, categories);
             addTransactionDialog.dismiss();
         });
 
