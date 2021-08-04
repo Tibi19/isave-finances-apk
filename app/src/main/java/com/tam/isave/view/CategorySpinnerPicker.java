@@ -14,6 +14,9 @@ public class CategorySpinnerPicker  {
     public static void build(Context context, Spinner spinner, List<Category> categories) {
         new CategorySpinnerPicker(context, spinner, categories);
     }
+    public static void build(Context context, Spinner spinner, List<Category> categories, Category defaultCategory) {
+        new CategorySpinnerPicker(context, spinner, categories, defaultCategory);
+    }
 
     public CategorySpinnerPicker(Context context, Spinner spinner, List<Category> categories) {
         List<String> categoriesNames = new ArrayList<>();
@@ -25,6 +28,18 @@ public class CategorySpinnerPicker  {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, standardSpinnerLayout, categoriesNames);
         adapter.setDropDownViewResource(standardSpinnerLayout);
         spinner.setAdapter(adapter);
+    }
+
+    public CategorySpinnerPicker(Context context, Spinner spinner, List<Category> categories, Category defaultCategory) {
+        this(context, spinner, categories);
+
+        for(int i = 0; i < categories.size(); i++) {
+            if(categories.get(i).getId() == defaultCategory.getId()) {
+                spinner.setSelection(i); // i is the position of the default category.
+                break;
+            }
+        }
+
     }
 
 }
