@@ -57,7 +57,7 @@ package com.tam.isave.model;
 //  Do history payment buttons (see design)
 //      - X Transaction delete not working, stops in model repo at delete transaction, payment is not an instance of transaction after queried from database
 //      - X Redo delete transaction, maybe add separate delete cashing method
-//      - Edit
+//      - Edit -> Transaction edit not working, stops in model repo at edit transaction. Same problem as with add payment^, payment is not an instance of transaction after queried from database
 // TODO
 //  Do category edit
 //  Do category histories
@@ -279,7 +279,7 @@ public class ModelRepository {
      * @param newDate The new date when payment happened.
      * @param newValue The new value of the payment.
      */
-    public void modifyPayment(Payment payment, int newParentId, String newName, Date newDate, double newValue) {
+    public void modifyPayment(Transaction payment, int newParentId, String newName, Date newDate, double newValue) {
         if( (payment == null) || (newName == null) || (newDate == null) ) { return; }
         if(newValue <= NumberUtils.ZERO_DOUBLE) { return; }
 
