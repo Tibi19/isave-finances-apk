@@ -46,7 +46,7 @@ public class IntervalsAnalyzer {
     }
 
     // Returns the interval where @payment has been made by its date.
-    public Interval getPaymentIntervalByDate(Payment payment) {
+    public Interval getPaymentIntervalByDate(Transaction payment) {
         Date firstDay = goalOrganizer.getFirstDay();
 
         int tranValue = payment.getDate().getValue();

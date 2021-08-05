@@ -64,7 +64,7 @@ public class CategoryTracker {
 
     // Make payment in target category and add to history.
     // Assign category as payment's parent category if @assign is true.
-    public void makePayment(Category category, Payment payment, boolean assign) {
+    public void makePayment(Category category, Transaction payment, boolean assign) {
         if( (category == null) || (payment == null) ) { return; }
         if(history.hasTransaction(payment)) { return; }
 
@@ -77,7 +77,7 @@ public class CategoryTracker {
     }
 
     // Make payment for target category but don't assign it.
-    public void makePayment(Category category, Payment payment) {
+    public void makePayment(Category category, Transaction payment) {
         makePayment(category, payment, false);
     }
 
@@ -122,7 +122,7 @@ public class CategoryTracker {
      * @param payment The payment to be modified.
      * @param valueDiff The value difference of the payment after modification.
      */
-    public void modifyPaymentInParent(Payment payment, double valueDiff) {
+    public void modifyPaymentInParent(Transaction payment, double valueDiff) {
         if(payment == null) { return; }
         Category origCategory = getPaymentCategoryByHistory(payment);
         Category currentParentCategory = getCategoryById(payment.getParentId());
@@ -132,7 +132,7 @@ public class CategoryTracker {
 
     // Return the category where payment parameter is found.
     // Checks for payment in category history.
-    private Category getPaymentCategoryByHistory(Payment payment) {
+    private Category getPaymentCategoryByHistory(Transaction payment) {
         for(Category category : categories) {
             if(category.getHistory().hasTransaction(payment)) { return category; }
         }
@@ -145,7 +145,7 @@ public class CategoryTracker {
      * @param payment The payment to be modified.
      * @param valueDiff The value difference of the payment after modification.
      */
-    public void modifyPaymentInInterval(Interval interval, Payment payment, double valueDiff) {
+    public void modifyPaymentInInterval(Interval interval, Transaction payment, double valueDiff) {
         if( (interval == null) || (payment == null) ) { return; }
         if(!interval.getHistory().hasTransaction(payment)) { return; }
 
@@ -153,14 +153,16 @@ public class CategoryTracker {
     }
 
     // Modify payment in target category and update history.
-    private void modifyPayment(Category category, Payment payment, double valueDiff) {
+    private void modifyPayment(Category category, Transaction payment, double valueDiff) {
+        if(category == null || payment == null) { return; }
+
         history.modifyTransaction(payment);
         category.modifyPayment(payment, valueDiff, adapter);
     }
 
     // Moves @payment from @origCategory to @newCategory.
     // Handles overflow if it's the case.
-    public boolean movePayment(Category origCategory, Category newCategory, Payment payment) {
+    public boolean movePayment(Category origCategory, Category newCategory, Transaction payment) {
         if( (origCategory == null) || (newCategory == null) || (payment == null) ) { return false; }
         if(origCategory.equals(newCategory)) { return false; }
 
@@ -193,7 +195,7 @@ public class CategoryTracker {
     }
 
     // Assigns @category to @payment as its parent category.
-    public void assignCategory(Category category, Payment payment) {
+    public void assignCategory(Category category, Transaction payment) {
         if(payment == null) { return; }
         payment.setParentId(category.getId());
     }

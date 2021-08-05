@@ -242,7 +242,7 @@ public class GoalOrganizer{
     // Handles modification of a payment if it's part of this object's history.
     // If date is different after modification, the payment might need to change interval.
     // Calls tracker's modify payment method to handle change in values.
-    public void modifyPayment(Payment payment, double valueDiff) {
+    public void modifyPayment(Transaction payment, double valueDiff) {
         if(!history.hasTransaction(payment)) { return; }
 
         // Compare the interval of the payment by its old date (interval wasn't updated yet)

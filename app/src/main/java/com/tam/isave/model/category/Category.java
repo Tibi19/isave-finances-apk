@@ -74,10 +74,10 @@ public class Category{
     // Adds payment to category history and adds to total spent.
 
     // Returns whether there is overflow.
-    public void makePayment(Payment payment, GoalAdapter adapter) {
+    public void makePayment(Transaction payment, GoalAdapter adapter) {
         history.addTransaction(payment);
         // Spent changes, there might be overflow.
-        spent += payment.getAbsValue();
+        spent += Math.abs(payment.getValue());
 
         overflowHandler.resolveOverflow(adapter); // Spent changes, there might be overflow to be handled.
     }
@@ -96,7 +96,7 @@ public class Category{
     }
 
     // Adds to spent amount the difference in value of the modified payment.
-    public void modifyPayment(Payment payment, double valueDiff, GoalAdapter adapter) {
+    public void modifyPayment(Transaction payment, double valueDiff, GoalAdapter adapter) {
         if( (valueDiff < NumberUtils.ZERO_DOUBLE) && (valueDiff > -NumberUtils.ZERO_DOUBLE) ) { return; }
         if (!history.hasTransaction(payment)) { return; }
 
