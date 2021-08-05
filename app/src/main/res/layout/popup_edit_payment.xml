@@ -24,7 +24,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="20dp"
                 android:textSize="18sp"
-                android:text="Edit a Payment" />
+                android:text="Edit Payment" />
 
             <LinearLayout
                 android:id="@+id/row_edit_payment_name"
