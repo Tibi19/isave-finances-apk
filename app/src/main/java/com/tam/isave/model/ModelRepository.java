@@ -54,16 +54,21 @@ package com.tam.isave.model;
 //  X !Add changes to github when you have internet
 //  X Make get transactions method in transaction dao return elements inversely ordered by datevalue
 //  X Do History integration with payment data
-//  Do history payment buttons (see design)
+//  X Do history payment buttons (see design)
 //      - X Transaction delete not working, stops in model repo at delete transaction, payment is not an instance of transaction after queried from database
 //      - X Redo delete transaction, maybe add separate delete cashing method
-//      - Edit -> Transaction edit not working, stops in model repo at edit transaction. Same problem as with add payment^, payment is not an instance of transaction after queried from database
+//      - X Edit -> Transaction edit not working, stops in model repo at edit transaction. Same problem as with add payment^, payment is not an instance of transaction after queried from database
 // TODO
 //  Do category edit
 //  Do category histories
-//  Initialize other part of the model - category tracker, goal organizer etc. maybe save them in database with embedded entities or relational database?
+//  *Initialize other part of the model - category tracker, goal organizer etc. maybe save them in database with embedded entities or relational database? Histories have to be initialized as well
+//  Initialize category tracker, maybe history as well
+//  Test categories functionality
+//  Test overflow
 //  Make HistoryIdentifier parcelable and pass it through bundle to the history fragment?
 //  Fix Scrolling bug
+//  Do category delete popup
+//  Do transaction delete popup
 
 import android.app.Application;
 
@@ -283,7 +288,7 @@ public class ModelRepository {
         if( (payment == null) || (newName == null) || (newDate == null) ) { return; }
         if(newValue <= NumberUtils.ZERO_DOUBLE) { return; }
 
-        double valueDifference = payment.modify(newName, newValue, newDate, newParentId);
+        double valueDifference = payment.modify(newName, -newValue, newDate, newParentId);
         Category parentCategory = null;
         if (tracker != null) {
             tracker.modifyPaymentInParent(payment, valueDifference);
