@@ -17,8 +17,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tam.isave.adapter.CategoryAdapter;
 import com.tam.isave.databinding.FragmentCategoriesBinding;
 import com.tam.isave.databinding.PopupAddCategoryBinding;
+import com.tam.isave.databinding.PopupEditCategoryBinding;
+import com.tam.isave.databinding.PopupEditPaymentBinding;
+import com.tam.isave.model.category.Category;
+import com.tam.isave.model.transaction.Transaction;
+import com.tam.isave.utils.CategoryUtils;
+import com.tam.isave.utils.NumberUtils;
 import com.tam.isave.viewmodel.CategoryViewModel;
 import com.tam.isave.R;
+
+import java.util.List;
 
 public class CategoriesFragment extends Fragment {
 
@@ -47,12 +55,38 @@ public class CategoriesFragment extends Fragment {
         // Instantiate recyclerview and its adapter.
         RecyclerView categoryRecycler = binding.recyclerCategory;
         categoryAdapter = new CategoryAdapter(getContext());
-        // Give adapter the method for deleting Category data.
+        // Give adapter the method for deleting and editing Category data.
         categoryAdapter.setDeleteItemData( (category) -> categoryViewModel.deleteCategory(category) );
+        categoryAdapter.setEditItemData( (category) -> showEditCategoryPopup(category) );
         // Set recycler's adapter.
         categoryRecycler.setAdapter(categoryAdapter);
         // Set recycler's layout manager.
         categoryRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    private void showEditCategoryPopup(Category category) {
+        AlertDialog editCategoryDialog;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        PopupEditCategoryBinding editCategoryBinding = PopupEditCategoryBinding.inflate(getLayoutInflater());
+        double absCategorySpent = Math.abs( NumberUtils.twoDecimals(category.getSpent()) );
+        double absCategoryGoal = Math.abs( NumberUtils.twoDecimals(category.getGoal()) );
+
+        builder.setView(editCategoryBinding.getRoot());
+        editCategoryDialog = builder.create();
+        editCategoryDialog.setCancelable(true);
+        editCategoryDialog.getWindow().setGravity(Gravity.BOTTOM);
+
+        editCategoryBinding.etEditCategoryName.setText(category.getName());
+        editCategoryBinding.etEditCategorySpent.setText(String.valueOf(absCategorySpent));
+        editCategoryBinding.etEditCategoryBudget.setText(String.valueOf(absCategoryGoal));
+        editCategoryBinding.checkEditCategoryIsFlexible.setChecked(category.isFlexibleGoal());
+        editCategoryBinding.buttonEditCategoryCancel.setOnClickListener(listener -> editCategoryDialog.dismiss());
+        editCategoryBinding.buttonEditCategorySubmit.setOnClickListener(listener -> {
+            categoryViewModel.editCategory(category, editCategoryBinding);
+            editCategoryDialog.dismiss();
+        });
+
+        editCategoryDialog.show();
     }
 
     private void setupCategoriesController(){

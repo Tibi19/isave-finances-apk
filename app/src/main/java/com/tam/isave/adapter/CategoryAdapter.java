@@ -19,6 +19,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private Context context;
     private List<Category> categories;
     private Consumer<Category> deleteItemData;
+    private Consumer<Category> editItemData;
 
     public CategoryAdapter(Context context) {
         this.context = context;
@@ -54,6 +55,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.binding.textCategoryName.setText(category.getName());
         holder.binding.textCategoryProgress.setText(category.getProgress());
         holder.binding.buttonCategoryDelete.setOnClickListener( deleteData -> deleteItemData.accept(categories.get(position)) );
+        holder.binding.buttonCategoryEdit.setOnClickListener( editData -> editItemData.accept(categories.get(position)) );
+    }
+
+    public void setEditItemData(Consumer<Category> callback) {
+        editItemData = callback;
     }
 
     public void setDeleteItemData(Consumer<Category> callback) {
