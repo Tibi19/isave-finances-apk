@@ -59,7 +59,9 @@ package com.tam.isave.model;
 //      - X Redo delete transaction, maybe add separate delete cashing method
 //      - X Edit -> Transaction edit not working, stops in model repo at edit transaction. Same problem as with add payment^, payment is not an instance of transaction after queried from database
 // TODO
-//  Do category edit
+//  X Do category edit
+//  Test category edit
+//  Move add category based on popup to category view model
 //  Do category histories
 //  *Initialize other part of the model - category tracker, goal organizer etc. maybe save them in database with embedded entities or relational database? Histories have to be initialized as well
 //  Initialize category tracker, maybe history as well
@@ -69,6 +71,7 @@ package com.tam.isave.model;
 //  Fix Scrolling bug
 //  Do category delete popup
 //  Do transaction delete popup
+//  Redesign cashing as budget add functionality when clicking on it and make budget management popup
 
 import android.app.Application;
 
