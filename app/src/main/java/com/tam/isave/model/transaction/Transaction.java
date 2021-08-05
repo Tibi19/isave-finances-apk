@@ -65,7 +65,10 @@ public class Transaction {
      */
     public double modify(String newName, double newValue, Date newDate, int newParentId) {
         if( (newName != null) && !name.equalsIgnoreCase(newName)) { name = newName; }
-        if( (newDate != null) && (date.getValue() != newDate.getValue()) ) { date = newDate; }
+        if( (newDate != null) && (date.getValue() != newDate.getValue()) ) {
+            date = newDate;
+            dateValue = newDate.getValue();
+        }
         if(newParentId != parentId) { parentId = newParentId; }
 
         if(!NumberUtils.isSameDoubles(value, newValue)) {
