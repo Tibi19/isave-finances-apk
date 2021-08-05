@@ -23,6 +23,7 @@ import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.CategoryUtils;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.HistoryIdentifier;
+import com.tam.isave.utils.NumberUtils;
 import com.tam.isave.viewmodel.CategoryViewModel;
 import com.tam.isave.viewmodel.TransactionViewModel;
 
@@ -100,6 +101,7 @@ public class HistoryFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         PopupEditPaymentBinding editPaymentBinding = PopupEditPaymentBinding.inflate(getLayoutInflater());
         List<Category> categories = new ViewModelProvider(this).get(CategoryViewModel.class).getCategories().getValue();
+        double absTransactionValue = Math.abs( NumberUtils.twoDecimals(transaction.getValue()) );
 
         builder.setView(editPaymentBinding.getRoot());
         editTransactionDialog = builder.create();
@@ -110,6 +112,8 @@ public class HistoryFragment extends Fragment {
         CategorySpinnerPicker.build(getActivity(), editPaymentBinding.spinEditPaymentCategories, categories,
                 CategoryUtils.getCategoryById(categories, transaction.getParentId()) );
 
+        editPaymentBinding.etEditPaymentName.setText(transaction.getName());
+        editPaymentBinding.etEditPaymentValue.setText(String.valueOf(absTransactionValue));
         editPaymentBinding.buttonEditPaymentyCancel.setOnClickListener(listener -> editTransactionDialog.dismiss());
         editPaymentBinding.buttonEditPaymentSubmit.setOnClickListener(listener -> {
             transactionViewModel.editPayment(transaction, editPaymentBinding, categories);
