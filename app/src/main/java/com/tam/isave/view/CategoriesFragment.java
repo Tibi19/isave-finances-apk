@@ -106,17 +106,10 @@ public class CategoriesFragment extends Fragment {
 
         addCategoryBinding.buttonAddCategoryCancel.setOnClickListener(listener -> addCategoryDialog.dismiss());
         addCategoryBinding.buttonAddCategorySubmit.setOnClickListener(listener -> {
-            addNewCategory(addCategoryBinding);
+            categoryViewModel.addCategory(addCategoryBinding);
             addCategoryDialog.dismiss();
         });
 
         addCategoryDialog.show();
-    }
-
-    private void addNewCategory(PopupAddCategoryBinding addCategoryBinding) {
-        boolean categoryFlexibility = addCategoryBinding.checkAddCategoryIsFlexible.isChecked();
-        String categoryName = addCategoryBinding.editAddCategoryName.getText().toString();
-        double categoryGoal = Double.parseDouble(addCategoryBinding.editAddCategoryBudget.getText().toString());
-        categoryViewModel.addCategory(categoryName, categoryGoal, categoryFlexibility);
     }
 }

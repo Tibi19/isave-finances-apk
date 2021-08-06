@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.tam.isave.databinding.PopupAddCategoryBinding;
 import com.tam.isave.databinding.PopupEditCategoryBinding;
 import com.tam.isave.databinding.PopupEditPaymentBinding;
 import com.tam.isave.model.category.Category;
@@ -31,8 +32,11 @@ public class CategoryViewModel extends AndroidViewModel {
         return categories;
     }
 
-    public void addCategory(String name, double goal, boolean hasFlexibleGoal) {
-        modelRepository.newCategory(name, goal, hasFlexibleGoal);
+    public void addCategory(PopupAddCategoryBinding addCategoryBinding) {
+        boolean categoryFlexibility = addCategoryBinding.checkAddCategoryIsFlexible.isChecked();
+        String categoryName = addCategoryBinding.editAddCategoryName.getText().toString();
+        double categoryGoal = Double.parseDouble(addCategoryBinding.editAddCategoryBudget.getText().toString());
+        modelRepository.newCategory(categoryName, categoryGoal, categoryFlexibility);
     }
 
     public void editCategory(Category category, PopupEditCategoryBinding editCategoryBinding) {
