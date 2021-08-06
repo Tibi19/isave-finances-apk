@@ -1,6 +1,7 @@
 package com.tam.isave.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -32,6 +33,8 @@ public class CategorySpinnerPicker  {
 
     public CategorySpinnerPicker(Context context, Spinner spinner, List<Category> categories, Category defaultCategory) {
         this(context, spinner, categories);
+
+        if(defaultCategory == null) { return; }
 
         for(int i = 0; i < categories.size(); i++) {
             if(categories.get(i).getId() == defaultCategory.getId()) {
