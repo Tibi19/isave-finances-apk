@@ -63,6 +63,8 @@ package com.tam.isave.model;
 //  X Test category edit
 //  X Move add category based on popup to category view model
 //  Do category histories
+//      - Might need to change category adapter context to FragmentActivity
+//      - Test
 //  *Initialize other part of the model - category tracker, goal organizer etc. maybe save them in database with embedded entities or relational database? Histories have to be initialized as well
 //  Initialize category tracker, maybe history as well
 //  Test categories functionality
@@ -72,6 +74,7 @@ package com.tam.isave.model;
 //  Do category delete popup
 //  Do transaction delete popup
 //  Redesign cashing as budget add functionality when clicking on it and make budget management popup
+//  Add no category functionality for payments
 
 import android.app.Application;
 
