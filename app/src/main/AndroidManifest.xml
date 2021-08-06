@@ -24,6 +24,10 @@
             android:name=".view.GlobalHistoryActivity"
             android:parentActivityName=".view.HomeActivity"/>
 
+        <activity
+            android:name=".view.CategoryHistoryActivity"
+            android:parentActivityName=".view.HomeActivity"/>
+
     </application>
 
 </manifest>
