@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 
 public class Constants {
 
+    // Naming
+    public final static String NAMING_HISTORY = "History";
+
     // Category Database Constants
     public final static String CATEGORY_DATABASE = "category_database";
 
@@ -31,6 +34,7 @@ public class Constants {
     // Bundle Keys
     public static final String KEY_HISTORY_TYPE = "history_type_key";
     public static final String KEY_CATEGORY_ID = "category_id_key";
+    public static final String KEY_CATEGORY_NAME = "category_name_key";
     public static final String KEY_START_DATE_VALUE = "start_date_value_key";
     public static final String KEY_END_DATE_VALUE = "end_date_value_key";
 }
