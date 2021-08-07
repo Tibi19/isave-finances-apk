@@ -68,6 +68,7 @@ package com.tam.isave.model;
 //  *Initialize other part of the model - category tracker, goal organizer etc. maybe save them in database with embedded entities or relational database? Histories have to be initialized as well
 //  X Initialize category tracker, maybe history as well
 //  X Test categories functionality
+//  Fix category not updating when modifying payment values
 //  Test overflow
 //  Add overflow handling update when adding new category (new category method)
 //  Do goal organizer
