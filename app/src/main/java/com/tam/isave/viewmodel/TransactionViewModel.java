@@ -38,6 +38,10 @@ public class TransactionViewModel extends AndroidViewModel {
         return modelRepository.getIntervalTransactions(startDateValue, endDateValue);
     }
 
+    public void setupTrackerTransactions(List<Transaction> transactions) {
+        modelRepository.setupTrackerTransactions(transactions);
+    }
+
     public void addPayment(PopupAddPaymentBinding addPaymentBinding, List<Category> categories) {
         boolean organizablePayment = addPaymentBinding.checkAddPaymentIsOrganizable.isChecked();
 
