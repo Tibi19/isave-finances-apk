@@ -62,13 +62,15 @@ package com.tam.isave.model;
 //  X Do category edit
 //  X Test category edit
 //  X Move add category based on popup to category view model
-//  Do category histories
-//      - Might need to change category adapter context to FragmentActivity
-//      - Test
+//  X Do category histories
+//      - - Might need to change category adapter context to FragmentActivity
+//      - X Test
 //  *Initialize other part of the model - category tracker, goal organizer etc. maybe save them in database with embedded entities or relational database? Histories have to be initialized as well
-//  Initialize category tracker, maybe history as well
-//  Test categories functionality
+//  X Initialize category tracker, maybe history as well
+//  X Test categories functionality
 //  Test overflow
+//  Add overflow handling update when adding new category (new category method)
+//  Do goal organizer
 //  Make HistoryIdentifier parcelable and pass it through bundle to the history fragment?
 //  Fix Scrolling bug
 //  Do category delete popup
@@ -77,6 +79,7 @@ package com.tam.isave.model;
 //  Add no category functionality for payments
 
 import android.app.Application;
+import android.graphics.ColorSpace;
 
 import androidx.lifecycle.LiveData;
 
@@ -88,6 +91,7 @@ import com.tam.isave.model.transaction.Cashing;
 import com.tam.isave.model.transaction.History;
 import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.model.transaction.Transaction;
+import com.tam.isave.utils.CategoryUtils;
 import com.tam.isave.utils.Date;
 import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.NumberUtils;
@@ -113,9 +117,9 @@ public class ModelRepository {
         return INSTANCE;
     }
 
-    public ModelRepository(Application application) {
+    private ModelRepository(Application application) {
         //setupOrganizer();
-        setupTracker();
+        tracker = new CategoryTracker();
         dataRepository = new DataRepository(application);
     }
 
@@ -123,11 +127,14 @@ public class ModelRepository {
         organizer = new GoalOrganizer();
     }
 
-    private void setupTracker() {
-        // Empty initialization for the moment.
-        ArrayList<Category> categories = new ArrayList<>();
-        History history = new History();
-        tracker = new CategoryTracker(categories, history);
+
+    public void setupTrackerCategories(List<Category> categories) {
+        tracker.setupCategories(categories);
+    }
+
+    public void setupTrackerTransactions(List<Transaction> transactions) {
+        History history = new History(transactions);
+        tracker.setupHistory(history);
     }
 
     public LiveData<List<Category>> getCategories() {
@@ -168,6 +175,8 @@ public class ModelRepository {
         }
 
         dataRepository.insertTransaction(payment);
+        // Tracker modifications can modify all categories because of overflow handling, all categories should be updated.
+        dataRepository.updateAllCategories(tracker.getCategories());
 
         return true;
     }
@@ -226,7 +235,8 @@ public class ModelRepository {
         if( (newSpent <= -NumberUtils.ZERO_DOUBLE) || (newGoal <= NumberUtils.ZERO_DOUBLE) ) { return; }
 
         tracker.modifyCategory(category, newName, newSpent, newGoal, newIsFlexible);
-        dataRepository.updateCategory(category);
+        // Tracker modifications can modify all categories because of overflow handling, all categories should be updated.
+        dataRepository.updateAllCategories(tracker.getCategories());
     }
 
     /**
@@ -243,7 +253,8 @@ public class ModelRepository {
      */
     public void resetCategory(Category category) {
         tracker.resetCategory(category);
-        dataRepository.updateCategory(category);
+        // Tracker modifications can modify all categories because of overflow handling, all categories should be updated.
+        dataRepository.updateAllCategories(tracker.getCategories());
     }
 
     /**
@@ -261,6 +272,8 @@ public class ModelRepository {
     public void removeCategory(Category category) {
         tracker.removeCategory(category);
         dataRepository.deleteCategory(category);
+        // Tracker modifications can modify all categories because of overflow handling, all categories should be updated.
+        dataRepository.updateAllCategories(tracker.getCategories());
     }
 
     // Only for testing
@@ -280,6 +293,10 @@ public class ModelRepository {
         Category category = new Category(name, goal, hasFlexibleGoal);
         tracker.addCategory(category);
         dataRepository.insertCategory(category);
+
+        // TODO add overflow handling update when adding category.
+        // Tracker modifications can modify all categories because of overflow handling, all categories should be updated.
+        dataRepository.updateAllCategories(tracker.getCategories());
     }
 
     /**
@@ -295,20 +312,16 @@ public class ModelRepository {
         if(newValue <= NumberUtils.ZERO_DOUBLE) { return; }
 
         double valueDifference = payment.modify(newName, -newValue, newDate, newParentId);
-        Category parentCategory = null;
         if (tracker != null) {
             tracker.modifyPaymentInParent(payment, valueDifference);
-            parentCategory = tracker.getCategoryById(payment.getParentId());
+            // Tracker modifications can modify all categories because of overflow handling, all categories should be updated.
+            dataRepository.updateAllCategories(tracker.getCategories());
         }
         if (organizer != null) {
             organizer.modifyPayment(payment, valueDifference);
         }
 
         dataRepository.updateTransaction(payment);
-
-        if (parentCategory != null) {
-            dataRepository.updateCategory(parentCategory);
-        }
     }
 
     /**
@@ -327,7 +340,11 @@ public class ModelRepository {
     public void deletePayment(Transaction payment) {
         if(payment == null) { return; }
         if(organizer != null) { organizer.removePayment(payment); }
-        if(tracker != null) { tracker.removePaymentGlobally(payment); }
+        if(tracker != null) {
+            tracker.removePaymentGlobally(payment);
+            // Tracker modifications can modify all categories because of overflow handling, all categories should be updated.
+            dataRepository.updateAllCategories(tracker.getCategories());
+        }
         dataRepository.deleteTransaction(payment);
     }
 
