@@ -36,12 +36,24 @@ public class HomeActivity extends AppCompatActivity {
 
         categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
+
+        setupCategoryTracker();
         setupMenuButton();
         setupAddTransactionButton();
 
         if (savedInstanceState == null) {
             startCategoriesTransaction();
         }
+    }
+
+    /**
+     * Sets up the tracker model that will take care of category calculations.
+     */
+    private void setupCategoryTracker() {
+        categoryViewModel.getCategories().observe(this, categories ->
+                categoryViewModel.setupTrackerCategories(categories));
+        transactionViewModel.getTransactions().observe(this, transactions ->
+                transactionViewModel.setupTrackerTransactions(transactions));
     }
 
     private void setupAddTransactionButton() {
