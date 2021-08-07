@@ -3,16 +3,17 @@ package com.tam.isave.model.category;
 import com.tam.isave.utils.NumberUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 // Handles overflow by making modify requests to categories that can handle the overflow.
 public class GoalAdapter {
 
-    private ArrayList<Category> categories;
+    private List<Category> categories;
 
     // Whether positive overflow handling should be done only by categories that follow a solicitor.
     private boolean orderedHandling;
 
-    public GoalAdapter(ArrayList<Category> categories, boolean orderedHandling) {
+    public GoalAdapter(List<Category> categories, boolean orderedHandling) {
         this.categories = categories;
         this.orderedHandling = orderedHandling;
     }
