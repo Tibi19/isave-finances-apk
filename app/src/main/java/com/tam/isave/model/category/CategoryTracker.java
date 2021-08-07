@@ -4,32 +4,80 @@ import com.tam.isave.model.goalorganizer.Interval;
 import com.tam.isave.model.transaction.History;
 import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.model.transaction.Transaction;
-import com.tam.isave.view.CategoriesFragment;
 
-import java.util.ArrayList;
+import java.util.List;
 
 // Tracks a list of categories.
 // Keeps track of all payments made in these categories in a history.
 // Calls goal adapter to handle any overflow that happens between them.
 public class CategoryTracker {
 
-    private ArrayList<Category> categories;
+    private List<Category> categories;
     private History history;
-    private GoalAdapter adapter;
+    private GoalAdapter goalAdapter;
 
-    public CategoryTracker(ArrayList<Category> categories, History history, boolean orderedHandling) {
+    public CategoryTracker(List<Category> categories, History history, boolean orderedHandling) {
         setup(categories, history, orderedHandling);
     }
 
     // Default constructor, does not have ordered handling.
-    public CategoryTracker(ArrayList<Category> categories, History history) {
+    public CategoryTracker(List<Category> categories, History history) {
         setup(categories, history, false);
     }
 
-    public void setup(ArrayList<Category> categories, History history, boolean orderedHandling) {
+    public CategoryTracker() {}
+
+    public void setup(List<Category> categories, History history, boolean orderedHandling) {
         this.categories = categories;
         this.history = history;
-        this.adapter = new GoalAdapter(categories, orderedHandling);
+        this.goalAdapter = new GoalAdapter(categories, orderedHandling);
+        setupCategoryHistories();
+    }
+
+    /**
+     * Default category initializer without ordered handling (for normal categories).
+     * Sets up the categories of the tracker if they haven't been set up already.
+     * @param categories The categories to be tracked.
+     */
+    public void setupCategories(List<Category> categories) {
+        setupCategories(categories, false);
+    }
+
+    /**
+     * Sets up the categories of the tracker if they haven't been set up already.
+     * @param categories The categories to be tracked.
+     * @param orderedHandling If the tracker should have ordered handling (for intervals).
+     */
+    public void setupCategories(List<Category> categories, boolean orderedHandling) {
+        if(this.categories != null || categories == null) { return; }
+        this.categories = categories;
+        this.goalAdapter = new GoalAdapter(categories, orderedHandling);
+
+        if(this.history != null) {
+            setupCategoryHistories();
+        }
+    }
+
+    /**
+     * Sets up the history of the tracker.
+     * @param history The history of transactions.
+     */
+    public void setupHistory(History history) {
+        if(this.history != null || history == null) { return; }
+
+        this.history = history;
+
+        if(this.categories != null) {
+            setupCategoryHistories();
+        }
+    }
+
+    private void setupCategoryHistories() {
+        for(Category category : categories) {
+            History categoryHistory = category.getHistory();
+            if(categoryHistory != null && !categoryHistory.isEmpty()) { continue; }
+            category.setHistory(history.getCategoryHistory(category.getId()));
+        }
     }
 
     public void addCategory(Category category) {
@@ -37,7 +85,7 @@ public class CategoryTracker {
         categories.add(category);
     }
 
-    public void addCategories(ArrayList<Category> categories) {
+    public void addCategories(List<Category> categories) {
         if( (categories == null) || (categories.isEmpty()) ) { return; }
         this.categories.addAll(categories);
     }
@@ -52,14 +100,14 @@ public class CategoryTracker {
     public void removeCategory(Category category) {
         if( (category == null) || !categories.contains(category) ) { return; }
         // First reset category to handle overflow if it's the case.
-        category.reset(adapter);
+        category.reset(goalAdapter);
         categories.remove(category);
     }
 
     // Change name, spent, goal of target category
     // By calling its modify method.
     public void modifyCategory(Category category, String name, double spent, double goal, boolean hasFlexibleGoal) {
-        category.modify(name, spent, goal, hasFlexibleGoal, adapter);
+        category.modify(name, spent, goal, hasFlexibleGoal, goalAdapter);
     }
 
     // Make payment in target category and add to history.
@@ -73,7 +121,7 @@ public class CategoryTracker {
         }
         history.addTransaction(payment);
         // Spent changes, handle overflow if it's the case.
-        category.makePayment(payment, adapter);
+        category.makePayment(payment, goalAdapter);
     }
 
     // Make payment for target category but don't assign it.
@@ -97,7 +145,7 @@ public class CategoryTracker {
         if( (category == null) || (payment == null) ) { return; }
         if(!history.hasTransaction(payment)) { return; }
 
-        category.removePayment(payment, adapter);
+        category.removePayment(payment, goalAdapter);
         history.removeTransaction(payment);
     }
 
@@ -111,7 +159,7 @@ public class CategoryTracker {
         Category category = getCategoryById(payment.getParentId());
 
         if(category != null) {
-            category.removePayment(payment, adapter);
+            category.removePayment(payment, goalAdapter);
         }
 
         history.removeTransaction(payment);
@@ -157,7 +205,7 @@ public class CategoryTracker {
         if(category == null || payment == null) { return; }
 
         history.modifyTransaction(payment);
-        category.modifyPayment(payment, valueDiff, adapter);
+        category.modifyPayment(payment, valueDiff, goalAdapter);
     }
 
     // Moves @payment from @origCategory to @newCategory.
@@ -181,7 +229,7 @@ public class CategoryTracker {
     public void resetCategory(Category category) {
         if(category == null) { return; }
         // Spent changes, check and handle overflow.
-        category.reset(adapter);
+        category.reset(goalAdapter);
     }
 
     /**
@@ -190,7 +238,7 @@ public class CategoryTracker {
     public void resetAllCategories() {
         for(Category category : categories) {
             // Spent amount changes, but all categories will be reset so there will not be an overflow to handle.
-            category.fullReset(adapter);
+            category.fullReset(goalAdapter);
         }
     }
 
@@ -217,11 +265,11 @@ public class CategoryTracker {
         return null;
     }
 
-    public ArrayList<Category> getCategories() {
+    public List<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(ArrayList<Category> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 
