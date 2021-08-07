@@ -6,15 +6,20 @@ import com.tam.isave.utils.NumberUtils;
 import com.tam.isave.utils.Date;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class History {
 
     private static final int HISTORY_MAXIMUM_DAYS = 180; // Entries older than these many days will be deleted.
 
-    private ArrayList<Transaction> historyList;
+    private List<Transaction> historyList;
 
     public History() {
         this.historyList = new ArrayList<Transaction>();
+    }
+
+    public History(List<Transaction> transactions) {
+        this.historyList = transactions;
     }
 
     // Adds and inserts transaction at correct position based on date.
@@ -177,6 +182,18 @@ public class History {
         for(Category category : tracker.getCategories()) {
             category.getHistory().clean();
         }
+    }
+
+    public History getCategoryHistory(int categoryId) {
+        List<Transaction> transactions = new ArrayList<>();
+
+        for(Transaction transaction : historyList) {
+            if(transaction.getParentId() == categoryId) {
+                transactions.add(transaction);
+            }
+        }
+
+        return new History(transactions);
     }
 
 //    public ArrayList<Transaction> getHistoryList() {
