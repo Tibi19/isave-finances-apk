@@ -1,5 +1,7 @@
 package com.tam.isave.model.category;
 
+import android.os.Debug;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -9,6 +11,7 @@ import com.tam.isave.model.transaction.History;
 import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Constants;
+import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.NumberUtils;
 
 // Categorises payments and tracks them in a history.
@@ -97,11 +100,10 @@ public class Category{
 
     // Adds to spent amount the difference in value of the modified payment.
     public void modifyPayment(Transaction payment, double valueDiff, GoalAdapter adapter) {
-        if( (valueDiff < NumberUtils.ZERO_DOUBLE) && (valueDiff > -NumberUtils.ZERO_DOUBLE) ) { return; }
+        if( NumberUtils.isZeroDouble(valueDiff) ) { return; }
         if (!history.hasTransaction(payment)) { return; }
 
-        history.modifyTransaction(payment);
-        spent += valueDiff;
+        spent -= valueDiff;
 
         overflowHandler.resolveOverflow(adapter); // Spent changes, there might be overflow to be handled.
     }
