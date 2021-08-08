@@ -1,7 +1,11 @@
 package com.tam.isave.model.transaction;
 
+import android.widget.ArrayAdapter;
+
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.category.CategoryTracker;
+import com.tam.isave.utils.CategoryUtils;
+import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.NumberUtils;
 import com.tam.isave.utils.Date;
 
@@ -58,15 +62,15 @@ public class History {
         historyList.remove(transaction);
     }
 
-    public void modifyTransaction(Transaction transaction) {
-        if( (transaction == null) || !(historyList.contains(transaction)) ) { return; }
-        if(isTransactionOrdered(transaction)) { return; }
-
-        // If transaction is not ordered,
-        // It needs to be removed and inserted back at the right place.
-        removeTransaction(transaction);
-        addTransaction(transaction);
-    }
+//    public void modifyTransaction(Transaction transaction) {
+//        if( (transaction == null) || !(historyList.contains(transaction)) ) { return; }
+//        if(isTransactionOrdered(transaction)) { return; }
+//
+//        // If transaction is not ordered,
+//        // It needs to be removed and inserted back at the right place.
+//        removeTransaction(transaction);
+//        addTransaction(transaction);
+//    }
 
     // Checks if transaction is ordered in the history list.
     // true if prevTransaction.dateValue > transaction.dateValue > nextTransaction.dateValue.
@@ -96,9 +100,10 @@ public class History {
     }
 
     // Returns a clone of historyList.
-    public ArrayList<Transaction> cloneHistoryList() {
+    public List<Transaction> cloneHistoryList() {
         return new ArrayList<>(historyList);
     }
+    public List<Transaction> getHistoryList() { return historyList; }
 
     // Checks if history is sorted and sorts it if not.
     private void validateSorting() {
@@ -167,12 +172,16 @@ public class History {
 
     public boolean hasTransaction(Transaction transaction) {
         if(transaction == null) { return false; }
-        return historyList.contains(transaction);
+        for(Transaction element : historyList) {
+            if(element.getId() == transaction.getId()) { return true; }
+        }
+        return false;
     }
 
     public boolean isEmpty() {
         return historyList.isEmpty();
     }
+    public int size() { return historyList.size(); }
 
     // Cleans histories in parameters by removing old transactions.
     public static void cleanHistories(CategoryTracker tracker) {
