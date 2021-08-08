@@ -4,6 +4,8 @@ import com.tam.isave.model.goalorganizer.Interval;
 import com.tam.isave.model.transaction.History;
 import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.model.transaction.Transaction;
+import com.tam.isave.utils.CategoryUtils;
+import com.tam.isave.utils.DebugUtils;
 
 import java.util.List;
 
@@ -184,6 +186,7 @@ public class CategoryTracker {
         for(Category category : categories) {
             if(category.getHistory().hasTransaction(payment)) { return category; }
         }
+
         return null;
     }
 
@@ -204,7 +207,6 @@ public class CategoryTracker {
     private void modifyPayment(Category category, Transaction payment, double valueDiff) {
         if(category == null || payment == null) { return; }
 
-        history.modifyTransaction(payment);
         category.modifyPayment(payment, valueDiff, goalAdapter);
     }
 
