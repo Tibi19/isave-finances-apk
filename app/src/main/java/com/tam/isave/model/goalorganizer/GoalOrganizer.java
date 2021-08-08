@@ -10,6 +10,7 @@ import com.tam.isave.utils.NumberUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 // GoalOrganizer breaks up the user's goal in smaller goals.
 // Functionality based on "how to eat an elephant: one bite at a time".
@@ -154,7 +155,7 @@ public class GoalOrganizer{
     private void reassignHistory() {
         if(history.isEmpty()) { return; }
 
-        ArrayList<Transaction> historyList = history.cloneHistoryList();
+        List<Transaction> historyList = history.cloneHistoryList();
         history.reset();
         // Inverse iteration through historyList as history assignation will be easier.
         // Newer transactions should be added last.
