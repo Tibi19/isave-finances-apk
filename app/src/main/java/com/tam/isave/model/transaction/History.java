@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.category.CategoryTracker;
 import com.tam.isave.utils.CategoryUtils;
+import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.NumberUtils;
 import com.tam.isave.utils.Date;
@@ -140,7 +141,7 @@ public class History {
 
             // Transactions older than the days limit for new transactions should have already been sorted when they were added.
             // At this point we can safely stop iterating.
-            if(keyValue < NumberUtils.TRANSACTION_DAYS_LIMIT) { break; }
+            if(keyValue < Constants.TRANSACTION_DAYS_LIMIT) { break; }
 
             while(i >= 0 &&  historyList.get(i).getDate().getValue() < keyValue) {
                 historyList.set(i + 1, historyList.get(i));
