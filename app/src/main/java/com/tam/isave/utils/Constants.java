@@ -4,13 +4,16 @@ import androidx.annotation.NonNull;
 
 public class Constants {
 
+    // Settings
+    public static final int TRANSACTION_DAYS_LIMIT = 120; // User should not add transactions older than 4 months.
+
     // Naming
     public final static String NAMING_HISTORY = "History";
 
     // Category Database Constants
     public final static String CATEGORY_DATABASE = "category_database";
 
-    public static final int VERSION_CATEGORY_TABLE = 2;
+    public static final int VERSION_CATEGORY_TABLE = 3;
     public final static String TABLE_NAME_CATEGORY = "category_table";
 
     public final static String CATEGORY_COLUMN_NAME = "name";
@@ -23,7 +26,7 @@ public class Constants {
     // Transaction Database Constants
     public final static String TRANSACTION_DATABASE = "transaction_database";
 
-    public static final int VERSION_TRANSACTION_TABLE = 1;
+    public static final int VERSION_TRANSACTION_TABLE = 2;
     public final static String TABLE_NAME_TRANSACTION = "transaction_table";
 
     public final static String TRANSACTION_COLUMN_NAME = "name";
