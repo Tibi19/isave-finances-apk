@@ -5,8 +5,6 @@ public class NumberUtils {
     // To be used for double comparisons to 0.
     public static final double ZERO_DOUBLE = 0.0001;
 
-    public static final int TRANSACTION_DAYS_LIMIT = 60; // User should not add transactions older than 2 months.
-
     public static double twoDecimals(double value) {
         int tempValue = (int) (value * 100.0);
         return tempValue / 100.0;
