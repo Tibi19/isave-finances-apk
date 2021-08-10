@@ -4,6 +4,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class Date {
@@ -147,7 +149,7 @@ public class Date {
         this.year = year;
     }
 
-    private int getDaysInMonth (int month, int year) {
+    public static int getDaysInMonth (int month, int year) {
         if (month < 1 || month > 12) {
             return -1;
         }
@@ -176,7 +178,7 @@ public class Date {
         }
     }
 
-    private boolean isLeapYear (int year) {
+    public static boolean isLeapYear (int year) {
         if (year < 1 || year > 9999) {
             return false;
         }
@@ -259,7 +261,7 @@ public class Date {
     }
 
     // How many days are from the start of the year until the given @date.
-    private int getDaysUntilDate(Date date) {
+    public static int getDaysUntilDate(Date date) {
         int days = 0;
         for(int i = 1; i < date.month; i++) {
             days += getDaysInMonth(i, date.year);
@@ -269,13 +271,28 @@ public class Date {
     }
 
     // How many days are left until the end of the year starting from @date.
-    private int getDaysUntilEndOfYear(Date date) {
+    public static int getDaysUntilEndOfYear(Date date) {
         int days = 0;
         days += getDaysInMonth(date.month, date.year) - date.day;
         for(int i = date.month + 1; i <= 12; i++) {
             days += getDaysInMonth(i, date.year);
         }
         return days;
+    }
+
+    // How many seconds are there so far in the current day
+    public static int getSecondsInDay() {
+        final String TIME_FORMAT = "yyyy:MM:dd:HH:mm:ss";
+        final int HOUR_INDEX = 3;
+        final int MINUTE_INDEX = 4;
+        final int SECOND_INDEX = 5;
+
+        String[] nowDetails = DateTimeFormatter.ofPattern(TIME_FORMAT).format(LocalDateTime.now()).split(":");
+        int hours = Integer.parseInt(nowDetails[HOUR_INDEX]);
+        int minutes = Integer.parseInt(nowDetails[MINUTE_INDEX]);
+        int seconds = Integer.parseInt(nowDetails[SECOND_INDEX]);
+
+        return hours * 3600 + minutes * 60 + seconds;
     }
 
     @NonNull
