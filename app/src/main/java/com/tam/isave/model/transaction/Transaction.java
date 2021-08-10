@@ -11,12 +11,13 @@ import com.tam.isave.model.category.Category;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.Date;
 import com.tam.isave.utils.DebugUtils;
+import com.tam.isave.utils.IdGenerator;
 import com.tam.isave.utils.NumberUtils;
 
 @Entity(tableName = Constants.TABLE_NAME_TRANSACTION)
 public class Transaction {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey()
     private int id;
 
     @ColumnInfo(name = Constants.TRANSACTION_COLUMN_NAME)
@@ -41,6 +42,7 @@ public class Transaction {
         this.date = date;
         this.parentId = parentId;
         dateValue = this.date.getValue();
+        id = IdGenerator.makeId();
     }
 
     // Constructor for transactions who do not have a parent category.

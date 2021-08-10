@@ -12,6 +12,7 @@ import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.DebugUtils;
+import com.tam.isave.utils.IdGenerator;
 import com.tam.isave.utils.NumberUtils;
 
 // Categorises payments and tracks them in a history.
@@ -28,7 +29,7 @@ import com.tam.isave.utils.NumberUtils;
 @Entity(tableName = Constants.TABLE_NAME_CATEGORY)
 public class Category{
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey()
     private int id;
 
     @ColumnInfo(name = Constants.CATEGORY_COLUMN_NAME)
@@ -63,6 +64,7 @@ public class Category{
         this.flexibleGoal = flexibleGoal;
 
         history = new History();
+        id = IdGenerator.makeId();
 
         this.spent = 0.0;
         this.goalModifier = 0.0;
