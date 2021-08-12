@@ -109,7 +109,8 @@ public class CategoryTracker {
     // Change name, spent, goal of target category
     // By calling its modify method.
     public void modifyCategory(Category category, String name, double spent, double goal, boolean hasFlexibleGoal) {
-        category.modify(name, spent, goal, hasFlexibleGoal, goalAdapter);
+        // Modify the category found by id because the object coming from the recycler view might be a different object than the one stored here.
+        getCategoryById(category.getId()).modify(name, spent, goal, hasFlexibleGoal, goalAdapter);
     }
 
     // Make payment in target category and add to history.
