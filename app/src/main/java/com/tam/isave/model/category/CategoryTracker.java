@@ -100,10 +100,13 @@ public class CategoryTracker {
 
     // Remove category from list of categories;
     public void removeCategory(Category category) {
-        if( (category == null) || !categories.contains(category) ) { return; }
+        if(category == null) { return; }
+        Category collectionCategory =  getCategoryById(category.getId());
+        if(collectionCategory == null) { return; }
+
         // First reset category to handle overflow if it's the case.
-        category.reset(goalAdapter);
-        categories.remove(category);
+        collectionCategory.reset(goalAdapter);
+        categories.remove(collectionCategory);
     }
 
     // Change name, spent, goal of target category
