@@ -139,16 +139,13 @@ public class Category{
     }
 
     /**
-     * Resets state relating to progress:
-     * Amount spent and transactions history.
+     * Resets state relating to progress - amount spent.
      * If goalPassed > 0, there will be a negative overflow which should be handled.
      * After handling, goalPassed will also be reset.
      * @param adapter The goal adapter that would handle the overflow.
      */
     public void reset(GoalAdapter adapter) {
         this.spent = 0.0;
-        history.reset();
-
         overflowHandler.resolveOverflow(adapter); // Progress changes, there might be overflow to be handled.
     }
 
