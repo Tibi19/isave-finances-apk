@@ -18,15 +18,9 @@ import com.tam.isave.adapter.CategoryAdapter;
 import com.tam.isave.databinding.FragmentCategoriesBinding;
 import com.tam.isave.databinding.PopupAddCategoryBinding;
 import com.tam.isave.databinding.PopupEditCategoryBinding;
-import com.tam.isave.databinding.PopupEditPaymentBinding;
 import com.tam.isave.model.category.Category;
-import com.tam.isave.model.transaction.Transaction;
-import com.tam.isave.utils.CategoryUtils;
 import com.tam.isave.utils.NumberUtils;
 import com.tam.isave.viewmodel.CategoryViewModel;
-import com.tam.isave.R;
-
-import java.util.List;
 
 public class CategoriesFragment extends Fragment {
 
@@ -68,8 +62,8 @@ public class CategoriesFragment extends Fragment {
         AlertDialog editCategoryDialog;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         PopupEditCategoryBinding editCategoryBinding = PopupEditCategoryBinding.inflate(getLayoutInflater());
-        double absCategorySpent = Math.abs( NumberUtils.twoDecimals(category.getSpent()) );
-        double absCategoryGoal = Math.abs( NumberUtils.twoDecimals(category.getGoal()) );
+        double absCategorySpent = Math.abs( NumberUtils.twoDecimalsRounded(category.getSpent()) );
+        double absCategoryGoal = Math.abs( NumberUtils.twoDecimalsRounded(category.getGoal()) );
 
         builder.setView(editCategoryBinding.getRoot());
         editCategoryDialog = builder.create();

@@ -1,17 +1,13 @@
 package com.tam.isave.model.category;
 
-import android.os.Debug;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.tam.isave.model.transaction.History;
-import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Constants;
-import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.IdGenerator;
 import com.tam.isave.utils.NumberUtils;
 
@@ -190,10 +186,10 @@ public class Category{
      * @return a string in format "ll.ll (-mm.mm)" or "ll.ll" if goal was not modified.
      */
     public String getProgress() {
-        double leftAmount = NumberUtils.twoDecimals(getEndGoal() - spent);
+        double leftAmount = NumberUtils.twoDecimalsRounded(getEndGoal() - spent);
         String leftAmountString = String.valueOf(leftAmount);
         if (!NumberUtils.isZeroDouble(goalModifier)) {
-            leftAmountString += " (-" + NumberUtils.twoDecimals(goalModifier) + ")";
+            leftAmountString += " (-" + NumberUtils.twoDecimalsRounded(goalModifier) + ")";
         }
 
         return leftAmountString;

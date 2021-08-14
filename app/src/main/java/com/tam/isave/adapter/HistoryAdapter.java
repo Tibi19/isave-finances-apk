@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tam.isave.R;
 import com.tam.isave.databinding.RecyclerHistoryRowBinding;
-import com.tam.isave.model.category.Category;
-import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.NumberUtils;
 
@@ -56,7 +54,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
 
         Transaction transaction = transactions.get(position);
         holder.binding.textTransactionName.setText(transaction.getName());
-        String transactionValueString = String.valueOf(NumberUtils.twoDecimals(transaction.getValue()));
+        String transactionValueString = String.valueOf(NumberUtils.twoDecimalsRounded(transaction.getValue()));
         holder.binding.textTransactionValue.setText(transactionValueString);
         holder.binding.textTransactionDate.setText(transaction.getDate().toString());
         holder.binding.buttonTransactionDelete.setOnClickListener( deleteData -> deleteItemData.accept(transactions.get(position)) );

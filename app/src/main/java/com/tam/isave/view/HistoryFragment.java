@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tam.isave.adapter.HistoryAdapter;
 import com.tam.isave.databinding.FragmentHistoryBinding;
-import com.tam.isave.databinding.PopupAddPaymentBinding;
 import com.tam.isave.databinding.PopupEditPaymentBinding;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.transaction.Transaction;
@@ -101,7 +100,7 @@ public class HistoryFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         PopupEditPaymentBinding editPaymentBinding = PopupEditPaymentBinding.inflate(getLayoutInflater());
         List<Category> categories = new ViewModelProvider(this).get(CategoryViewModel.class).getCategories().getValue();
-        double absTransactionValue = Math.abs( NumberUtils.twoDecimals(transaction.getValue()) );
+        double absTransactionValue = Math.abs( NumberUtils.twoDecimalsRounded(transaction.getValue()) );
 
         builder.setView(editPaymentBinding.getRoot());
         editTransactionDialog = builder.create();
