@@ -168,10 +168,9 @@ public class GoalOrganizer{
     // If parameter is different than the current goal, than 0 and is positive.
     // Returns true if modification happened.
     private boolean modifyGlobalGoal(double globalGoal) {
-        globalGoal = NumberUtils.twoDecimals(globalGoal);
         if(globalGoal <= NumberUtils.ZERO_DOUBLE) { return false; }
 
-        if(NumberUtils.twoDecimals(this.globalGoal) != globalGoal) {
+        if(!NumberUtils.isSameDoubles(this.globalGoal, globalGoal)) {
             this.globalGoal = globalGoal;
             return true;
         }
