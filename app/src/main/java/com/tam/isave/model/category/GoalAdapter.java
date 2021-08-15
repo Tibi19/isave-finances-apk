@@ -50,6 +50,12 @@ public class GoalAdapter {
         }
 
         // If there are new overflows as a result of the handling, start recursion.
+        handleAllOverflows();
+    }
+
+    // Recursion by calling handleOverflow(), while handleOverflow() calls this method.
+    // Recursion stops when no more categories that have overflow are found.
+    public void handleAllOverflows() {
         for(Category category : categories) {
             if(category.hasOverflow()) {
                 handleOverflow(category);
