@@ -1,4 +1,4 @@
-package com.tam.isave.view;
+package com.tam.isave.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,9 +7,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.tam.isave.databinding.ActivityCategoryHistoryBinding;
-import com.tam.isave.databinding.ActivityGlobalHistoryBinding;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.HistoryIdentifier;
+import com.tam.isave.view.fragment.HistoryFragment;
 
 public class CategoryHistoryActivity extends AppCompatActivity {
 

@@ -1,7 +1,6 @@
-package com.tam.isave.view;
+package com.tam.isave.view.dialog;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 

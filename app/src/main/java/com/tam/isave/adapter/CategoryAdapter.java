@@ -12,8 +12,7 @@ import com.tam.isave.R;
 import com.tam.isave.databinding.RecyclerCategoryRowBinding;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.utils.Constants;
-import com.tam.isave.view.CategoryHistoryActivity;
-import com.tam.isave.view.GlobalHistoryActivity;
+import com.tam.isave.view.activity.CategoryHistoryActivity;
 
 import java.util.List;
 import java.util.function.Consumer;

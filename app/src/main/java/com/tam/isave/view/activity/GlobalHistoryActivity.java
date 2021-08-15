@@ -1,7 +1,6 @@
-package com.tam.isave.view;
+package com.tam.isave.view.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.tam.isave.databinding.ActivityGlobalHistoryBinding;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.HistoryIdentifier;
+import com.tam.isave.view.fragment.HistoryFragment;
 
 public class GlobalHistoryActivity extends AppCompatActivity {
 

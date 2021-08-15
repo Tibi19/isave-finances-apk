@@ -1,4 +1,4 @@
-package com.tam.isave.view;
+package com.tam.isave.view.fragment;
 
 import android.os.Bundle;
 import android.view.Gravity;

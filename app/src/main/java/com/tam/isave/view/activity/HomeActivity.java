@@ -1,4 +1,4 @@
-package com.tam.isave.view;
+package com.tam.isave.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,9 +7,10 @@ import android.view.Gravity;
 import com.tam.isave.databinding.ActivityHomeBinding;
 import com.tam.isave.databinding.PopupAddPaymentBinding;
 import com.tam.isave.model.category.Category;
-import com.tam.isave.utils.CategoryUtils;
-import com.tam.isave.utils.Date;
 import com.tam.isave.utils.DebugUtils;
+import com.tam.isave.view.dialog.CategorySpinnerPicker;
+import com.tam.isave.view.dialog.EditTextDatePicker;
+import com.tam.isave.view.fragment.CategoriesFragment;
 import com.tam.isave.viewmodel.CategoryViewModel;
 import com.tam.isave.viewmodel.TransactionViewModel;
 

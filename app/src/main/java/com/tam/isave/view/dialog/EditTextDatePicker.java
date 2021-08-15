@@ -1,15 +1,12 @@
-package com.tam.isave.view;
+package com.tam.isave.view.dialog;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
-import com.tam.isave.databinding.PopupAddPaymentBinding;
 import com.tam.isave.utils.Date;
-import com.tam.isave.utils.DebugUtils;
 
 import java.util.Calendar;
 import java.util.TimeZone;
