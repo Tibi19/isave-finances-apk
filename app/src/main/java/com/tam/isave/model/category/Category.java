@@ -145,6 +145,11 @@ public class Category{
         overflowHandler.resolveOverflow(adapter); // Progress changes, there might be overflow to be handled.
     }
 
+    public void resetOverflowModifications() {
+        goalModifier = 0.0;
+        goalPassed = 0.0;
+    }
+
     /**
      * Resets the entire state.
      * To be used when resetting all categories of a tracker.
@@ -152,8 +157,7 @@ public class Category{
      */
     public void fullReset(GoalAdapter adapter) {
         reset(adapter);
-        goalModifier = 0.0;
-        goalPassed = 0.0;
+        resetOverflowModifications();
     }
 
     // To be used in case the goal is passed for another category (it overflows).
