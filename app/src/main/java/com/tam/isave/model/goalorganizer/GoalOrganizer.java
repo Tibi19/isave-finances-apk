@@ -60,7 +60,6 @@ public class GoalOrganizer{
         }
 
         this.firstDay = firstDay;
-        this.activeInterval = null;
         this.history = new History();
 
         setupIntervals();
@@ -125,6 +124,10 @@ public class GoalOrganizer{
         Category[] categoryArray = intervals;
         ArrayList<Category> categoryList = new ArrayList<Category>(Arrays.asList(categoryArray));
         tracker = new CategoryTracker(categoryList, history, true);
+
+        // Initialize active interval with the first interval by default.
+        // Active interval should be updated when the update method is called.
+        activeInterval = intervals[0];
     }
 
     // Updates:
