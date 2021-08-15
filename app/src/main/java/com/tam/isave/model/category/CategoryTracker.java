@@ -85,6 +85,14 @@ public class CategoryTracker {
     public void addCategory(Category category) {
         if( (category == null) || (categories.contains(category)) ) { return; }
         categories.add(category);
+        rerunOverflowHandling();
+    }
+
+    private void rerunOverflowHandling() {
+        for(Category category : categories) {
+            category.resetOverflowModifications();
+        }
+        goalAdapter.handleAllOverflows();
     }
 
     public void addCategories(List<Category> categories) {
@@ -113,7 +121,10 @@ public class CategoryTracker {
     // By calling its modify method.
     public void modifyCategory(Category category, String name, double spent, double goal, boolean hasFlexibleGoal) {
         // Modify the category found by id because the object coming from the recycler view might be a different object than the one stored here.
+        boolean originalFlexibility = category.isFlexibleGoal();
         getCategoryById(category.getId()).modify(name, spent, goal, hasFlexibleGoal, goalAdapter);
+
+        if(!originalFlexibility && hasFlexibleGoal) { rerunOverflowHandling(); }
     }
 
     // Make payment in target category and add to history.
