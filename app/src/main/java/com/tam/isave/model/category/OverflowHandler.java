@@ -46,7 +46,7 @@ public class OverflowHandler {
         // If goal is not flexible and goal modifier is different than 0,
         // We reset goalModifier and account for it in the overflow.
         if(!flexibleGoal) {
-            overflow -= goalModifier;
+            overflow += goalModifier;
             if(shouldUpdateState) { parentCategory.setGoalModifier(0.0); }
         }
 
