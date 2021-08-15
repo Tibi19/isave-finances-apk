@@ -86,6 +86,7 @@ public class CategoriesFragment extends Fragment {
     private void setupCategoriesController(){
         // Functionality of add category button
         binding.buttonAddCategory.setOnClickListener(listener -> showAddCategoryPopup());
+        binding.buttonResetProgress.setOnClickListener(listener -> categoryViewModel.resetAllCategories());
     }
 
     private void showAddCategoryPopup() {
