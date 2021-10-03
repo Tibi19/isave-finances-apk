@@ -55,8 +55,17 @@ public class ModelRepository {
     }
 
     public void setupTrackerTransactions(List<Transaction> transactions) {
+        if(tracker == null) { return; }
+
         History history = new History(transactions);
         tracker.setupHistory(history);
+    }
+
+    public void setupGoalOrganizerTransactions(List<Transaction> transactions) {
+        if(organizer == null) { return; }
+
+        History history = new History(transactions);
+        organizer.setupHistory(history);
     }
 
     public LiveData<List<Category>> getCategories() {
@@ -77,6 +86,10 @@ public class ModelRepository {
 
     public LiveData<List<Transaction>> getIntervalTransactions(int startDateValue, int endDateValue) {
         return dataRepository.getIntervalTransactions(startDateValue, endDateValue);
+    }
+
+    public LiveData<List<Transaction>> getGlobalOrganizerTransactions(int startDateValue, int numberOfDays) {
+        return dataRepository.getIntervalTransactions(startDateValue, startDateValue + numberOfDays - 1);
     }
 
     private void setupOrganizer() {
@@ -304,5 +317,9 @@ public class ModelRepository {
      */
     public void cleanHistories() {
         History.cleanHistories(tracker);
+    }
+
+    public GoalOrganizer getGoalOrganizer() {
+        return organizer;
     }
 }

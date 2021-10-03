@@ -35,11 +35,23 @@ public class TransactionViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Transaction>> getIntervalTransactions(int startDateValue, int endDateValue) {
+        if(startDateValue < 0 || endDateValue < 0) { return null; }
         return modelRepository.getIntervalTransactions(startDateValue, endDateValue);
     }
 
+    public LiveData<List<Transaction>> getGoalOrganizerTransactions(int startDateValue, int numberOfDays) {
+        if(startDateValue < 0 || numberOfDays < 0) { return null; }
+        return modelRepository.getGlobalOrganizerTransactions(startDateValue, numberOfDays);
+    }
+
     public void setupTrackerTransactions(List<Transaction> transactions) {
+        if(transactions == null) { return; }
         modelRepository.setupTrackerTransactions(transactions);
+    }
+
+    public void setupGoalOrganizerTransactions(List<Transaction> transactions) {
+        if(transactions == null) { return; }
+        modelRepository.setupGoalOrganizerTransactions(transactions);
     }
 
     public void addPayment(PopupAddPaymentBinding addPaymentBinding, List<Category> categories) {

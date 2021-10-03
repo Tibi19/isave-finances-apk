@@ -8,6 +8,7 @@ import com.tam.isave.databinding.ActivityHomeBinding;
 import com.tam.isave.databinding.PopupAddPaymentBinding;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.goalorganizer.Interval;
+import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.view.dialog.CategorySpinnerPicker;
 import com.tam.isave.view.dialog.EditTextDatePicker;
@@ -19,6 +20,7 @@ import com.tam.isave.viewmodel.TransactionViewModel;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
@@ -44,6 +46,7 @@ public class HomeActivity extends AppCompatActivity {
         organizerViewModel = new ViewModelProvider(this).get(GoalOrganizerViewModel.class);
 
         setupCategoryTracker();
+        setupGoalOrganizer();
         setupMenuButton();
         setupAddTransactionButton();
 
@@ -61,6 +64,19 @@ public class HomeActivity extends AppCompatActivity {
                 categoryViewModel.setupTrackerCategories(categories));
         transactionViewModel.getTransactions().observe(this, transactions ->
                 transactionViewModel.setupTrackerTransactions(transactions));
+    }
+
+    /**
+     * Sets up the goal organizer.
+     */
+    private void setupGoalOrganizer() {
+        int firstDayValue = organizerViewModel.getGoalOrganizerFirstDayValue();
+        int goalOrganizerDays = organizerViewModel.getGoalOrganizerDays();
+
+        LiveData<List<Transaction>> transactionsLiveData = transactionViewModel.getGoalOrganizerTransactions(firstDayValue, goalOrganizerDays);
+        if(transactionsLiveData == null) { return; }
+
+        transactionsLiveData.observe(this, transactions -> transactionViewModel.setupGoalOrganizerTransactions(transactions));
     }
 
     private void setupAddTransactionButton() {
