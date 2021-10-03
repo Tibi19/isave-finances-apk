@@ -24,21 +24,28 @@ public class GoalOrganizer{
 
     private double globalGoal; // How much should be spent in @globalIntervalDays.
     private int globalIntervalDays; // How many days for the whole interval.
-    private int daysProgress; // Day number since beginning the global Interval (starts from 1).
     private Date firstDay; // First day of the global interval.
+    private int intervalsNr; // How many intervals are desired.
 
+    private int daysProgress; // Day number since beginning the global Interval (starts from 1).
     private History history; // Tracks all payments made in the global interval.
     private IntervalsAnalyzer intervalsAnalyzer;
     private IntervalsProgress intervalsProgress;
-
     private CategoryTracker tracker; // Tracks intervals.
-    private int intervalsNr; // How many intervals are desired.
     private Interval activeInterval; // Index of the interval to be shown.
     private Interval[] intervals; // Intervals to be tracked.
 
     // Blank Constructor.
     public GoalOrganizer() {
         this(0.0, 0, null, null);
+    }
+
+    public GoalOrganizer(double globalGoal, int intervalsNr, int firstDayValue, int globalIntervalDays) {
+        Date firstDay = new Date(firstDayValue);
+        Date lastDay = firstDay.addDays(globalIntervalDays - 1);
+        setup(globalGoal, intervalsNr, firstDay, lastDay);
+        this.intervalsAnalyzer = new IntervalsAnalyzer(this);
+        this.intervalsProgress = new IntervalsProgress(this);
     }
 
     // Constructor with a start date and end date.
