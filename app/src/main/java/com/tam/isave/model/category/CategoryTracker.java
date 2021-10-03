@@ -65,11 +65,15 @@ public class CategoryTracker {
      * @param history The history of transactions.
      */
     public void setupHistory(History history) {
+        setupHistory(history, true);
+    }
+
+    public void setupHistory(History history, boolean shouldSetupCategoriesHistories) {
         if(this.history != null || history == null) { return; }
 
         this.history = history;
 
-        if(this.categories != null) {
+        if(shouldSetupCategoriesHistories && this.categories != null) {
             setupCategoryHistories();
         }
     }
