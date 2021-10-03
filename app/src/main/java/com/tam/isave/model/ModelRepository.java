@@ -1,7 +1,6 @@
 package com.tam.isave.model;
 
 import android.app.Application;
-import android.graphics.ColorSpace;
 
 import androidx.lifecycle.LiveData;
 
@@ -15,12 +14,9 @@ import com.tam.isave.model.transaction.Cashing;
 import com.tam.isave.model.transaction.History;
 import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.model.transaction.Transaction;
-import com.tam.isave.utils.CategoryUtils;
 import com.tam.isave.utils.Date;
-import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.NumberUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ModelRepository {
@@ -43,11 +39,10 @@ public class ModelRepository {
     }
 
     private ModelRepository(Application application) {
-        setupOrganizer();
         tracker = new CategoryTracker();
         dataRepository = new DataRepository(application);
         organizerPreferences = new GoalOrganizerPreferences(application);
-
+        setupOrganizer();
     }
 
     public void setupTrackerCategories(List<Category> categories) {
@@ -165,15 +160,14 @@ public class ModelRepository {
      * @param newGoal The new goal.
      * @return True if goal organizer has been successfully modified.
      */
-    public boolean modifyGoalOrganizer(double newGoal, int newIntervalsNr, Date newStart, Date newEnd) {
-        if ( (newStart == null) || (newEnd == null) || (newIntervalsNr <= 0) ) { return false; }
-        if (newGoal <= NumberUtils.ZERO_DOUBLE) { return false; }
-        if (organizer == null) { return false; }
+    public void modifyGoalOrganizer(double newGoal, int newIntervalsNr, Date newStart, Date newEnd) {
+        if ( (newStart == null) || (newEnd == null) || (newIntervalsNr <= 0) ) { return; }
+        if (newGoal <= NumberUtils.ZERO_DOUBLE) { return; }
+        if (organizer == null) { return; }
 
         organizer.modify(newGoal, newIntervalsNr, newStart, newEnd);
-        organizerPreferences.saveGlobalOrganizer(organizer);
-        dataRepository.updateAllIntervals(organizer.getIntervals());
-        return true;
+        organizerPreferences.saveGoalOrganizer(organizer);
+        // dataRepository.updateAllIntervals(organizer.getIntervals());
     }
 
     /**
@@ -200,6 +194,12 @@ public class ModelRepository {
     public void resetGoalOrganizer() {
         if (organizer == null) { return; }
         organizer.reset();
+        organizerPreferences.saveGoalOrganizer(organizer);
+    }
+
+    public void deleteGoalOrganizer() {
+        organizer = new GoalOrganizer();
+        organizerPreferences.deleteGoalOrganizer();
     }
 
     /**
