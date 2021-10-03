@@ -1,7 +1,5 @@
 package com.tam.isave.utils;
 
-import androidx.annotation.NonNull;
-
 public class Constants {
 
     // Settings
@@ -9,6 +7,7 @@ public class Constants {
 
     // Naming
     public final static String NAMING_HISTORY = "History";
+    public final static String NAMING_INTERVAL = "Interval ";
 
     // Category Database Constants
     public final static String CATEGORY_DATABASE = "category_database";
@@ -23,6 +22,14 @@ public class Constants {
     public final static String CATEGORY_COLUMN_GOAL_PASSED = "goal_passed";
     public final static String CATEGORY_COLUMN_FLEXIBLE_GOAL = "flexible_goal";
 
+    // Interval Database Constants
+    public final static String INTERVAL_DATABASE = "interval_database";
+
+    public static final int VERSION_INTERVAL_TABLE = 2;
+    public final static String TABLE_NAME_INTERVAL = "interval_table";
+
+    public final static String INTERVAL_COLUMN_DAYS = "days";
+
     // Transaction Database Constants
     public final static String TRANSACTION_DATABASE = "transaction_database";
 
@@ -33,6 +40,15 @@ public class Constants {
     public final static String TRANSACTION_COLUMN_VALUE = "value";
     public final static String TRANSACTION_COLUMN_DATE_VALUE = "date_value";
     public final static String TRANSACTION_COLUMN_PARENT_ID = "parent_id";
+
+    // Shared Preferences Constants
+    public final static String PREFERENCES_FILE_KEY = "com.tam.isave.PREFERENCES_FILE_KEY";
+    public final static String PREFERENCES_KEY_GLOBAL_GOAL = "global_goal_key";
+    public final static String PREFERENCES_KEY_GLOBAL_DAYS = "global_days_key";
+    public final static String PREFERENCES_KEY_FIRST_DAY_VALUE = "first_day_value_key";
+    public final static String PREFERENCES_KEY_INTERVALS_COUNT = "intervals_count_key";
+    public final static float PREFERENCES_DEFAULT_FLOAT = -1.0f;
+    public final static int PREFERENCES_DEFAULT_INT = -1;
 
     // Bundle Keys
     public static final String KEY_HISTORY_TYPE = "history_type_key";
