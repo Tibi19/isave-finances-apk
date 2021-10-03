@@ -7,11 +7,14 @@ import android.view.Gravity;
 import com.tam.isave.databinding.ActivityHomeBinding;
 import com.tam.isave.databinding.PopupAddPaymentBinding;
 import com.tam.isave.model.category.Category;
+import com.tam.isave.model.goalorganizer.Interval;
 import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.view.dialog.CategorySpinnerPicker;
 import com.tam.isave.view.dialog.EditTextDatePicker;
 import com.tam.isave.view.fragment.CategoriesFragment;
+import com.tam.isave.view.fragment.GoalOrganizerFragment;
 import com.tam.isave.viewmodel.CategoryViewModel;
+import com.tam.isave.viewmodel.GoalOrganizerViewModel;
 import com.tam.isave.viewmodel.TransactionViewModel;
 
 import androidx.appcompat.app.AlertDialog;
@@ -26,6 +29,7 @@ public class HomeActivity extends AppCompatActivity {
     private ActivityHomeBinding homeBinding;
     private TransactionViewModel transactionViewModel;
     private CategoryViewModel categoryViewModel;
+    private GoalOrganizerViewModel organizerViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +41,14 @@ public class HomeActivity extends AppCompatActivity {
 
         categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
+        organizerViewModel = new ViewModelProvider(this).get(GoalOrganizerViewModel.class);
 
         setupCategoryTracker();
         setupMenuButton();
         setupAddTransactionButton();
 
         if (savedInstanceState == null) {
+            startGoalOrganizerTransaction();
             startCategoriesTransaction();
         }
     }
@@ -95,6 +101,13 @@ public class HomeActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .setReorderingAllowed(true)
                 .add(homeBinding.fragmentContainerCategories.getId(), CategoriesFragment.class, null)
+                .commit();
+    }
+
+    public void startGoalOrganizerTransaction() {
+        getSupportFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .add(homeBinding.fragmentContainerOrganizer.getId(), GoalOrganizerFragment.class, null)
                 .commit();
     }
 

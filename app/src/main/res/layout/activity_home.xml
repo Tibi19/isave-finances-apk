@@ -44,6 +44,12 @@
         <androidx.fragment.app.FragmentContainerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/fragment_container_organizer"
+            android:name="com.tam.isave.view.fragment.GoalOrganizerFragment" />/>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/fragment_container_categories"
             android:name="com.tam.isave.view.fragment.CategoriesFragment" />
 
