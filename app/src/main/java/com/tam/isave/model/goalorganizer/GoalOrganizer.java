@@ -44,15 +44,11 @@ public class GoalOrganizer{
         Date firstDay = new Date(firstDayValue);
         Date lastDay = firstDay.addDays(globalIntervalDays - 1);
         setup(globalGoal, intervalsNr, firstDay, lastDay);
-        this.intervalsAnalyzer = new IntervalsAnalyzer(this);
-        this.intervalsProgress = new IntervalsProgress(this);
     }
 
     // Constructor with a start date and end date.
     public GoalOrganizer(double globalGoal, int intervalsNr, Date firstDay, Date lastDay) {
         setup(globalGoal, intervalsNr, firstDay, lastDay);
-        this.intervalsAnalyzer = new IntervalsAnalyzer(this);
-        this.intervalsProgress = new IntervalsProgress(this);
     }
 
     // Sets up the instance.
@@ -70,7 +66,13 @@ public class GoalOrganizer{
         this.history = new History();
 
         setupIntervals();
+        setupIntervalsHelpers();
         update();
+    }
+
+    private void setupIntervalsHelpers() {
+        this.intervalsAnalyzer = new IntervalsAnalyzer(this);
+        this.intervalsProgress = new IntervalsProgress(this);
     }
 
     public void setupHistory(History history) {
@@ -101,6 +103,7 @@ public class GoalOrganizer{
 
         // Modifications happened, reset interval state and reassign history.
         setupIntervals();
+        setupIntervalsHelpers();
         update();
         assignHistory();
     }
@@ -218,7 +221,7 @@ public class GoalOrganizer{
         if(firstDay == null || lastDay == null) { return false; }
         boolean modified = false;
 
-        if(this.firstDay.getValue() != firstDay.getValue()) {
+        if(this.firstDay == null || this.firstDay.getValue() != firstDay.getValue()) {
             this.firstDay = firstDay;
             modified = true;
         }
@@ -267,7 +270,7 @@ public class GoalOrganizer{
         Interval interval = intervalsAnalyzer.getPaymentIntervalByHistory(payment);
         Interval newInterval = intervalsAnalyzer.getPaymentIntervalByDate(payment);
         if(interval == null || newInterval == null) { return; }
-        if(!interval.equals(newInterval)) {
+        if(interval.getId() != newInterval.getId()) {
             tracker.movePayment(interval, newInterval, payment);
             return;
         }
@@ -284,7 +287,15 @@ public class GoalOrganizer{
      * Returns appropriate message.
      * @return info about the progress.
      */
-    public String getIntervalsProgress() {
+    public String getTimeProgressString() {
+        return intervalsProgress.getTimeProgress();
+    }
+
+    public String getDaysProgressString() {
+        return intervalsProgress.getDaysProgress();
+    }
+
+    public String getIntervalsProgressString() {
         return intervalsProgress.getIntervalsProgress();
     }
 
