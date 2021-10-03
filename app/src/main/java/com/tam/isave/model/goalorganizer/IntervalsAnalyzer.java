@@ -24,7 +24,7 @@ public class IntervalsAnalyzer {
         if(intervals == null) { return -1; }
 
         for(int i = 0; i < intervals.length; i++) {
-            if(interval.equals(intervals[i])) {
+            if(interval.getId() == intervals[i].getId()) {
                 return i;
             }
         }
