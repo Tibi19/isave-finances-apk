@@ -6,9 +6,11 @@ import android.graphics.ColorSpace;
 import androidx.lifecycle.LiveData;
 
 import com.tam.isave.data.DataRepository;
+import com.tam.isave.data.GoalOrganizerPreferences;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.category.CategoryTracker;
 import com.tam.isave.model.goalorganizer.GoalOrganizer;
+import com.tam.isave.model.goalorganizer.Interval;
 import com.tam.isave.model.transaction.Cashing;
 import com.tam.isave.model.transaction.History;
 import com.tam.isave.model.transaction.Payment;
@@ -27,6 +29,7 @@ public class ModelRepository {
     GoalOrganizer organizer;
     CategoryTracker tracker;
     DataRepository dataRepository;
+    GoalOrganizerPreferences organizerPreferences;
 
     // Singleton of the ModelRepository.
     private static ModelRepository INSTANCE;
@@ -40,15 +43,12 @@ public class ModelRepository {
     }
 
     private ModelRepository(Application application) {
-        //setupOrganizer();
+        setupOrganizer();
         tracker = new CategoryTracker();
         dataRepository = new DataRepository(application);
-    }
+        organizerPreferences = new GoalOrganizerPreferences(application);
 
-    private void setupOrganizer() {
-        organizer = new GoalOrganizer();
     }
-
 
     public void setupTrackerCategories(List<Category> categories) {
         tracker.setupCategories(categories);
@@ -63,6 +63,10 @@ public class ModelRepository {
         return dataRepository.getCategories();
     }
 
+    public LiveData<List<Interval>> getIntervals() {
+        return dataRepository.getIntervals();
+    }
+
     public LiveData<List<Transaction>> getTransactions() {
         return dataRepository.getTransactions();
     }
@@ -73,6 +77,20 @@ public class ModelRepository {
 
     public LiveData<List<Transaction>> getIntervalTransactions(int startDateValue, int endDateValue) {
         return dataRepository.getIntervalTransactions(startDateValue, endDateValue);
+    }
+
+    private void setupOrganizer() {
+        double globalGoal = organizerPreferences.readGlobalGoal();
+        int globalDays = organizerPreferences.readGlobalDays();
+        int firstDayValue = organizerPreferences.readFirstDayValue();
+        int intervalsCount = organizerPreferences.readIntervalsCount();
+
+        if(globalGoal < 0.0 || globalDays < 0 || firstDayValue < 0 || intervalsCount < 0) {
+            organizer = new GoalOrganizer();
+            return;
+        }
+
+        organizer = new GoalOrganizer(globalGoal, intervalsCount, firstDayValue, globalDays);
     }
 
     /**
@@ -134,12 +152,14 @@ public class ModelRepository {
      * @param newGoal The new goal.
      * @return True if goal organizer has been successfully modified.
      */
-    public boolean modifyGoalOrganizer(Date newStart, Date newEnd, int newIntervalsNr, double newGoal) {
+    public boolean modifyGoalOrganizer(double newGoal, int newIntervalsNr, Date newStart, Date newEnd) {
         if ( (newStart == null) || (newEnd == null) || (newIntervalsNr <= 0) ) { return false; }
         if (newGoal <= NumberUtils.ZERO_DOUBLE) { return false; }
         if (organizer == null) { return false; }
 
         organizer.modify(newGoal, newIntervalsNr, newStart, newEnd);
+        organizerPreferences.saveGlobalOrganizer(organizer);
+        dataRepository.updateAllIntervals(organizer.getIntervals());
         return true;
     }
 
