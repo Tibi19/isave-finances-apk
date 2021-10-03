@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.tam.isave.model.category.Category;
+import com.tam.isave.model.goalorganizer.Interval;
 import com.tam.isave.model.transaction.Transaction;
 
 import java.util.List;
@@ -14,15 +15,32 @@ public class DataRepository {
     private CategoryDao categoryDao;
     private LiveData<List<Category>> categories;
 
+    private IntervalDao intervalDao;
+    private LiveData<List<Interval>> intervals;
+
     private TransactionDao transactionDao;
 
     public DataRepository(Application application) {
+        initializeCategoryDao(application);
+        initializeIntervalDao(application);
+        initializeTransactionDao(application);
+    }
+
+    private void initializeTransactionDao(Application application) {
+        TransactionRoomDatabase transactionDatabase = TransactionRoomDatabase.getDatabase(application);
+        transactionDao = transactionDatabase.transactionDao();
+    }
+
+    private void initializeIntervalDao(Application application) {
+        IntervalRoomDatabase intervalDatabase = IntervalRoomDatabase.getDatabase(application);
+        intervalDao = intervalDatabase.intervalDao();
+        intervals = intervalDao.getIntervals();
+    }
+
+    private void initializeCategoryDao(Application application) {
         CategoryRoomDatabase categoryDatabase = CategoryRoomDatabase.getDatabase(application);
         categoryDao = categoryDatabase.categoryDao();
         categories = categoryDao.getCategories();
-
-        TransactionRoomDatabase transactionDatabase = TransactionRoomDatabase.getDatabase(application);
-        transactionDao = transactionDatabase.transactionDao();
     }
 
     public LiveData<List<Category>> getCategories() {
@@ -53,6 +71,40 @@ public class DataRepository {
 
     public void deleteAllCategories() {
         CategoryRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(() -> categoryDao.deleteAll());
+    }
+
+    public LiveData<List<Interval>> getIntervals() {
+        return intervals;
+    }
+
+    public void insertInterval(final Interval interval) {
+        IntervalRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(() -> intervalDao.insert(interval));
+    }
+
+    public void updateInterval(final Interval interval) {
+        IntervalRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(() -> intervalDao.update(interval));
+    }
+
+    public void updateAllIntervals(final List<Interval> intervals) {
+        IntervalRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(() -> {
+            // A temporary interval array;
+            // To be used for converting intervals list into an array.
+            Interval[] tempIntervalArray = new Interval[intervals.size()];
+            // Convert intervals list to an array and pass to dao update.
+            intervalDao.update(intervals.toArray(tempIntervalArray));
+        });
+    }
+
+    public void updateAllIntervals(final Interval[] intervals) {
+        intervalDao.update(intervals);
+    }
+
+    public void deleteInterval(final Interval interval) {
+        IntervalRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(() -> intervalDao.delete(interval));
+    }
+
+    public void deleteAllIntervals() {
+        IntervalRoomDatabase.DATABASE_WRITE_EXECUTOR.execute(() -> intervalDao.deleteAll());
     }
 
     public LiveData<List<Transaction>> getTransactions() {
