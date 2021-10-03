@@ -38,6 +38,16 @@ public class DebugUtils {
     }
 
     /**
+     * Generates random double from minValue to maxValue.
+     * @param minValue The minimum value.
+     * @param maxValue The maximum value.
+     * @return a random double value between minValue and maxValue
+     */
+    public static double getRandomDoubleInRange(int minValue, int maxValue) {
+        return getRandomIntInRange(minValue, maxValue) + random.nextDouble();
+    }
+
+    /**
      * Generates random int from 0 to maxValue.
      * @param maxValue The maximum value.
      * @return a value between 0 and maxvalue.
