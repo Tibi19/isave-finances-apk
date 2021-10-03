@@ -31,7 +31,7 @@ public class GoalOrganizerPreferences {
         return sharedPreferences.getInt(Constants.PREFERENCES_KEY_INTERVALS_COUNT, Constants.PREFERENCES_DEFAULT_INT);
     }
 
-    public void saveGlobalOrganizer(GoalOrganizer organizer) {
+    public void saveGoalOrganizer(GoalOrganizer organizer) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putFloat(Constants.PREFERENCES_KEY_GLOBAL_GOAL, (float) organizer.getGlobalGoal());
@@ -42,4 +42,14 @@ public class GoalOrganizerPreferences {
         editor.apply();
     }
 
+    public void deleteGoalOrganizer() {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putFloat(Constants.PREFERENCES_KEY_GLOBAL_GOAL, Constants.PREFERENCES_DEFAULT_FLOAT);
+        editor.putInt(Constants.PREFERENCES_KEY_GLOBAL_DAYS, Constants.PREFERENCES_DEFAULT_INT);
+        editor.putInt(Constants.PREFERENCES_KEY_FIRST_DAY_VALUE, Constants.PREFERENCES_DEFAULT_INT);
+        editor.putInt(Constants.PREFERENCES_KEY_INTERVALS_COUNT, Constants.PREFERENCES_DEFAULT_INT);
+
+        editor.apply();
+    }
 }
