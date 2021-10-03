@@ -73,6 +73,13 @@ public class GoalOrganizer{
         update();
     }
 
+    public void setupHistory(History history) {
+        if(this.history != null && !this.history.isEmpty()) { return; }
+        this.history = history;
+        tracker.setupHistory(history, false);
+        assignHistory();
+    }
+
     // Resets the goal organizer by starting all over again.
     // Keeps the same goal, interval structure and time frame.
     // First day becomes today.
@@ -95,7 +102,7 @@ public class GoalOrganizer{
         // Modifications happened, reset interval state and reassign history.
         setupIntervals();
         update();
-        reassignHistory();
+        assignHistory();
     }
 
     // Set up days for each interval.
@@ -162,11 +169,10 @@ public class GoalOrganizer{
 
     // Reassign history by making each transaction again.
     // Will recalculate state and handle overflow in case of modification.
-    private void reassignHistory() {
+    private void assignHistory() {
         if(history.isEmpty()) { return; }
 
         List<Transaction> historyList = history.cloneHistoryList();
-        history.reset();
         // Inverse iteration through historyList as history assignation will be easier.
         // Newer transactions should be added last.
         for(int i = historyList.size() - 1; i >= 0; i--) {
