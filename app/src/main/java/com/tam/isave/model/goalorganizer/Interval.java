@@ -7,6 +7,7 @@ import androidx.room.Ignore;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.category.GoalAdapter;
 import com.tam.isave.utils.Constants;
+import com.tam.isave.utils.IdGenerator;
 
 @Entity(tableName = Constants.TABLE_NAME_INTERVAL)
 public class Interval extends Category {
@@ -18,6 +19,8 @@ public class Interval extends Category {
     public Interval(int id, int days, double goal) {
         super(Constants.NAMING_INTERVAL + (id + 1), goal);
         this.days = days;
+        int intervalId = IdGenerator.appendId(getId(), id);
+        setId(intervalId);
     }
 
     public Interval() {
