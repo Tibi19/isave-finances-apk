@@ -179,7 +179,7 @@ public class GoalOrganizer{
         // Inverse iteration through historyList as history assignation will be easier.
         // Newer transactions should be added last.
         for(int i = historyList.size() - 1; i >= 0; i--) {
-            makePayment((Payment) historyList.get(i));
+            makePayment(historyList.get(i));
         }
     }
 
@@ -238,7 +238,7 @@ public class GoalOrganizer{
     // Makes payment in category tracker for the right interval.
     // Interval is assigned by payment's date.
     // Adds payment to history.
-    public void makePayment(Payment payment) {
+    public void makePayment(Transaction payment) {
         // Protect from duplicate payments.
         if(history.hasTransaction(payment)) { return; }
 
