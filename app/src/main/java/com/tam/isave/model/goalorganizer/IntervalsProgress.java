@@ -1,11 +1,6 @@
 package com.tam.isave.model.goalorganizer;
 
-import android.os.Debug;
-import android.util.Log;
-
 import com.tam.isave.utils.Date;
-import com.tam.isave.utils.DebugUtils;
-import com.tam.isave.utils.NumberUtils;
 
 /**
  * Provides progress information in a GoalOrganizer's intervals group.
@@ -13,11 +8,9 @@ import com.tam.isave.utils.NumberUtils;
 public class IntervalsProgress {
 
     private GoalOrganizer goalOrganizer;
-    private Interval activeInterval;
 
     public IntervalsProgress(GoalOrganizer goalOrganizer) {
         this.goalOrganizer = goalOrganizer;
-        activeInterval = goalOrganizer.getActiveInterval();
     }
 
     /**
@@ -31,6 +24,7 @@ public class IntervalsProgress {
      */
     public String getTimeProgress() {
         Date firstDay = goalOrganizer.getFirstDay();
+        Interval activeInterval = goalOrganizer.getActiveInterval();
         IntervalsAnalyzer intervalsAnalyzer = goalOrganizer.getIntervalsAnalyzer();
 
         // toString with "Day x in y - z: intervalSpent / intervalGoal"
@@ -61,14 +55,15 @@ public class IntervalsProgress {
     }
 
     public String getDaysProgress() {
-        int daysProgress = getDaysProgressInActiveInterval();
+        Interval activeInterval = goalOrganizer.getActiveInterval();
+        int daysProgress = getDaysProgressInActiveInterval(activeInterval);
 
         if(daysProgress < 0) { return "N/A"; }
 
         return daysProgress + " of " + activeInterval.getDays();
     }
 
-    private int getDaysProgressInActiveInterval() {
+    private int getDaysProgressInActiveInterval(Interval activeInterval) {
         int daysProgress = goalOrganizer.getDaysProgress();
         Interval[] intervals = goalOrganizer.getIntervals();
 
@@ -76,7 +71,7 @@ public class IntervalsProgress {
 
         for(Interval interval : intervals) {
             if(interval.getId() == activeInterval.getId()) { return daysProgress; }
-            daysProgress -= activeInterval.getDays();
+            daysProgress -= interval.getDays();
         }
 
         return -1;
@@ -92,11 +87,12 @@ public class IntervalsProgress {
 
     private int getActiveIntervalCount() {
         int activeIntervalCount = 1;
+        Interval activeInterval = goalOrganizer.getActiveInterval();
         Interval[] intervals = goalOrganizer.getIntervals();
 
         if(intervals == null || intervals.length <= 0) { return -1; }
 
-        for(Interval interval : goalOrganizer.getIntervals()) {
+        for(Interval interval : intervals) {
             if(interval.getId() == activeInterval.getId()) { return activeIntervalCount; }
             activeIntervalCount++;
         }
@@ -106,6 +102,7 @@ public class IntervalsProgress {
 
     // Spending progress of current interval.
     public String getBudgetProgress() {
+        Interval activeInterval = goalOrganizer.getActiveInterval();
         if(activeInterval == null) { return "N/A"; }
         return activeInterval.getProgress();
     }
