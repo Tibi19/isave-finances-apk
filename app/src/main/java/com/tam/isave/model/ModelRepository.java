@@ -15,6 +15,7 @@ import com.tam.isave.model.transaction.History;
 import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Date;
+import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.NumberUtils;
 
 import java.util.List;
@@ -84,7 +85,8 @@ public class ModelRepository {
     }
 
     public LiveData<List<Transaction>> getGlobalOrganizerTransactions(int startDateValue, int numberOfDays) {
-        return dataRepository.getIntervalTransactions(startDateValue, startDateValue + numberOfDays - 1);
+        Date endDate = new Date(startDateValue).addDays(numberOfDays - 1);
+        return dataRepository.getIntervalTransactions(startDateValue, endDate.getValue());
     }
 
     private void setupOrganizer() {
