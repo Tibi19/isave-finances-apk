@@ -73,10 +73,9 @@ public class HomeActivity extends AppCompatActivity {
         int firstDayValue = organizerViewModel.getGoalOrganizerFirstDayValue();
         int goalOrganizerDays = organizerViewModel.getGoalOrganizerDays();
 
-        LiveData<List<Transaction>> transactionsLiveData = transactionViewModel.getGoalOrganizerTransactions(firstDayValue, goalOrganizerDays);
-        if(transactionsLiveData == null) { return; }
-
-        transactionsLiveData.observe(this, transactions -> transactionViewModel.setupGoalOrganizerTransactions(transactions));
+        transactionViewModel
+                .getGoalOrganizerTransactions(firstDayValue, goalOrganizerDays)
+                .observe(this, transactions -> transactionViewModel.setupGoalOrganizerTransactions(transactions));
     }
 
     private void setupAddTransactionButton() {
