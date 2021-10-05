@@ -6,6 +6,7 @@ import com.tam.isave.model.transaction.History;
 import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Date;
+import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.NumberUtils;
 
 import java.util.ArrayList;
@@ -140,7 +141,7 @@ public class GoalOrganizer{
         // Therefore, OrderedHandling is set to true.
         Category[] categoryArray = intervals;
         ArrayList<Category> categoryList = new ArrayList<Category>(Arrays.asList(categoryArray));
-        tracker = new CategoryTracker(categoryList, history, true);
+        tracker = new CategoryTracker(categoryList, null, true);
 
         // Initialize active interval with the first interval by default.
         // Active interval should be updated when the update method is called.
@@ -170,16 +171,13 @@ public class GoalOrganizer{
         modify(globalGoal, this.intervalsNr, this.firstDay, this.firstDay.addDays(this.globalIntervalDays - 1));
     }
 
-    // Reassign history by making each transaction again.
-    // Will recalculate state and handle overflow in case of modification.
+    // Assign history by making each transaction in the history.
+    // Will modify state and handle overflow in case of modification.
     private void assignHistory() {
-        if(history.isEmpty()) { return; }
+        if(history == null || history.isEmpty()) { return; }
 
-        List<Transaction> historyList = history.cloneHistoryList();
-        // Inverse iteration through historyList as history assignation will be easier.
-        // Newer transactions should be added last.
-        for(int i = historyList.size() - 1; i >= 0; i--) {
-            makePayment(historyList.get(i));
+        for(Transaction transaction : history.getHistoryList()) {
+            makePayment(transaction);
         }
     }
 
@@ -239,14 +237,11 @@ public class GoalOrganizer{
     // Interval is assigned by payment's date.
     // Adds payment to history.
     public void makePayment(Transaction payment) {
-        // Protect from duplicate payments.
-        if(history.hasTransaction(payment)) { return; }
+        if(payment == null || tracker == null) { return; }
 
         Interval interval = intervalsAnalyzer.getPaymentIntervalByDate(payment);
         if(interval == null) { return; }
-
         tracker.makePayment(interval, payment);
-        history.addTransaction(payment);
     }
 
     // Removes payment from the interval where it was made.
