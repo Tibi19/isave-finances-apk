@@ -19,22 +19,12 @@ public class CategoryTracker {
     private GoalAdapter goalAdapter;
 
     public CategoryTracker(List<Category> categories, History history, boolean orderedHandling) {
-        setup(categories, history, orderedHandling);
-    }
-
-    // Default constructor, does not have ordered handling.
-    public CategoryTracker(List<Category> categories, History history) {
-        setup(categories, history, false);
-    }
-
-    public CategoryTracker() {}
-
-    public void setup(List<Category> categories, History history, boolean orderedHandling) {
         this.categories = categories;
         this.history = history;
         this.goalAdapter = new GoalAdapter(categories, orderedHandling);
-        setupCategoryHistories();
     }
+
+    public CategoryTracker() {}
 
     /**
      * Default category initializer without ordered handling (for normal categories).
@@ -135,7 +125,7 @@ public class CategoryTracker {
     // Assign category as payment's parent category if @assign is true.
     public void makePayment(Category category, Transaction payment, boolean assign) {
         if( (category == null) || (payment == null) ) { return; }
-        if(history.hasTransaction(payment)) { return; }
+        //if(history.hasTransaction(payment)) { return; }
 
         if(assign) {
             assignCategory(category, payment);
@@ -217,7 +207,6 @@ public class CategoryTracker {
      */
     public void modifyPaymentInInterval(Interval interval, Transaction payment, double valueDiff) {
         if( (interval == null) || (payment == null) ) { return; }
-        if(!interval.getHistory().hasTransaction(payment)) { return; }
 
         modifyPayment(interval, payment, valueDiff);
     }
