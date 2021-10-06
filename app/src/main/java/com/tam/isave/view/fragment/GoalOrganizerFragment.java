@@ -16,6 +16,7 @@ import com.tam.isave.databinding.FragmentOrganizerBinding;
 import com.tam.isave.model.goalorganizer.GoalOrganizer;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Date;
+import com.tam.isave.utils.LiveDataUtils;
 import com.tam.isave.viewmodel.GoalOrganizerViewModel;
 import com.tam.isave.viewmodel.TransactionViewModel;
 
@@ -28,7 +29,7 @@ public class GoalOrganizerFragment extends Fragment {
 
     private TransactionViewModel transactionViewModel;
     private LiveData<List<Transaction>> transactionsLiveData;
-    private Observer<List<Transaction>> transactionsObserver;
+    private Observer<List<Transaction>> bindingUpdateObserver;
 
     @Nullable
     @Override
@@ -43,20 +44,37 @@ public class GoalOrganizerFragment extends Fragment {
 
         organizerViewModel = new ViewModelProvider(this).get(GoalOrganizerViewModel.class);
         transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
-        transactionsObserver = transactions -> updateBinding();
+        bindingUpdateObserver = transactions -> updateBinding();
 
+        setupGoalOrganizerTransactions();
         setupOrganizerController();
-        attachObserver();
+        attachBindingUpdateObserver();
     }
 
-    private void attachObserver() {
+    private void setupGoalOrganizerTransactions() {
+        int firstDayValue = organizerViewModel.getGoalOrganizerFirstDayValue();
+        int goalOrganizerDays = organizerViewModel.getGoalOrganizerDays();
+
+        LiveData<List<Transaction>> organizerTransactions = transactionViewModel
+                .getGoalOrganizerTransactions(firstDayValue, goalOrganizerDays);
+
+        if(organizerTransactions == null) { return; }
+
+        LiveDataUtils.observeOnce(organizerTransactions,
+                transactions -> {
+                    transactionViewModel.setupGoalOrganizerTransactions(transactions);
+                    updateBinding();
+                });
+    }
+
+    private void attachBindingUpdateObserver() {
         int firstDayValue = organizerViewModel.getGoalOrganizerFirstDayValue();
         int goalOrganizerDays = organizerViewModel.getGoalOrganizerDays();
         transactionsLiveData = transactionViewModel.getGoalOrganizerTransactions(firstDayValue, goalOrganizerDays);
 
         if(transactionsLiveData == null) { return; }
 
-        transactionsLiveData.observe(getViewLifecycleOwner(), transactionsObserver);
+        transactionsLiveData.observe(getViewLifecycleOwner(), bindingUpdateObserver);
     }
 
     private void updateBinding() {
@@ -84,24 +102,36 @@ public class GoalOrganizerFragment extends Fragment {
 //        organizerViewModel.updateGoalOrganizer(globalGoal, intervalsCount, firstDay, lastDay);
 //        updateBinding();
 
-        Date firstDay = new Date(20210912);
+        Date firstDay = new Date(20210915);
         Date lastDay = firstDay.addDays(30);
         double globalGoal = 3000;
         int intervalsCount = 6;
-        organizerViewModel.updateGoalOrganizer(globalGoal, intervalsCount, firstDay, lastDay);
 
-        resetObserverIfTimeChanged(originalFirstDayValue, originalOrganizerDays);
+        updateGoalOrganizer(globalGoal, intervalsCount, firstDay, lastDay);
+        resetBindingObserverIfTimeChange(originalFirstDayValue, originalOrganizerDays);
+    }
+
+    private void updateGoalOrganizer(double globalGoal, int intervalsCount, Date firstDay, Date lastDay) {
+        if(firstDay == null || lastDay == null) { return; }
+
+        LiveDataUtils.observeOnce(
+                transactionViewModel.getIntervalTransactions(firstDay.getValue(), lastDay.getValue()),
+                transactions -> {
+                    organizerViewModel.updateGoalOrganizer(globalGoal, intervalsCount, firstDay, lastDay, transactions);
+                    updateBinding();
+                }
+        );
     }
 
     // If first day or total days change in goal organizer, then we need to observe a different set of transactions.
-    private void resetObserverIfTimeChanged(int originalFirstDayValue, int originalOrganizerDays) {
+    private void resetBindingObserverIfTimeChange(int originalFirstDayValue, int originalOrganizerDays) {
         boolean isFirstDayChanged = originalFirstDayValue != organizerViewModel.getGoalOrganizerFirstDayValue();
         boolean isOrganizerDaysChanged = originalOrganizerDays != organizerViewModel.getGoalOrganizerDays();
 
         if(!isFirstDayChanged || !isOrganizerDaysChanged) { return; }
 
-        transactionsLiveData.removeObserver(transactionsObserver);
-        attachObserver();
+        transactionsLiveData.removeObserver(bindingUpdateObserver);
+        attachBindingUpdateObserver();
     }
 
     private void deleteOrganizer() {
