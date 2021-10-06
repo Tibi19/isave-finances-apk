@@ -162,12 +162,13 @@ public class ModelRepository {
      * @param newGoal The new goal.
      * @return True if goal organizer has been successfully modified.
      */
-    public void modifyGoalOrganizer(double newGoal, int newIntervalsNr, Date newStart, Date newEnd) {
-        if ( (newStart == null) || (newEnd == null) || (newIntervalsNr <= 0) ) { return; }
+    public void modifyGoalOrganizer(double newGoal, int newIntervalsNr, Date newStart, Date newEnd, List<Transaction> transactions) {
+        if ( (newStart == null) || (newEnd == null) || (transactions == null) || (newIntervalsNr <= 0) ) { return; }
         if (newGoal <= NumberUtils.ZERO_DOUBLE) { return; }
         if (organizer == null) { return; }
 
-        organizer.modify(newGoal, newIntervalsNr, newStart, newEnd);
+        History newHistory = new History(transactions);
+        organizer.modify(newGoal, newIntervalsNr, newStart, newEnd, newHistory);
         organizerPreferences.saveGoalOrganizer(organizer);
         // dataRepository.updateAllIntervals(organizer.getIntervals());
     }

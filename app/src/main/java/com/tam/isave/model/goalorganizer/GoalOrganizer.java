@@ -94,7 +94,7 @@ public class GoalOrganizer{
     // Modifies goal, number of intervals or time state.
     // Resets intervals and reassigns history in case of modification
     // To account for interval or overflow changes.
-    public void modify(double globalGoal, int intervalsNr, Date firstDay, Date lastDay) {
+    public void modify(double globalGoal, int intervalsNr, Date firstDay, Date lastDay, History history) {
         boolean modGoal = modifyGlobalGoal(globalGoal);
         boolean modIntervalsNr = modifyIntervalsNr(intervalsNr);
         boolean modTime = modifyTime(firstDay, lastDay);
@@ -106,7 +106,7 @@ public class GoalOrganizer{
         setupIntervals();
         setupIntervalsHelpers();
         update();
-        assignHistory();
+        setupHistory(history);
     }
 
     // Set up days for each interval.
@@ -168,7 +168,7 @@ public class GoalOrganizer{
      * @param globalGoal - The new goal.
      */
     public void modify(double globalGoal) {
-        modify(globalGoal, this.intervalsNr, this.firstDay, this.firstDay.addDays(this.globalIntervalDays - 1));
+        modify(globalGoal, this.intervalsNr, this.firstDay, this.firstDay.addDays(this.globalIntervalDays - 1), this.history);
     }
 
     // Assign history by making each transaction in the history.
