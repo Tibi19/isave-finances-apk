@@ -7,20 +7,17 @@ import android.view.Gravity;
 import com.tam.isave.databinding.ActivityHomeBinding;
 import com.tam.isave.databinding.PopupAddPaymentBinding;
 import com.tam.isave.model.category.Category;
-import com.tam.isave.model.goalorganizer.Interval;
-import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.DebugUtils;
+import com.tam.isave.utils.LiveDataUtils;
 import com.tam.isave.view.dialog.CategorySpinnerPicker;
 import com.tam.isave.view.dialog.EditTextDatePicker;
 import com.tam.isave.view.fragment.CategoriesFragment;
 import com.tam.isave.view.fragment.GoalOrganizerFragment;
 import com.tam.isave.viewmodel.CategoryViewModel;
-import com.tam.isave.viewmodel.GoalOrganizerViewModel;
 import com.tam.isave.viewmodel.TransactionViewModel;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.List;
@@ -31,7 +28,6 @@ public class HomeActivity extends AppCompatActivity {
     private ActivityHomeBinding homeBinding;
     private TransactionViewModel transactionViewModel;
     private CategoryViewModel categoryViewModel;
-    private GoalOrganizerViewModel organizerViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +39,8 @@ public class HomeActivity extends AppCompatActivity {
 
         categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
-        organizerViewModel = new ViewModelProvider(this).get(GoalOrganizerViewModel.class);
 
         setupCategoryTracker();
-        setupGoalOrganizer();
         setupMenuButton();
         setupAddTransactionButton();
 
@@ -60,22 +54,13 @@ public class HomeActivity extends AppCompatActivity {
      * Sets up the tracker model that will take care of category calculations.
      */
     private void setupCategoryTracker() {
-        categoryViewModel.getCategories().observe(this, categories ->
-                categoryViewModel.setupTrackerCategories(categories));
-        transactionViewModel.getTransactions().observe(this, transactions ->
-                transactionViewModel.setupTrackerTransactions(transactions));
-    }
-
-    /**
-     * Sets up the goal organizer.
-     */
-    private void setupGoalOrganizer() {
-        int firstDayValue = organizerViewModel.getGoalOrganizerFirstDayValue();
-        int goalOrganizerDays = organizerViewModel.getGoalOrganizerDays();
-
-        transactionViewModel
-                .getGoalOrganizerTransactions(firstDayValue, goalOrganizerDays)
-                .observe(this, transactions -> transactionViewModel.setupGoalOrganizerTransactions(transactions));
+        LiveDataUtils.observeOnce(
+                categoryViewModel.getCategories(),
+                categories -> categoryViewModel.setupTrackerCategories(categories));
+        LiveDataUtils.observeOnce(
+                transactionViewModel.getTransactions(),
+                transactions -> transactionViewModel.setupTrackerTransactions(transactions)
+        );
     }
 
     private void setupAddTransactionButton() {
