@@ -260,6 +260,15 @@ public class Date {
         return totalDaysLastDate - totalDaysFirstDate;
     }
 
+    /**
+     * Counts days starting from the object until the date parameter.
+     * @param date The date until which to count, inclusively.
+     * @return Number of days starting from the object until the parameter (both inclusive).
+     */
+    public int countDaysUntil(Date date) {
+        return differenceInDays(date) + 1;
+    }
+
     // How many days are from the start of the year until the given @date.
     public static int getDaysUntilDate(Date date) {
         int days = 0;
