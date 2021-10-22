@@ -60,7 +60,7 @@ public class GoalOrganizer{
         this.globalGoal = globalGoal;
         this.intervalsNr = intervalsNr;
         if( (firstDay != null) && (lastDay != null) ) {
-            this.globalIntervalDays = firstDay.differenceInDays(lastDay);
+            this.globalIntervalDays = firstDay.countDaysUntil(lastDay);
         }
 
         this.firstDay = firstDay;
@@ -77,7 +77,11 @@ public class GoalOrganizer{
     }
 
     public void setupHistory(History history) {
-        if(this.history != null && !this.history.isEmpty()) { return; }
+        setupHistory(history, false);
+    }
+
+    private void setupHistory(History history, boolean overrideHistory) {
+        if(this.history != null && !this.history.isEmpty() && !overrideHistory) { DebugUtils.makeToast("Not assigning history!"); return; }
         this.history = history;
         tracker.setupHistory(history, false);
         assignHistory();
@@ -106,7 +110,7 @@ public class GoalOrganizer{
         setupIntervals();
         setupIntervalsHelpers();
         update();
-        setupHistory(history);
+        setupHistory(history, true);
     }
 
     // Set up days for each interval.
@@ -154,7 +158,7 @@ public class GoalOrganizer{
     public void update() {
         if ( (firstDay == null) || (activeInterval == null) || (intervals == null) ) { return; }
 
-        daysProgress = firstDay.differenceInDays(Date.today()) + 1;
+        daysProgress = firstDay.countDaysUntil(Date.today());
         // Increment current interval until the current day is less than the total amount of days between all intervals tracked so far.
         while(daysProgress > intervalsAnalyzer.getIntervalsDays(activeInterval)) {
             int activeIntervalIndex = intervalsAnalyzer.getIntervalIndex(activeInterval);
@@ -174,7 +178,9 @@ public class GoalOrganizer{
     // Assign history by making each transaction in the history.
     // Will modify state and handle overflow in case of modification.
     private void assignHistory() {
-        if(history == null || history.isEmpty()) { return; }
+        if(history == null || history.isEmpty()) {  return; }
+
+        DebugUtils.makeToast("Assigning history........................");
 
         for(Transaction transaction : history.getHistoryList()) {
             makePayment(transaction);
@@ -224,7 +230,7 @@ public class GoalOrganizer{
             modified = true;
         }
 
-        int globalIntervalDays = firstDay.differenceInDays(lastDay);
+        int globalIntervalDays = firstDay.countDaysUntil(lastDay);
         if(this.globalIntervalDays != globalIntervalDays) {
             this.globalIntervalDays = globalIntervalDays;
             modified = true;
@@ -272,18 +278,6 @@ public class GoalOrganizer{
 
         // If interval wasn't changed for the modified payment, let tracker handle value difference.
         tracker.modifyPaymentInInterval(interval, payment, valueDiff);
-    }
-
-    /**
-     * Returns a string in format "Day X in Y - Z" where,
-     * X: day number since first day of goal organizer (this.daysProgress).
-     * Y - Z: day numbers of first and last days of the active interval.
-     * If today's date is not between goal organizer's first and last days,
-     * Returns appropriate message.
-     * @return info about the progress.
-     */
-    public String getTimeProgressString() {
-        return intervalsProgress.getTimeProgress();
     }
 
     public String getDaysProgressString() {
