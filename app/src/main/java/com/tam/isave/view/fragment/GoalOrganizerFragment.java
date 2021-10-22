@@ -16,6 +16,7 @@ import com.tam.isave.databinding.FragmentOrganizerBinding;
 import com.tam.isave.model.goalorganizer.GoalOrganizer;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Date;
+import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.LiveDataUtils;
 import com.tam.isave.viewmodel.GoalOrganizerViewModel;
 import com.tam.isave.viewmodel.TransactionViewModel;
@@ -102,10 +103,10 @@ public class GoalOrganizerFragment extends Fragment {
 //        organizerViewModel.updateGoalOrganizer(globalGoal, intervalsCount, firstDay, lastDay);
 //        updateBinding();
 
-        Date firstDay = new Date(20210915);
-        Date lastDay = firstDay.addDays(30);
-        double globalGoal = 3000;
-        int intervalsCount = 6;
+        Date firstDay = new Date(20211015);
+        Date lastDay = firstDay.addDays(DebugUtils.getRandomIntInRange(15, 30));
+        double globalGoal = DebugUtils.getRandomDoubleInRange(2000, 4000);
+        int intervalsCount = DebugUtils.getRandomIntInRange(4, 8);
 
         updateGoalOrganizer(globalGoal, intervalsCount, firstDay, lastDay);
         resetBindingObserverIfTimeChange(originalFirstDayValue, originalOrganizerDays);
