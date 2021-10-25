@@ -81,7 +81,7 @@ public class GoalOrganizer{
     }
 
     private void setupHistory(History history, boolean overrideHistory) {
-        if(this.history != null && !this.history.isEmpty() && !overrideHistory) { DebugUtils.makeToast("Not assigning history!"); return; }
+        if(this.history != null && !this.history.isEmpty() && !overrideHistory) { return; }
         this.history = history;
         tracker.setupHistory(history, false);
         assignHistory();
@@ -179,8 +179,6 @@ public class GoalOrganizer{
     // Will modify state and handle overflow in case of modification.
     private void assignHistory() {
         if(history == null || history.isEmpty()) {  return; }
-
-        DebugUtils.makeToast("Assigning history........................");
 
         for(Transaction transaction : history.getHistoryList()) {
             makePayment(transaction);
