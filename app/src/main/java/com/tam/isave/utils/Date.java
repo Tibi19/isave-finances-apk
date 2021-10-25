@@ -226,6 +226,15 @@ public class Date {
         return new Date(day, month, year);
     }
 
+    /**
+     * Get the date after a number of days, counting from the day of the object inclusive.
+     * @param days The number of days to count
+     * @return Date after a number of days, object day inclusive.
+     */
+    public Date countDays(int days) {
+        return addDays(days - 1);
+    }
+
     // Returns how many days are between @date and @this.
     public int differenceInDays(Date date) {
         // Set first date and last date by comparing them.
