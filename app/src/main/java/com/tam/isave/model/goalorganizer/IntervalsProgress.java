@@ -24,7 +24,7 @@ public class IntervalsProgress {
         int daysProgress = goalOrganizer.getDaysProgress();
         Interval[] intervals = goalOrganizer.getIntervals();
 
-        if(intervals == null || intervals.length <= 0 || daysProgress <= 0) { return -1; }
+        if(activeInterval == null || intervals == null || intervals.length <= 0 || daysProgress <= 0) { return -1; }
 
         for(Interval interval : intervals) {
             if(interval.getId() == activeInterval.getId()) { return daysProgress; }
@@ -47,7 +47,7 @@ public class IntervalsProgress {
         Interval activeInterval = goalOrganizer.getActiveInterval();
         Interval[] intervals = goalOrganizer.getIntervals();
 
-        if(intervals == null || intervals.length <= 0) { return -1; }
+        if(activeInterval == null || intervals == null || intervals.length <= 0) { return -1; }
 
         for(Interval interval : intervals) {
             if(interval.getId() == activeInterval.getId()) { return activeIntervalCount; }

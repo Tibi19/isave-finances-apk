@@ -159,6 +159,12 @@ public class GoalOrganizer{
         if ( (firstDay == null) || (activeInterval == null) || (intervals == null) ) { return; }
 
         daysProgress = firstDay.countDaysUntil(Date.today());
+        
+        if(firstDay.isNewerThan(Date.today()) || daysProgress > globalIntervalDays) {
+            activeInterval = null;
+            return;
+        }
+
         // Increment current interval until the current day is less than the total amount of days between all intervals tracked so far.
         while(daysProgress > intervalsAnalyzer.getIntervalsDays(activeInterval)) {
             int activeIntervalIndex = intervalsAnalyzer.getIntervalIndex(activeInterval);
