@@ -10,7 +10,7 @@ import java.util.List;
 
 public class History {
 
-    private static final int HISTORY_MAXIMUM_DAYS = 180; // Entries older than these many days will be deleted.
+    private static final int HISTORY_MAXIMUM_DAYS = 180;
 
     private List<Transaction> historyList;
 
@@ -24,11 +24,12 @@ public class History {
 
     // Adds and inserts transaction at correct position based on date.
     public void addTransaction(Transaction transaction) {
-        if( (transaction == null) || (historyList.contains(transaction)) ) { return; }
+        if( (transaction == null) || hasTransaction(transaction) ) { return; }
         validateSorting();
 
         if(historyList.isEmpty()) {
             historyList.add(transaction);
+            return;
         }
 
         int i = 0; // iterator starts at 0 as the new element is most likely newer than the rest.
@@ -44,61 +45,15 @@ public class History {
         historyList.add(i, transaction);
     }
 
-    // Adds transactions in bulk and then sorts history list.
-    public void addTransactions(ArrayList<Transaction> transactions) {
-        if(transactions == null) { return; }
-        historyList.addAll(transactions);
-        validateSorting();
-    }
-
-    // Remove @transaction and also dispose it if flag is true.
-    // Flag should be false if @transaction is still being used by other categories.
     public void removeTransaction(Transaction transaction) {
         if( (transaction == null) ) { return; }
         historyList.removeIf(element -> element.getId() == transaction.getId());
-    }
-
-//    public void modifyTransaction(Transaction transaction) {
-//        if( (transaction == null) || !(historyList.contains(transaction)) ) { return; }
-//        if(isTransactionOrdered(transaction)) { return; }
-//
-//        // If transaction is not ordered,
-//        // It needs to be removed and inserted back at the right place.
-//        removeTransaction(transaction);
-//        addTransaction(transaction);
-//    }
-
-    // Checks if transaction is ordered in the history list.
-    // true if prevTransaction.dateValue > transaction.dateValue > nextTransaction.dateValue.
-    // newTransaction comparison is ignored if transaction is first item;
-    // oldTransaction comparison is ignored if transaction is last item.
-    private boolean isTransactionOrdered(Transaction transaction) {
-        if( (transaction == null) || !(historyList.contains(transaction)) ) { return false; }
-
-        int tranIndex = historyList.indexOf(transaction);
-        // Previous item in history list or null if param is the first item.
-        Transaction prevTran = (tranIndex > 0) ? historyList.get(tranIndex - 1) : null;
-        // Next item in history list or null if param is the last item.
-        Transaction nextTran = ( tranIndex < (historyList.size() - 1) ) ? historyList.get(tranIndex + 1) : null;
-
-        int tranValue = transaction.getDate().getValue();
-        // If transaction is older than previous item. True if previous item is null.
-        boolean olderThanPrev = (prevTran == null) || (prevTran.getDate().getValue() > tranValue);
-        // If transaction is newer than next item. True if next item is null.
-        boolean newerThanNext = (nextTran == null) || (nextTran.getDate().getValue() < tranValue);
-
-        // Transaction is ordered if it's both older than previous item and newer than next item.
-        return olderThanPrev && newerThanNext;
     }
 
     public void reset() {
         historyList.clear();
     }
 
-    // Returns a clone of historyList.
-    public List<Transaction> cloneHistoryList() {
-        return new ArrayList<>(historyList);
-    }
     public List<Transaction> getHistoryList() { return historyList; }
 
     // Checks if history is sorted and sorts it if not.
@@ -200,10 +155,6 @@ public class History {
 
         return new History(transactions);
     }
-
-//    public ArrayList<Transaction> getHistoryList() {
-//        return historyList;
-//    }
 }
 
 
