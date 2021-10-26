@@ -1,13 +1,8 @@
 package com.tam.isave.model.transaction;
 
-import android.widget.ArrayAdapter;
-
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.category.CategoryTracker;
-import com.tam.isave.utils.CategoryUtils;
 import com.tam.isave.utils.Constants;
-import com.tam.isave.utils.DebugUtils;
-import com.tam.isave.utils.NumberUtils;
 import com.tam.isave.utils.Date;
 
 import java.util.ArrayList;
@@ -59,8 +54,8 @@ public class History {
     // Remove @transaction and also dispose it if flag is true.
     // Flag should be false if @transaction is still being used by other categories.
     public void removeTransaction(Transaction transaction) {
-        if( (transaction == null) || !(historyList.contains(transaction)) ) { return; }
-        historyList.remove(transaction);
+        if( (transaction == null) ) { return; }
+        historyList.removeIf(element -> element.getId() == transaction.getId());
     }
 
 //    public void modifyTransaction(Transaction transaction) {
@@ -163,7 +158,7 @@ public class History {
         for(int i = historyList.size() - 1; i >= 0; i--) {
             Transaction targetTransaction = historyList.get(i);
             if(targetTransaction.getDate().differenceInDays(Date.today()) >= HISTORY_MAXIMUM_DAYS) {
-                historyList.remove(targetTransaction);
+                removeTransaction(targetTransaction);
             } else {
                 // Valid transaction found, we can stop iterating.
                 break;
