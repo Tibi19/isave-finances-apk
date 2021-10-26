@@ -3,15 +3,12 @@ package com.tam.isave.model.goalorganizer;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.category.CategoryTracker;
 import com.tam.isave.model.transaction.History;
-import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Date;
-import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.NumberUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 // GoalOrganizer breaks up the user's goal in smaller goals.
 // Functionality based on "how to eat an elephant: one bite at a time".
@@ -267,21 +264,28 @@ public class GoalOrganizer{
     // If date is different after modification, the payment might need to change interval.
     // Calls tracker's modify payment method to handle change in values.
     public void modifyPayment(Transaction payment, double valueDiff) {
-        if(!history.hasTransaction(payment)) { return; }
-
-        // Compare the interval of the payment by its old date (interval wasn't updated yet)
-        // And the interval of the payment by its new date.
-        // If intervals are different, remove payment from the old interval and add to new interval.
-        Interval interval = intervalsAnalyzer.getPaymentIntervalByHistory(payment);
+        Interval originalInterval = intervalsAnalyzer.getPaymentIntervalByHistory(payment);
         Interval newInterval = intervalsAnalyzer.getPaymentIntervalByDate(payment);
-        if(interval == null || newInterval == null) { return; }
-        if(interval.getId() != newInterval.getId()) {
-            tracker.movePayment(interval, newInterval, payment);
+
+        if(originalInterval == null && newInterval == null) { return; }
+
+        if(originalInterval == null) {
+            makePayment(payment);
+            return;
+        }
+
+        if(newInterval == null) {
+            removePayment(payment);
+            return;
+        }
+
+        if(originalInterval.getId() != newInterval.getId()) {
+            tracker.movePayment(originalInterval, newInterval, payment);
             return;
         }
 
         // If interval wasn't changed for the modified payment, let tracker handle value difference.
-        tracker.modifyPaymentInInterval(interval, payment, valueDiff);
+        tracker.modifyPaymentInInterval(originalInterval, payment, valueDiff);
     }
 
     public String getDaysProgressString() {
