@@ -3,7 +3,16 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginHorizontal="5dp"
     android:id="@+id/fragment_categories">
+
+    <TextView
+        android:id="@+id/tv_categories_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Categorize Payments" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_category"
@@ -16,6 +25,7 @@
         android:id="@+id/layout_categories_controller"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:orientation="horizontal">
 
         <Button

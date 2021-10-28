@@ -1,25 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:layout_marginHorizontal="5dp"
     android:id="@+id/fragment_organizer">
+
+    <TextView
+        android:id="@+id/tv_organizer_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="Organize Budget" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_organizer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginBottom="5dp"
+        card_view:elevation="5dp">
 
         <LinearLayout
             android:id="@+id/layout_organizer_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginTop="5dp"
             android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/layout_organizer_description"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
