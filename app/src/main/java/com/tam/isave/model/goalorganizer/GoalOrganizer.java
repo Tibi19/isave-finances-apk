@@ -95,6 +95,7 @@ public class GoalOrganizer{
         if( !(modifiedGoal || modifiedIntervalsNr || modifiedTime) ) { return; }
 
         setupIntervals();
+        setupIntervalsTracker();
         setupIntervalsHelpers();
         update();
         setupHistory(history, true);
@@ -117,6 +118,8 @@ public class GoalOrganizer{
     }
 
     private void setupIntervalsTracker() {
+        if(intervalsNr <= 0 || intervals == null) { return; }
+
         Category[] categoryArray = intervals;
         ArrayList<Category> categoryList = new ArrayList<Category>(Arrays.asList(categoryArray));
         tracker = new CategoryTracker(categoryList, null, true);
