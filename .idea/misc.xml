@@ -5,8 +5,8 @@
       <map>
         <entry key="app/src/main/res/layout/activity_category_history.xml" value="0.33559782608695654" />
         <entry key="app/src/main/res/layout/activity_global_history.xml" value="0.33559782608695654" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.33559782608695654" />
-        <entry key="app/src/main/res/layout/fragment_categories.xml" value="0.33559782608695654" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_categories.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_history.xml" value="0.33559782608695654" />
         <entry key="app/src/main/res/layout/fragment_organizer.xml" value="0.33559782608695654" />
         <entry key="app/src/main/res/layout/popup_edit_payment.xml" value="0.33559782608695654" />
