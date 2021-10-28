@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
     tools:context=".view.activity.HomeActivity">
 
     <LinearLayout
@@ -41,17 +42,32 @@
                 android:text="ADD" />
         </LinearLayout>
 
-        <androidx.fragment.app.FragmentContainerView
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/fragment_container_organizer"
-            android:name="com.tam.isave.view.fragment.GoalOrganizerFragment" />/>
+            android:id="@+id/scrollview_home_fragments">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/fragment_container_categories"
-            android:name="com.tam.isave.view.fragment.CategoriesFragment" />
+            <LinearLayout
+                android:id="@+id/layout_home_fragments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fragment_container_organizer"
+                    android:name="com.tam.isave.view.fragment.GoalOrganizerFragment" />
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fragment_container_categories"
+                    android:name="com.tam.isave.view.fragment.CategoriesFragment" />
+
+            </LinearLayout>
+
+        </ScrollView>
 
     </LinearLayout>
 
