@@ -43,11 +43,6 @@ public class HomeActivity extends AppCompatActivity {
         setupCategoryTracker();
         setupMenuButton();
         setupAddTransactionButton();
-
-        if (savedInstanceState == null) {
-            startGoalOrganizerTransaction();
-            startCategoriesTransaction();
-        }
     }
 
     /**
@@ -95,20 +90,6 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         addTransactionDialog.show();
-    }
-
-    private void startCategoriesTransaction() {
-        getSupportFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .add(homeBinding.fragmentContainerCategories.getId(), CategoriesFragment.class, null)
-                .commit();
-    }
-
-    public void startGoalOrganizerTransaction() {
-        getSupportFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .add(homeBinding.fragmentContainerOrganizer.getId(), GoalOrganizerFragment.class, null)
-                .commit();
     }
 
 }
