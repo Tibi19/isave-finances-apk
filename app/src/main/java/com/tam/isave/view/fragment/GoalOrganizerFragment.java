@@ -1,23 +1,28 @@
 package com.tam.isave.view.fragment;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.tam.isave.databinding.FragmentOrganizerBinding;
+import com.tam.isave.databinding.PopupEditOrganizerBinding;
 import com.tam.isave.model.goalorganizer.GoalOrganizer;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Date;
 import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.LiveDataUtils;
+import com.tam.isave.utils.NumberUtils;
+import com.tam.isave.view.dialog.EditTextDatePicker;
 import com.tam.isave.viewmodel.GoalOrganizerViewModel;
 import com.tam.isave.viewmodel.TransactionViewModel;
 
@@ -92,6 +97,64 @@ public class GoalOrganizerFragment extends Fragment {
     }
 
     private void showEditOrganizerPopup() {
+        AlertDialog editOrganizerDialog;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()); // requireActivity() ?
+        PopupEditOrganizerBinding editOrganizerBinding = PopupEditOrganizerBinding.inflate(getLayoutInflater());
+
+        builder.setView(editOrganizerBinding.getRoot());
+        editOrganizerDialog = builder.create();
+        editOrganizerDialog.setCancelable(true);
+        editOrganizerDialog.getWindow().setGravity(Gravity.BOTTOM);
+
+        populateEditBinding(editOrganizerBinding);
+
+        int originalFirstDayValue = organizerViewModel.getGoalOrganizerFirstDayValue();
+        int originalOrganizerDays = organizerViewModel.getGoalOrganizerDays();
+
+        editOrganizerBinding.buttonEditOrganizerCancel.setOnClickListener(listener -> editOrganizerDialog.dismiss());
+        editOrganizerBinding.buttonEditOrganizerSubmit.setOnClickListener(listener -> {
+            editOrganizerWithBinding(editOrganizerBinding, originalFirstDayValue, originalOrganizerDays);
+            editOrganizerDialog.dismiss();
+        });
+
+        editOrganizerDialog.show();
+    }
+
+    private void populateEditBinding(PopupEditOrganizerBinding editOrganizerBinding) {
+        GoalOrganizer organizer = organizerViewModel.getGoalOrganizer();
+        if(organizer == null || !organizer.isActive()) {
+            populateEditBindingFallback(editOrganizerBinding);
+            return;
+        }
+
+        int intervalsCount = organizer.getIntervalsNr();
+        double budget = NumberUtils.twoDecimalsRounded(organizer.getGlobalGoal());
+
+        EditTextDatePicker.build(getActivity(), editOrganizerBinding.etEditOrganizerStart, organizer.getFirstDay());
+        EditTextDatePicker.build(getActivity(), editOrganizerBinding.etEditOrganizerEnd, organizer.getLastDay());
+        editOrganizerBinding.etEditOrganizerIntervals.setText(String.valueOf(intervalsCount));
+        editOrganizerBinding.etEditOrganizerBudget.setText(String.valueOf(budget));
+    }
+
+    private void populateEditBindingFallback(PopupEditOrganizerBinding editOrganizerBinding) {
+
+    }
+
+    private void editOrganizerWithBinding(PopupEditOrganizerBinding editOrganizerBinding, int originalFirstDayValue, int originalOrganizerDays) {
+        String globalGoalString = editOrganizerBinding.etEditOrganizerBudget.getText().toString();
+        double globalGoal = globalGoalString.isEmpty() ? -1.0 : Double.parseDouble(globalGoalString);
+
+        String intervalsCountString = editOrganizerBinding.etEditOrganizerIntervals.getText().toString();
+        int intervalsCount = intervalsCountString.isEmpty() ? -1 : Integer.parseInt(intervalsCountString);
+
+        Date firstDay = new Date(editOrganizerBinding.etEditOrganizerStart.getText().toString());
+        Date lastDay = new Date(editOrganizerBinding.etEditOrganizerEnd.getText().toString());
+
+        updateGoalOrganizer(globalGoal, intervalsCount, firstDay, lastDay);
+        resetBindingObserverIfTimeChange(originalFirstDayValue, originalOrganizerDays);
+    }
+
+    private void test_Removable() {
         int originalFirstDayValue = organizerViewModel.getGoalOrganizerFirstDayValue();
         int originalOrganizerDays = organizerViewModel.getGoalOrganizerDays();
 
@@ -103,7 +166,7 @@ public class GoalOrganizerFragment extends Fragment {
 //        organizerViewModel.updateGoalOrganizer(globalGoal, intervalsCount, firstDay, lastDay);
 //        updateBinding();
 
-        Date firstDay = new Date(20211015);
+        Date firstDay = new Date(20211110);
         Date lastDay = firstDay.addDays(DebugUtils.getRandomIntInRange(15, 30));
         double globalGoal = DebugUtils.getRandomDoubleInRange(2000, 4000);
         int intervalsCount = DebugUtils.getRandomIntInRange(4, 8);

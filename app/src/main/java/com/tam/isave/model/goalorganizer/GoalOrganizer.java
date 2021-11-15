@@ -265,6 +265,10 @@ public class GoalOrganizer{
         return firstDay;
     }
 
+    public Date getLastDay() { return firstDay.countDays(globalIntervalDays); }
+
+    public boolean isActive() { return activeInterval != null; }
+
     public int getIntervalsNr() {
         return intervalsNr;
     }
