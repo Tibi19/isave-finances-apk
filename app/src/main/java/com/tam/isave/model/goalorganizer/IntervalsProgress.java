@@ -1,5 +1,7 @@
 package com.tam.isave.model.goalorganizer;
 
+import com.tam.isave.utils.Constants;
+
 /**
  * Provides progress information in a GoalOrganizer's intervals group.
  */
@@ -15,7 +17,7 @@ public class IntervalsProgress {
         Interval activeInterval = goalOrganizer.getActiveInterval();
         int daysProgress = getDaysProgressInActiveInterval(activeInterval);
 
-        if(daysProgress < 0) { return "N/A"; }
+        if(daysProgress < 0) { return Constants.DEFAULT_ORGANIZER_NOT_APPLICABLE; }
 
         return daysProgress + " of " + activeInterval.getDays();
     }
@@ -37,7 +39,7 @@ public class IntervalsProgress {
     public String getIntervalsProgress() {
         int activeIntervalCount = getActiveIntervalCount();
 
-        if(activeIntervalCount < 0) { return "N/A"; }
+        if(activeIntervalCount < 0) { return Constants.DEFAULT_ORGANIZER_NOT_APPLICABLE; }
 
         return activeIntervalCount + " of " + goalOrganizer.getIntervalsNr();
     }
@@ -60,7 +62,7 @@ public class IntervalsProgress {
     // Spending progress of current interval.
     public String getBudgetProgress() {
         Interval activeInterval = goalOrganizer.getActiveInterval();
-        if(activeInterval == null) { return "N/A"; }
+        if(activeInterval == null) { return Constants.DEFAULT_ORGANIZER_NOT_APPLICABLE; }
         return activeInterval.getProgress();
     }
 }
