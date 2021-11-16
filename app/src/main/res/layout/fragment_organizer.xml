@@ -97,7 +97,7 @@
                     android:layout_weight="1"
                     android:textAlignment="center"
                     android:layout_gravity="center"
-                    android:text="PROGRESS" />
+                    android:text="N/A" />
 
             </LinearLayout>
 
