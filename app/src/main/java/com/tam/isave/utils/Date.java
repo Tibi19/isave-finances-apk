@@ -352,6 +352,17 @@ public class Date {
         return this.getValue() >= date.getValue();
     }
 
+    /**
+     * Returns true if caller is newer than parameter.
+     * Is exclusive - returns false if they are the same day.
+     * @param date Date to check against.
+     * @return True if and only if caller is newer than parameter.
+     */
+    public boolean isExclusivelyNewerThan(Date date) {
+        if(date == null) { return false; }
+        return this.getValue() > date.getValue();
+    }
+
     // Returns true if caller is older than parameter,
     // Or it is the same day.
     // An inverted call returns true if date is newer but not equal to parameter.

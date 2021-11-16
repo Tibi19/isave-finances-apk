@@ -130,7 +130,7 @@ public class GoalOrganizer{
 
         daysProgress = firstDay.countDaysUntil(Date.today());
         
-        if(firstDay.isNewerThan(Date.today()) || daysProgress > globalIntervalDays) {
+        if(firstDay.isExclusivelyNewerThan(Date.today()) || daysProgress > globalIntervalDays) {
             activeInterval = null;
             return;
         }
