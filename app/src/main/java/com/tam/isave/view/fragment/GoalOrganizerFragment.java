@@ -18,6 +18,7 @@ import com.tam.isave.databinding.FragmentOrganizerBinding;
 import com.tam.isave.databinding.PopupEditOrganizerBinding;
 import com.tam.isave.model.goalorganizer.GoalOrganizer;
 import com.tam.isave.model.transaction.Transaction;
+import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.Date;
 import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.LiveDataUtils;
@@ -137,7 +138,13 @@ public class GoalOrganizerFragment extends Fragment {
     }
 
     private void populateEditBindingFallback(PopupEditOrganizerBinding editOrganizerBinding) {
+        Date defaultFirstDay = Date.today();
+        Date defaultLastDay = defaultFirstDay.countDays(Constants.DEFAULT_ORGANIZER_DAYS);
+        int defaultIntervalsCount = Constants.DEFAULT_INTERVALS_COUNT;
 
+        EditTextDatePicker.build(getActivity(), editOrganizerBinding.etEditOrganizerStart, defaultFirstDay);
+        EditTextDatePicker.build(getActivity(), editOrganizerBinding.etEditOrganizerEnd, defaultLastDay);
+        editOrganizerBinding.etEditOrganizerIntervals.setText(String.valueOf(defaultIntervalsCount));
     }
 
     private void editOrganizerWithBinding(PopupEditOrganizerBinding editOrganizerBinding, int originalFirstDayValue, int originalOrganizerDays) {
