@@ -5,17 +5,11 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.tam.isave.databinding.PopupAddCategoryBinding;
 import com.tam.isave.databinding.PopupEditCategoryBinding;
-import com.tam.isave.databinding.PopupEditPaymentBinding;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.ModelRepository;
-import com.tam.isave.model.transaction.Transaction;
-import com.tam.isave.utils.CategoryUtils;
-import com.tam.isave.utils.Date;
-import com.tam.isave.utils.DebugUtils;
 
 import java.util.List;
 

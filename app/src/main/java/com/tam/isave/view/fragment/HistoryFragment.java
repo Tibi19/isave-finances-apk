@@ -19,7 +19,7 @@ import com.tam.isave.databinding.FragmentHistoryBinding;
 import com.tam.isave.databinding.PopupEditPaymentBinding;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.transaction.Transaction;
-import com.tam.isave.utils.CategoryUtils;
+import com.tam.isave.model.category.CategoryUtils;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.HistoryIdentifier;
 import com.tam.isave.utils.NumberUtils;

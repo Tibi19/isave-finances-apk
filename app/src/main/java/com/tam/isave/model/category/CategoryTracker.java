@@ -4,8 +4,6 @@ import com.tam.isave.model.goalorganizer.Interval;
 import com.tam.isave.model.transaction.History;
 import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.model.transaction.Transaction;
-import com.tam.isave.utils.CategoryUtils;
-import com.tam.isave.utils.DebugUtils;
 
 import java.util.List;
 

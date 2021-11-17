@@ -12,7 +12,7 @@ import com.tam.isave.model.ModelRepository;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.model.transaction.Transaction;
-import com.tam.isave.utils.CategoryUtils;
+import com.tam.isave.model.category.CategoryUtils;
 import com.tam.isave.utils.Date;
 
 import java.util.List;
