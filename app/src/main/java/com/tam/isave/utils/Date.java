@@ -363,12 +363,24 @@ public class Date {
         return this.getValue() > date.getValue();
     }
 
+    /**
+     * Returns true if caller is in the future.
+     * @return True if after today.
+     */
+    public boolean isAfterToday() {
+        return this.getValue() > Date.today().getValue();
+    }
+
     // Returns true if caller is older than parameter,
     // Or it is the same day.
     // An inverted call returns true if date is newer but not equal to parameter.
     public boolean isOlderThan(Date date) {
         if(date == null) { return false; }
         return this.getValue() <= date.getValue();
+    }
+
+    public boolean isBeforeToday() {
+        return this.getValue() < Date.today().getValue();
     }
 
     // Returns true if dates are ordered:
