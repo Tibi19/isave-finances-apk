@@ -33,4 +33,30 @@ public class IntervalUtils {
         return -1;
     }
 
+    public static Interval getPreviousInterval(Interval interval, GoalOrganizer organizer) {
+        if(interval == null || organizer == null) { return null; }
+
+        Interval[] intervals = organizer.getIntervals();
+        for(int i = 1; i < intervals.length; i++) {
+            if(interval.getId() == intervals[i].getId()) {
+                return intervals[i - 1];
+            }
+        }
+
+        return null;
+    }
+
+    public static Interval getNextInterval(Interval interval, GoalOrganizer organizer) {
+        if(interval == null || organizer == null) { return null; }
+
+        Interval[] intervals = organizer.getIntervals();
+        for(int i = 0; i < intervals.length - 1; i++) {
+            if(interval.getId() == intervals[i].getId()) {
+                return intervals[i + 1];
+            }
+        }
+
+        return null;
+    }
+
 }
