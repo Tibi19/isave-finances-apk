@@ -1,5 +1,6 @@
 package com.tam.isave.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,6 +24,8 @@ import com.tam.isave.utils.Date;
 import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.LiveDataUtils;
 import com.tam.isave.utils.NumberUtils;
+import com.tam.isave.view.activity.GlobalHistoryActivity;
+import com.tam.isave.view.activity.IntervalHistoryActivity;
 import com.tam.isave.view.dialog.EditTextDatePicker;
 import com.tam.isave.viewmodel.GoalOrganizerViewModel;
 import com.tam.isave.viewmodel.TransactionViewModel;
@@ -92,9 +95,14 @@ public class GoalOrganizerFragment extends Fragment {
     }
 
     private void setupOrganizerController() {
-        // binding.btnOrganizerHistory.setOnClickListener();
+        binding.btnOrganizerHistory.setOnClickListener(listener -> startIntervalHistoryActivity());
         binding.btnOrganizerEdit.setOnClickListener(listener -> showEditOrganizerPopup());
         binding.btnOrganizerReset.setOnClickListener(listener -> deleteOrganizer());
+    }
+
+    private void startIntervalHistoryActivity() {
+        Intent startIntervalHistoryIntent = new Intent(getContext(), IntervalHistoryActivity.class);
+        startActivity(startIntervalHistoryIntent);
     }
 
     private void showEditOrganizerPopup() {
