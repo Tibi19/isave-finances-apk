@@ -74,6 +74,11 @@ public class HistoryFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentHistoryBinding.inflate(inflater, container, false);
+
+        if(historyIdentifier.getHistoryType().equals(HistoryIdentifier.HISTORY_TYPE_INTERVAL)) {
+            binding.recyclerHistory.setNestedScrollingEnabled(false);
+        }
+
         return binding.getRoot();
     }
 
