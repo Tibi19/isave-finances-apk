@@ -8,6 +8,7 @@ import com.tam.isave.model.category.Category;
 import com.tam.isave.model.category.GoalAdapter;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.IdGenerator;
+import com.tam.isave.utils.NumberUtils;
 
 @Entity(tableName = Constants.TABLE_NAME_INTERVAL)
 public class Interval extends Category {
@@ -30,6 +31,19 @@ public class Interval extends Category {
 
     public void modify(double spent, double goal, GoalAdapter adapter) {
         super.modify(getName(), spent, goal, true, adapter);
+    }
+
+    public String getDetailedProgress() {
+        double endGoal = NumberUtils.twoDecimalsRounded(getEndGoal());
+        double goalModifier = NumberUtils.twoDecimalsRounded(getGoalModifier());
+        double leftAmount = NumberUtils.twoDecimalsRounded(endGoal - getSpent());
+        String progress = leftAmount + " / " + endGoal;
+
+        if (!NumberUtils.isZeroDouble(goalModifier)) {
+            progress += " (-" + goalModifier + ")";
+        }
+
+        return progress;
     }
 
     public void setDays(int days) { this.days = days; }
