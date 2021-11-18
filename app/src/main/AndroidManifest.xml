@@ -28,6 +28,10 @@
             android:name=".view.activity.CategoryHistoryActivity"
             android:parentActivityName=".view.activity.HomeActivity"/>
 
+        <activity
+            android:name=".view.activity.IntervalHistoryActivity"
+            android:parentActivityName=".view.activity.HomeActivity"/>
+
     </application>
 
 </manifest>
