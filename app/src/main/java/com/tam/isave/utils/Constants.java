@@ -8,7 +8,7 @@ public class Constants {
     // Default Values
     public static final int DEFAULT_INTERVALS_COUNT = 5;
     public static final int DEFAULT_ORGANIZER_DAYS = 30;
-    public static final String DEFAULT_ORGANIZER_NOT_APPLICABLE = "N/A";
+    public static final String DEFAULT_NOT_APPLICABLE = "N/A";
 
     // Naming
     public final static String NAMING_HISTORY = "History";
