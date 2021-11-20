@@ -19,7 +19,9 @@ import com.tam.isave.databinding.FragmentCategoriesBinding;
 import com.tam.isave.databinding.PopupAddCategoryBinding;
 import com.tam.isave.databinding.PopupEditCategoryBinding;
 import com.tam.isave.model.category.Category;
+import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.NumberUtils;
+import com.tam.isave.view.dialog.ConfirmationBuilder;
 import com.tam.isave.viewmodel.CategoryViewModel;
 
 public class CategoriesFragment extends Fragment {
@@ -49,13 +51,24 @@ public class CategoriesFragment extends Fragment {
         // Instantiate recyclerview and its adapter.
         RecyclerView categoryRecycler = binding.recyclerCategory;
         categoryAdapter = new CategoryAdapter(getContext());
-        // Give adapter the method for deleting and editing Category data.
-        categoryAdapter.setDeleteItemData( (category) -> categoryViewModel.deleteCategory(category) );
-        categoryAdapter.setEditItemData( (category) -> showEditCategoryPopup(category) );
+        // Give adapter the method for deleting, editing, resetting Category data.
+        categoryAdapter.setDeleteItemData(this::showDeleteCategoryPopup); // instead of (category) -> showDeleteCategoryPopup(category)
+        categoryAdapter.setEditItemData(this::showEditCategoryPopup);
+        categoryAdapter.setResetItemData(this::showResetCategoryPopup);
         // Set recycler's adapter.
         categoryRecycler.setAdapter(categoryAdapter);
         // Set recycler's layout manager.
         categoryRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    private void showDeleteCategoryPopup(Category category) {
+        Runnable deleteRunnable = () -> categoryViewModel.deleteCategory(category);
+        ConfirmationBuilder.showDeleteConfirmation(getLayoutInflater(), category, deleteRunnable);
+    }
+
+    private void showResetCategoryPopup(Category category) {
+        Runnable resetRunnable = () -> categoryViewModel.resetCategory(category);
+        ConfirmationBuilder.showResetConfirmation(getLayoutInflater(), category, resetRunnable);
     }
 
     private void showEditCategoryPopup(Category category) {
