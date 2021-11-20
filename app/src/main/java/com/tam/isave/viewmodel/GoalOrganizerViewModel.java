@@ -9,7 +9,6 @@ import androidx.lifecycle.LiveData;
 import com.tam.isave.model.ModelRepository;
 import com.tam.isave.model.goalorganizer.GoalOrganizer;
 import com.tam.isave.model.goalorganizer.Interval;
-import com.tam.isave.model.transaction.History;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Date;
 import com.tam.isave.utils.NumberUtils;
@@ -27,11 +26,15 @@ public class GoalOrganizerViewModel extends AndroidViewModel {
         intervals = modelRepository.getIntervals();
     }
 
-    public void updateGoalOrganizer(double globalGoal, int intervalsCount, Date firstDay, Date lastDay, List<Transaction> intervalTransactions) {
+    public void modifyOrganizer(double globalGoal, int intervalsCount, Date firstDay, Date lastDay, List<Transaction> intervalTransactions) {
         if(globalGoal <= NumberUtils.ZERO_DOUBLE || intervalsCount <= 0) { return; }
         if(firstDay == null || lastDay == null) { return; }
 
         modelRepository.modifyGoalOrganizer(globalGoal, intervalsCount, firstDay, lastDay, intervalTransactions);
+    }
+
+    public void updateOrganizer() {
+        modelRepository.updateOrganizer();
     }
 
     public int getGoalOrganizerFirstDayValue() {
