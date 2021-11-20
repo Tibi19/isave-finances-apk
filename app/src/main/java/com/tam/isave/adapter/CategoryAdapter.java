@@ -23,6 +23,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private List<Category> categories;
     private Consumer<Category> deleteItemData;
     private Consumer<Category> editItemData;
+    private Consumer<Category> resetItemData;
 
     public CategoryAdapter(Context context) {
         this.context = context;
@@ -60,6 +61,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.binding.buttonCategoryHistory.setOnClickListener( startHistory -> startHistoryActivity(categories.get(position)) );
         holder.binding.buttonCategoryDelete.setOnClickListener( deleteData -> deleteItemData.accept(categories.get(position)) );
         holder.binding.buttonCategoryEdit.setOnClickListener( editData -> editItemData.accept(categories.get(position)) );
+        holder.binding.buttonCategoryReset.setOnClickListener( resetData -> resetItemData.accept(categories.get(position)) );
     }
 
     private void startHistoryActivity(Category category) {
@@ -72,10 +74,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public void setEditItemData(Consumer<Category> callback) {
         editItemData = callback;
     }
-
     public void setDeleteItemData(Consumer<Category> callback) {
         deleteItemData = callback;
     }
+    public void setResetItemData(Consumer<Category> callback) { resetItemData = callback; }
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
