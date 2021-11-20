@@ -231,13 +231,14 @@ public class CategoryTracker {
     }
 
     /**
-     * Resets the progress of a category.
+     * Resets the progress of a category by removing all its payments.
      * @param category The category that should be reset.
      */
     public void resetCategory(Category category) {
         if(category == null) { return; }
-        // Spent changes, check and handle overflow.
-        category.reset(goalAdapter);
+        Category secureCategory = getCategoryById(category.getId());
+        History categoryHistory = history.getCategoryHistory(category.getId());
+        for(Transaction payment : categoryHistory.getHistoryList()) { removePayment(secureCategory, payment); }
     }
 
     /**
