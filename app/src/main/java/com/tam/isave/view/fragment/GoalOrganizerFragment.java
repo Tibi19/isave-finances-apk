@@ -24,7 +24,6 @@ import com.tam.isave.utils.Date;
 import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.LiveDataUtils;
 import com.tam.isave.utils.NumberUtils;
-import com.tam.isave.view.activity.GlobalHistoryActivity;
 import com.tam.isave.view.activity.IntervalHistoryActivity;
 import com.tam.isave.view.dialog.EditTextDatePicker;
 import com.tam.isave.viewmodel.GoalOrganizerViewModel;
@@ -46,6 +45,13 @@ public class GoalOrganizerFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentOrganizerBinding.inflate(inflater, container, false);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        organizerViewModel.updateOrganizer();
+        updateBinding();
     }
 
     @Override
@@ -169,34 +175,13 @@ public class GoalOrganizerFragment extends Fragment {
         resetBindingObserverIfTimeChange(originalFirstDayValue, originalOrganizerDays);
     }
 
-    private void test_Removable() {
-        int originalFirstDayValue = organizerViewModel.getGoalOrganizerFirstDayValue();
-        int originalOrganizerDays = organizerViewModel.getGoalOrganizerDays();
-
-        // TESTING
-//        Date firstDay = Date.today(); // Test with old days next.
-//        Date lastDay = firstDay.addDays(DebugUtils.getRandomIntInRange(15, 30));
-//        double globalGoal = DebugUtils.getRandomDoubleInRange(500, 5000);
-//        int intervalsCount = DebugUtils.getRandomIntInRange(2, 7);
-//        organizerViewModel.updateGoalOrganizer(globalGoal, intervalsCount, firstDay, lastDay);
-//        updateBinding();
-
-        Date firstDay = new Date(20211110);
-        Date lastDay = firstDay.addDays(DebugUtils.getRandomIntInRange(15, 30));
-        double globalGoal = DebugUtils.getRandomDoubleInRange(2000, 4000);
-        int intervalsCount = DebugUtils.getRandomIntInRange(4, 8);
-
-        updateGoalOrganizer(globalGoal, intervalsCount, firstDay, lastDay);
-        resetBindingObserverIfTimeChange(originalFirstDayValue, originalOrganizerDays);
-    }
-
     private void updateGoalOrganizer(double globalGoal, int intervalsCount, Date firstDay, Date lastDay) {
         if(firstDay == null || lastDay == null) { return; }
 
         LiveDataUtils.observeOnce(
                 transactionViewModel.getIntervalTransactions(firstDay.getValue(), lastDay.getValue()),
                 transactions -> {
-                    organizerViewModel.updateGoalOrganizer(globalGoal, intervalsCount, firstDay, lastDay, transactions);
+                    organizerViewModel.modifyOrganizer(globalGoal, intervalsCount, firstDay, lastDay, transactions);
                     updateBinding();
                 }
         );
