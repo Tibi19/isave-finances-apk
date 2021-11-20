@@ -8,6 +8,7 @@ import com.tam.isave.data.DataRepository;
 import com.tam.isave.data.GoalOrganizerPreferences;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.category.CategoryTracker;
+import com.tam.isave.model.category.CategoryUtils;
 import com.tam.isave.model.goalorganizer.GoalOrganizer;
 import com.tam.isave.model.goalorganizer.Interval;
 import com.tam.isave.model.transaction.Cashing;
@@ -18,6 +19,7 @@ import com.tam.isave.utils.Date;
 import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.NumberUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ModelRepository {
@@ -101,6 +103,11 @@ public class ModelRepository {
         }
 
         organizer = new GoalOrganizer(globalGoal, intervalsCount, firstDayValue, globalDays);
+    }
+
+    public void updateOrganizer() {
+        if(organizer == null) { return; }
+        organizer.update();
     }
 
     /**
@@ -210,9 +217,12 @@ public class ModelRepository {
      * @param category The category to be reset.
      */
     public void resetCategory(Category category) {
+        if(tracker == null || category == null) { return; }
+        History history = tracker.getHistory().getCategoryHistory(category.getId());
         tracker.resetCategory(category);
         // Tracker modifications can modify all categories because of overflow handling, all categories should be updated.
         dataRepository.updateAllCategories(tracker.getCategories());
+        dataRepository.updateAllTransactions(history.getHistoryList());
     }
 
     /**
