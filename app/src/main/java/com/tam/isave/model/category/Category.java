@@ -143,6 +143,12 @@ public class Category{
     public void reset(GoalAdapter adapter) {
         this.spent = 0.0;
         overflowHandler.resolveOverflow(adapter); // Progress changes, there might be overflow to be handled.
+        //releasePayments();
+    }
+
+    private void releasePayments() {
+        for(Transaction transaction : history.getHistoryList()) { transaction.setParentId(-1); }
+        history.reset();
     }
 
     public void resetOverflowModifications() {
@@ -190,8 +196,7 @@ public class Category{
      * @return a string in format "ll.ll (-mm.mm)" or "ll.ll" if goal was not modified.
      */
     public String getProgress() {
-        double leftAmount = NumberUtils.twoDecimalsRounded(getEndGoal() - spent);
-        String leftAmountString = String.valueOf(leftAmount);
+        String leftAmountString = String.valueOf(getLeftAmountTwoDecimals());
         if (!NumberUtils.isZeroDouble(goalModifier)) {
             leftAmountString += " (-" + NumberUtils.twoDecimalsRounded(goalModifier) + ")";
         }
@@ -199,11 +204,21 @@ public class Category{
         return leftAmountString;
     }
 
+    public double getLeftAmountTwoDecimals() {
+        return NumberUtils.twoDecimalsRounded(getLeftAmount());
+    }
+
+    public double getLeftAmount() {
+        return getEndGoal() - spent;
+    }
+
     // If category can help with overflow when another category passes its goal.
     // If goal is flexible and if it hasn't been passed.
     // To be used when increasing goal modifier.
     public boolean canHelp() {
-        return flexibleGoal && (goalPassed <= NumberUtils.ZERO_DOUBLE);
+        return flexibleGoal
+                && (goalPassed <= NumberUtils.ZERO_DOUBLE)
+                && !NumberUtils.isZeroDouble(getLeftAmountTwoDecimals());
     }
 
     // If category should adjust its goal modification
