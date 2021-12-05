@@ -84,7 +84,7 @@ public class GoalOrganizer{
     // Resets progress and first day becomes today.
     public void reset() {
         Date today = Date.today();
-        setup(this.globalGoal, this.intervalsNr, today, today.addDays(globalIntervalDays - 1));
+        setup(this.globalGoal, this.intervalsNr, today, today.countDays(globalIntervalDays));
     }
 
     public void modify(double globalGoal, int intervalsNr, Date firstDay, Date lastDay, History history) {
