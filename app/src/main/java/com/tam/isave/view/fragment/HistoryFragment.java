@@ -24,6 +24,7 @@ import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.HistoryIdentifier;
 import com.tam.isave.utils.NumberUtils;
 import com.tam.isave.view.dialog.CategorySpinnerPicker;
+import com.tam.isave.view.dialog.ConfirmationBuilder;
 import com.tam.isave.view.dialog.EditTextDatePicker;
 import com.tam.isave.viewmodel.CategoryViewModel;
 import com.tam.isave.viewmodel.TransactionViewModel;
@@ -94,12 +95,21 @@ public class HistoryFragment extends Fragment {
         RecyclerView historyRecycler = binding.recyclerHistory;
         historyAdapter = new HistoryAdapter(getContext());
         // Give adapter the methods for editing and deleting transaction data.
-        historyAdapter.setDeleteItemData( (transaction) -> transactionViewModel.deletePayment(transaction) );
-        historyAdapter.setEditItemData( (transaction) -> showEditTransactionPopup(transaction) );
+        historyAdapter.setDeleteItemData(this::showDeleteTransactionPopup);
+        historyAdapter.setEditItemData(this::showEditTransactionPopup);
         // Set recycler's adapter.
         historyRecycler.setAdapter(historyAdapter);
         // Set recycler's layout manager.
         historyRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    private void showDeleteTransactionPopup(Transaction transaction) {
+        Runnable deleteRunnable = () -> transactionViewModel.deletePayment(transaction);
+        ConfirmationBuilder.showDeleteConfirmation(
+                getLayoutInflater(),
+                transaction,
+                deleteRunnable
+        );
     }
 
     private void showEditTransactionPopup(Transaction transaction) {
