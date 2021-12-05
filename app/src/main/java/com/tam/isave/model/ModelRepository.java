@@ -191,7 +191,7 @@ public class ModelRepository {
      */
     public void modifyCategory(Category category, String newName, double newSpent, double newGoal, boolean newIsFlexible) {
         if( (category == null) || (newName == null) ) { return; }
-        if( (newSpent <= -NumberUtils.ZERO_DOUBLE) || (newGoal <= NumberUtils.ZERO_DOUBLE) ) { return; }
+        if( (newSpent <= -NumberUtils.ZERO_DOUBLE) || (newGoal <= -NumberUtils.ZERO_DOUBLE) ) { return; }
 
         tracker.modifyCategory(category, newName, newSpent, newGoal, newIsFlexible);
         // Tracker modifications can modify all categories because of overflow handling, all categories should be updated.
