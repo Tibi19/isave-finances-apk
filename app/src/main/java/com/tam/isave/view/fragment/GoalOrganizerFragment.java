@@ -25,6 +25,7 @@ import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.LiveDataUtils;
 import com.tam.isave.utils.NumberUtils;
 import com.tam.isave.view.activity.IntervalHistoryActivity;
+import com.tam.isave.view.dialog.ConfirmationBuilder;
 import com.tam.isave.view.dialog.EditTextDatePicker;
 import com.tam.isave.viewmodel.GoalOrganizerViewModel;
 import com.tam.isave.viewmodel.TransactionViewModel;
@@ -103,7 +104,20 @@ public class GoalOrganizerFragment extends Fragment {
     private void setupOrganizerController() {
         binding.btnOrganizerHistory.setOnClickListener(listener -> startIntervalHistoryActivity());
         binding.btnOrganizerEdit.setOnClickListener(listener -> showEditOrganizerPopup());
-        binding.btnOrganizerReset.setOnClickListener(listener -> deleteOrganizer());
+        binding.btnOrganizerReset.setOnClickListener(listener -> showResetOrganizerPopup());
+    }
+
+    private void showResetOrganizerPopup() {
+        Runnable resetRunnable = () -> {
+            organizerViewModel.resetGoalOrganizer();
+            updateBinding();
+        };
+
+        ConfirmationBuilder.showResetConfirmation(
+                getLayoutInflater(),
+                ConfirmationBuilder.ResetConfirmationType.ORGANIZER,
+                resetRunnable
+        );
     }
 
     private void startIntervalHistoryActivity() {
