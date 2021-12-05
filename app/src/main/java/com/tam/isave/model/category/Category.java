@@ -121,17 +121,11 @@ public class Category{
         boolean changeGoal = !NumberUtils.isSameDoubles(this.goal, goal);
         boolean changeFlexibility = this.flexibleGoal != hasFlexibleGoal;
 
-        if(changeSpent) {
-            this.spent = spent;
-        }
-        if(changeGoal) {
-            this.goal = goal;
-        }
+        if(changeSpent) { this.spent = spent; }
+        if(changeGoal) { this.goal = goal; }
         this.flexibleGoal = hasFlexibleGoal;
 
-        if (changeSpent || changeGoal || changeFlexibility) {
-            overflowHandler.resolveOverflow(adapter);
-        }
+        if (changeSpent || changeGoal || changeFlexibility) { overflowHandler.resolveOverflow(adapter); }
     }
 
     /**
