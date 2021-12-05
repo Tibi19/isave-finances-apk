@@ -97,9 +97,17 @@ public class CategoriesFragment extends Fragment {
     }
 
     private void setupCategoriesController(){
-        // Functionality of add category button
         binding.buttonAddCategory.setOnClickListener(listener -> showAddCategoryPopup());
-        binding.buttonResetProgress.setOnClickListener(listener -> categoryViewModel.resetAllCategories());
+        binding.buttonResetProgress.setOnClickListener(listener -> showResetCategoriesPopup());
+    }
+
+    private void showResetCategoriesPopup() {
+        Runnable resetCategoriesRunnable = () -> categoryViewModel.resetAllCategories();
+        ConfirmationBuilder.showResetConfirmation(
+                getLayoutInflater(),
+                ConfirmationBuilder.ResetConfirmationType.ALL_CATEGORIES,
+                resetCategoriesRunnable
+        );
     }
 
     private void showAddCategoryPopup() {
