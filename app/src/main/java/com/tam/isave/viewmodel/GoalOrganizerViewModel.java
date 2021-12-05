@@ -55,9 +55,7 @@ public class GoalOrganizerViewModel extends AndroidViewModel {
         return intervals;
     }
 
-    public void resetGoalOrganizer() {
-        modelRepository.resetGoalOrganizer();
-    }
+    public void resetGoalOrganizer() { modelRepository.resetGoalOrganizer(); }
 
     public void deleteGoalOrganizer() {
         modelRepository.deleteGoalOrganizer();
