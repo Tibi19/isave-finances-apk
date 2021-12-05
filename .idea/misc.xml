@@ -11,11 +11,14 @@
         <entry key="app/src/main/res/layout/fragment_history.xml" value="0.33559782608695654" />
         <entry key="app/src/main/res/layout/fragment_organizer.xml" value="0.33559782608695654" />
         <entry key="app/src/main/res/layout/popup_add_category.xml" value="0.32155797101449274" />
+        <entry key="app/src/main/res/layout/popup_add_payment.xml" value="0.20052083333333334" />
+        <entry key="app/src/main/res/layout/popup_add_transaction.xml" value="0.20052083333333334" />
         <entry key="app/src/main/res/layout/popup_confirm.xml" value="0.22" />
         <entry key="app/src/main/res/layout/popup_confirmation.xml" value="0.14719202898550723" />
         <entry key="app/src/main/res/layout/popup_edit_category.xml" value="0.32653985507246375" />
         <entry key="app/src/main/res/layout/popup_edit_organizer.xml" value="0.32653985507246375" />
         <entry key="app/src/main/res/layout/popup_edit_payment.xml" value="0.33559782608695654" />
+        <entry key="app/src/main/res/layout/popup_move_budget.xml" value="0.20052083333333334" />
         <entry key="app/src/main/res/layout/recycler_category_row.xml" value="0.33559782608695654" />
         <entry key="app/src/main/res/layout/recycler_history_row.xml" value="0.1" />
       </map>
