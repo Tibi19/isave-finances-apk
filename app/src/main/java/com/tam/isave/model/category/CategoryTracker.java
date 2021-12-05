@@ -237,8 +237,9 @@ public class CategoryTracker {
     public void resetCategory(Category category) {
         if(category == null) { return; }
         Category secureCategory = getCategoryById(category.getId());
-        History categoryHistory = history.getCategoryHistory(category.getId());
-        for(Transaction payment : categoryHistory.getHistoryList()) { removePayment(secureCategory, payment); }
+//        History categoryHistory = history.getCategoryHistory(category.getId());
+//        for(Transaction payment : categoryHistory.getHistoryList()) { removePayment(secureCategory, payment); }
+        secureCategory.reset(goalAdapter);
     }
 
     /**
