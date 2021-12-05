@@ -90,10 +90,6 @@ public class TransactionViewModel extends AndroidViewModel {
         modelRepository.newCashing(date, name, value, modifiesOrganizer);
     }
 
-    public void modifyPayment(Payment payment, int newParentId, String newName, Date newDate, double newValue) {
-        modelRepository.modifyPayment(payment, newParentId, newName, newDate, newValue);
-    }
-
     public void deletePayment(Transaction payment) {
         modelRepository.deletePayment(payment);
     }
