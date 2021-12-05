@@ -13,6 +13,7 @@ public class Constants {
     // Naming
     public final static String NAMING_HISTORY = "History";
     public final static String NAMING_INTERVAL = "Interval ";
+    public final static String NAMING_FROM_CATEGORY = "From category ";
 
     // Category Database Constants
     public final static String CATEGORY_DATABASE = "category_database";
