@@ -8,8 +8,11 @@ import androidx.lifecycle.LiveData;
 
 import com.tam.isave.databinding.PopupAddCategoryBinding;
 import com.tam.isave.databinding.PopupEditCategoryBinding;
+import com.tam.isave.databinding.PopupMoveBudgetBinding;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.ModelRepository;
+import com.tam.isave.model.category.CategoryUtils;
+import com.tam.isave.utils.DebugUtils;
 
 import java.util.List;
 
@@ -53,8 +56,20 @@ public class CategoryViewModel extends AndroidViewModel {
         modelRepository.modifyCategory(category, newCategoryName, newCategorySpent, newCategoryGoal, newCategoryFlexibility);
     }
 
-    public void modifyCategory(Category category, String newName, double newSpent, double newGoal, boolean newHasFlexibleGoal) {
-        modelRepository.modifyCategory(category, newName, newSpent, newGoal, newHasFlexibleGoal);
+    public void moveBudget(Category fromCategory, PopupMoveBudgetBinding moveBudgetBinding) {
+        String toCategoryName = moveBudgetBinding.spinToCategory.getSelectedItem().toString();
+        Category toCategory = CategoryUtils.getCategoryByName(categories.getValue(), toCategoryName);
+
+        if(toCategory == null || fromCategory.getId() == toCategory.getId()) { return; }
+
+        String budgetToMoveString = moveBudgetBinding.etMoveBudgetValue.getText().toString();
+        double budgetToMove = Double.parseDouble(budgetToMoveString);
+
+        double fromCategoryNewGoal = fromCategory.getGoal() - budgetToMove;
+        double toCategoryNewGoal = toCategory.getGoal() + budgetToMove;
+
+        modelRepository.modifyCategory(fromCategory, fromCategory.getName(), fromCategory.getSpent(), fromCategoryNewGoal, fromCategory.isFlexibleGoal());
+        modelRepository.modifyCategory(toCategory, toCategory.getName(), toCategory.getSpent(), toCategoryNewGoal, toCategory.isFlexibleGoal());
     }
 
     public void deleteCategory(Category category) {

@@ -29,13 +29,28 @@
                 android:textSize="18sp"
                 android:text="Edit Category" />
 
-            <CheckBox
-                android:id="@+id/check_edit_category_is_flexible"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/row_budget_options"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:checked="true"
-                android:text="Flexible" />
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/check_edit_category_is_flexible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="Flexible" />
+
+                <Button
+                    android:id="@+id/button_move_budget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:text="Move Budget" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/row_edit_category_name"
@@ -48,8 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Name"
-                    tools:text="Name" />
+                    android:text="Name"/>
 
                 <EditText
                     android:id="@+id/et_edit_category_name"

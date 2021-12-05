@@ -18,11 +18,17 @@ import com.tam.isave.adapter.CategoryAdapter;
 import com.tam.isave.databinding.FragmentCategoriesBinding;
 import com.tam.isave.databinding.PopupAddCategoryBinding;
 import com.tam.isave.databinding.PopupEditCategoryBinding;
+import com.tam.isave.databinding.PopupMoveBudgetBinding;
 import com.tam.isave.model.category.Category;
+import com.tam.isave.model.category.CategoryUtils;
+import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.NumberUtils;
+import com.tam.isave.view.dialog.CategorySpinnerPicker;
 import com.tam.isave.view.dialog.ConfirmationBuilder;
 import com.tam.isave.viewmodel.CategoryViewModel;
+
+import java.util.List;
 
 public class CategoriesFragment extends Fragment {
 
@@ -92,8 +98,40 @@ public class CategoriesFragment extends Fragment {
             categoryViewModel.editCategory(category, editCategoryBinding);
             editCategoryDialog.dismiss();
         });
+        editCategoryBinding.buttonMoveBudget.setOnClickListener(listener -> {
+            showMoveBudgetPopup(category);
+            editCategoryDialog.dismiss();
+        });
 
         editCategoryDialog.show();
+    }
+
+    private void showMoveBudgetPopup(Category category) {
+        AlertDialog moveBudgetDialog;
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        PopupMoveBudgetBinding moveBudgetBinding = PopupMoveBudgetBinding.inflate(getLayoutInflater());
+
+        String fromCategoryText = Constants.NAMING_FROM_CATEGORY + category.getName();
+        double remainingBudget = category.getLeftAmountTwoDecimals();
+        String remainingBudgetText = String.valueOf(remainingBudget);
+        List<Category> categories = categoryViewModel.getCategories().getValue();
+
+        builder.setView(moveBudgetBinding.getRoot());
+        moveBudgetDialog = builder.create();
+        moveBudgetDialog.setCancelable(true);
+        moveBudgetDialog.getWindow().setGravity(Gravity.BOTTOM);
+
+        CategorySpinnerPicker.build(getActivity(), moveBudgetBinding.spinToCategory, categories);
+
+        moveBudgetBinding.tvFromCategory.setText(fromCategoryText);
+        moveBudgetBinding.etMoveBudgetValue.setText(remainingBudgetText);
+        moveBudgetBinding.buttonMoveCancel.setOnClickListener(listener -> moveBudgetDialog.dismiss());
+        moveBudgetBinding.buttonMoveSubmit.setOnClickListener(Listener -> {
+            categoryViewModel.moveBudget(category, moveBudgetBinding);
+            moveBudgetDialog.dismiss();
+        });
+
+        moveBudgetDialog.show();
     }
 
     private void setupCategoriesController(){
