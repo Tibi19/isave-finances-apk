@@ -248,20 +248,17 @@ public class Date {
             lastDate = this;
         }
 
-        // Find total days from the start of the year until the given date.
+        // Find total days from the start of the date's year until the given date.
         int totalDaysFirstDate = getDaysUntilDate(firstDate);
         int totalDaysLastDate = getDaysUntilDate(lastDate);
 
         // If difference between the years, we'll have to account for that as well.
-        // At this point, we're counting how many days have passed since @firstDate's year's beginning.
         if(firstDate.year < lastDate.year) {
-            // Add days between the first date and how many days are until the end of its year.
-            totalDaysLastDate += getDaysUntilEndOfYear(firstDate);
-            // Add the days of any years in between firstDate's year and lastDate's year.
+            // Add the days of any years in between firstDate's year (inclusive) and lastDate's year (exclusive).
             int iterateYear = firstDate.year;
-            int endYear = lastDate.year - 1;
-            while(iterateYear++ < endYear) {
-                totalDaysFirstDate += isLeapYear(iterateYear) ? 366 : 365;
+            int endYear = lastDate.year;
+            while(iterateYear < endYear) {
+                totalDaysLastDate += isLeapYear(iterateYear++) ? 366 : 365;
             }
         }
 
