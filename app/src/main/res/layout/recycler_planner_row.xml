@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/row_plan_category">
+
+    <TextView
+        android:id="@+id/tv_plan_category_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="CategoryNamePlaceholder" />
+
+    <EditText
+        android:id="@+id/et_plan_category_budget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="0"
+        android:ems="10"
+        android:inputType="numberDecimal" />
+
+</LinearLayout>
