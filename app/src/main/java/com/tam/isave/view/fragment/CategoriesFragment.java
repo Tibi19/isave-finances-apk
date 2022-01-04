@@ -20,10 +20,9 @@ import com.tam.isave.databinding.PopupAddCategoryBinding;
 import com.tam.isave.databinding.PopupEditCategoryBinding;
 import com.tam.isave.databinding.PopupMoveBudgetBinding;
 import com.tam.isave.model.category.Category;
-import com.tam.isave.model.category.CategoryUtils;
 import com.tam.isave.utils.Constants;
-import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.NumberUtils;
+import com.tam.isave.view.dialog.PlannerBuilder;
 import com.tam.isave.view.dialog.CategorySpinnerPicker;
 import com.tam.isave.view.dialog.ConfirmationBuilder;
 import com.tam.isave.viewmodel.CategoryViewModel;
@@ -137,6 +136,9 @@ public class CategoriesFragment extends Fragment {
     private void setupCategoriesController(){
         binding.buttonAddCategory.setOnClickListener(listener -> showAddCategoryPopup());
         binding.buttonResetProgress.setOnClickListener(listener -> showResetCategoriesPopup());
+        binding.buttonPlan.setOnClickListener(listener -> PlannerBuilder.showPlannerPopup(
+                getActivity(), getLayoutInflater(), this, 0.0
+        ));
     }
 
     private void showResetCategoriesPopup() {

@@ -37,6 +37,13 @@
             android:text="ADD" />
 
         <Button
+            android:id="@+id/button_plan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="PLAN" />
+
+        <Button
             android:id="@+id/button_reset_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
