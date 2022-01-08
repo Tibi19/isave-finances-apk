@@ -33,6 +33,6 @@ public interface TransactionDao {
     @Query("SELECT * FROM transaction_table WHERE parent_id = :categoryId ORDER BY date_value DESC")
     LiveData<List<Transaction>> getCategoryTransactions(int categoryId);
 
-    @Query("SELECT * FROM transaction_table WHERE date_value BETWEEN :startDateValue AND :endDateValue ORDER BY date_value DESC")
+    @Query("SELECT * FROM transaction_table WHERE (date_value BETWEEN :startDateValue AND :endDateValue) AND organizable ORDER BY date_value DESC")
     LiveData<List<Transaction>> getIntervalTransactions(int startDateValue, int endDateValue);
 }
