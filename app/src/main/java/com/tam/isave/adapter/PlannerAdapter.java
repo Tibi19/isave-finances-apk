@@ -1,12 +1,7 @@
 package com.tam.isave.adapter;
 
-import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,23 +9,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tam.isave.databinding.RecyclerPlannerRowBinding;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.utils.EditTextUtils;
+import com.tam.isave.utils.NumberUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class PlannerAdapter extends RecyclerView.Adapter<PlannerAdapter.PlanCategoryHolder>{
 
-    private List<String> categoriesNames;
+    private List<Category> categories;
     private List<PlanCategoryHolder> plannerHolders;
     private Consumer<Double> remainingAmountUpdater;
 
     public PlannerAdapter(List<Category> categories) {
         plannerHolders = new ArrayList<>();
-        categoriesNames = new ArrayList<>();
-        for(Category category : categories) { categoriesNames.add(category.getName()); }
+        this.categories = categories;
     }
 
     public static class PlanCategoryHolder extends RecyclerView.ViewHolder {
@@ -55,13 +48,16 @@ public class PlannerAdapter extends RecyclerView.Adapter<PlannerAdapter.PlanCate
 
     @Override
     public void onBindViewHolder(@NonNull PlanCategoryHolder holder, int position) {
-        if(categoriesNames == null || categoriesNames.isEmpty()) {
+        if(categories == null || categories.isEmpty()) {
             holder.binding.tvPlanCategoryName.setText("Error");
             return;
         }
 
-        String categoryName = categoriesNames.get(position);
-        holder.binding.tvPlanCategoryName.setText(categoryName);
+        Category category = categories.get(position);
+        holder.binding.tvPlanCategoryName.setText(category.getName());
+        double categoryBudget = NumberUtils.twoDecimalsRounded(category.getGoal());
+        holder.binding.etPlanCategoryBudget.setHint(String.valueOf(categoryBudget));
+
         EditTextUtils.setOnTextChangedListener(
                 holder.binding.etPlanCategoryBudget,
                 () -> {
@@ -85,17 +81,17 @@ public class PlannerAdapter extends RecyclerView.Adapter<PlannerAdapter.PlanCate
 
     @Override
     public int getItemCount() {
-        if(categoriesNames != null && !categoriesNames.isEmpty()) {
-            return categoriesNames.size();
+        if(categories != null && !categories.isEmpty()) {
+            return categories.size();
         }
         return 0;
     }
 
     public double getCategoryPlannedBudget(String categoryName) {
         int position = -1;
-        for(String categoryNameElement : categoriesNames) {
-            if( categoryName.equalsIgnoreCase(categoryNameElement) ) {
-                position = categoriesNames.indexOf(categoryNameElement);
+        for(Category category : categories) {
+            if( category.getName().equalsIgnoreCase(categoryName) ) {
+                position = categories.indexOf(category);
                 break;
             }
         }
