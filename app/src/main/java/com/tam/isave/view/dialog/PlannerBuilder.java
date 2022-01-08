@@ -42,7 +42,11 @@ public class PlannerBuilder {
 
         plannerPopupBinding.btnPlanCancel.setOnClickListener(listener -> plannerPopupDialog.dismiss());
         plannerPopupBinding.btnPlanSubmit.setOnClickListener(listener -> {
-            plannerViewModel.updateCategoriesNewBudgets();
+            ConfirmationBuilder.showPlanningConfirmation(
+                    inflater,
+                    ConfirmationBuilder.PlanningConfirmationType.CATEGORIES_BUDGETS,
+                    plannerViewModel::updateCategoriesNewBudgets
+            );
             plannerPopupDialog.dismiss();
         });
 

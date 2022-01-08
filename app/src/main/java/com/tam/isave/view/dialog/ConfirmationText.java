@@ -29,10 +29,20 @@ public class ConfirmationText {
             "The main budget will be replaced by the cashing. " +
             "All categories will have a new budget and their spent amounts will be set to 0. " +
             "Deleting their payments made until this point will create inconsistencies.";
+    private static final String QUESTION_PLAN_CATEGORIES = "Are you sure you want to proceed with these new budgets? " +
+            "Categories will have their current budgets overwritten with the new budgets you have planned.";
+    private static final String QUESTION_PLAN_CATEGORIES_CASHING = "Are you sure you want to proceed " +
+            "with the current planning of your cashing? " +
+            "These categories will have their budgets increased by the planned amount, if specified.";
+    private static final String QUESTION_PLAN_CATEGORIES_AND_ORGANIZER_CASHING = QUESTION_PLAN_CATEGORIES_CASHING + " " +
+            "Organizer budget will be increased with the cashing.";
 
     public static String getResetAllCategoriesQuestion() { return QUESTION_ALL_CATEGORIES_RESET; }
     public static String getResetOrganizerQuestion() { return QUESTION_ORGANIZER_RESET; }
     public static String getResetEverythingQuestion() { return QUESTION_EVERYTHING_RESET; }
     public static String getResetEverythingButOrganizerQuestion() { return QUESTION_EVERYTHING_BUT_ORGANIZER_RESET; }
+    public static String getPlanCategoriesQuestion() { return QUESTION_PLAN_CATEGORIES; }
+    public static String getPlanCategoriesCashingQuestion() { return QUESTION_PLAN_CATEGORIES_CASHING; }
+    public static String getPlanCategoriesAndOrganizerCashingQuestion() { return QUESTION_PLAN_CATEGORIES_AND_ORGANIZER_CASHING; }
 
 }
