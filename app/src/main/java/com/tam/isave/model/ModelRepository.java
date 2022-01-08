@@ -123,7 +123,7 @@ public class ModelRepository {
         if( (date == null) || (name == null) ) { return false; }
         if(value <= NumberUtils.ZERO_DOUBLE) { return false; }
 
-        Payment payment = new Payment(name, date, value, parentId);
+        Payment payment = new Payment(name, date, value, parentId, organizable);
         balance = payment.makeTransaction(balance); // Update balance.
         tracker.makePayment(payment);
 
@@ -149,7 +149,7 @@ public class ModelRepository {
     public boolean newCashing(Date date, String name, double value, boolean modifiesOrganizer) {
         if( (date == null) || (name == null) || (value <= NumberUtils.ZERO_DOUBLE) ) { return false; }
 
-        Cashing cashing = new Cashing(name, date, value);
+        Cashing cashing = new Cashing(name, date, value, modifiesOrganizer);
         balance = cashing.makeTransaction(balance);
 
         if(modifiesOrganizer && organizer != null) {
