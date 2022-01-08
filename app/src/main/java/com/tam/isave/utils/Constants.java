@@ -39,13 +39,14 @@ public class Constants {
     // Transaction Database Constants
     public final static String TRANSACTION_DATABASE = "transaction_database";
 
-    public static final int VERSION_TRANSACTION_TABLE = 2;
+    public static final int VERSION_TRANSACTION_TABLE = 3;
     public final static String TABLE_NAME_TRANSACTION = "transaction_table";
 
     public final static String TRANSACTION_COLUMN_NAME = "name";
     public final static String TRANSACTION_COLUMN_VALUE = "value";
     public final static String TRANSACTION_COLUMN_DATE_VALUE = "date_value";
     public final static String TRANSACTION_COLUMN_PARENT_ID = "parent_id";
+    public final static String TRANSACTION_COLUMN_ORGANIZABLE = "organizable";
 
     // Shared Preferences Constants
     public final static String PREFERENCES_FILE_KEY = "com.tam.isave.PREFERENCES_FILE_KEY";

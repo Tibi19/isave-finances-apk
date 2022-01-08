@@ -5,8 +5,8 @@ import com.tam.isave.utils.Date;
 
 public class Payment extends Transaction {
 
-    public Payment(String name, Date date, double value, int parentId) {
-        super(name, value * -1.0, date, parentId);
+    public Payment(String name, Date date, double value, int parentId, boolean organizable) {
+        super(name, value * -1.0, date, parentId, organizable);
     }
 
     // Modifies parent category if it's different and calls the super class method.

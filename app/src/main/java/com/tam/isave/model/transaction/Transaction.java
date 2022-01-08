@@ -1,16 +1,12 @@
 package com.tam.isave.model.transaction;
 
-import android.util.Log;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.tam.isave.model.category.Category;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.Date;
-import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.IdGenerator;
 import com.tam.isave.utils.NumberUtils;
 
@@ -31,23 +27,26 @@ public class Transaction {
     private int dateValue; // The int representation of this object's date class.
     @ColumnInfo(name = Constants.TRANSACTION_COLUMN_PARENT_ID)
     private int parentId; // The id of a parent category.
+    @ColumnInfo(name = Constants.TRANSACTION_COLUMN_ORGANIZABLE)
+    private boolean organizable;
 
     // Database constructor.
     public Transaction() { }
 
     // Constructor for transactions belonging to a category.
-    public Transaction(String name, double value, Date date, int parentId) {
+    public Transaction(String name, double value, Date date, int parentId, boolean organizable) {
         this.name = name;
         this.value = value;
         this.date = date;
         this.parentId = parentId;
+        this.organizable = organizable;
         dateValue = this.date.getValue();
         id = IdGenerator.makeId();
     }
 
     // Constructor for transactions who do not have a parent category.
-    public Transaction(String name, double value, Date date) {
-        this(name, value, date, -1);
+    public Transaction(String name, double value, Date date, boolean organizable) {
+        this(name, value, date, -1, organizable);
     }
 
     // Makes a transaction, adds to @balance and returns the new balance;
@@ -130,4 +129,8 @@ public class Transaction {
     public void setId(int id) {
         this.id = id;
     }
+
+    public boolean isOrganizable() { return organizable; }
+
+    public void setOrganizable(boolean organizable) { this.organizable = organizable; }
 }
