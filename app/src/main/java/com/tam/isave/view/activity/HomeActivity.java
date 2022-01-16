@@ -3,17 +3,27 @@ package com.tam.isave.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.TextView;
 
 import com.tam.isave.databinding.ActivityHomeBinding;
 import com.tam.isave.databinding.PopupAddPaymentBinding;
+import com.tam.isave.databinding.PopupEditBudgetBinding;
+import com.tam.isave.model.MainBudget;
 import com.tam.isave.model.category.Category;
+import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.DebugUtils;
+import com.tam.isave.utils.EditTextUtils;
 import com.tam.isave.utils.LiveDataUtils;
+import com.tam.isave.utils.NumberUtils;
 import com.tam.isave.view.dialog.CategorySpinnerPicker;
+import com.tam.isave.view.dialog.EditMainBudgetBuilder;
 import com.tam.isave.view.dialog.EditTextDatePicker;
+import com.tam.isave.view.dialog.PlannerBuilder;
 import com.tam.isave.view.fragment.CategoriesFragment;
 import com.tam.isave.view.fragment.GoalOrganizerFragment;
 import com.tam.isave.viewmodel.CategoryViewModel;
+import com.tam.isave.viewmodel.MainBudgetViewModel;
 import com.tam.isave.viewmodel.TransactionViewModel;
 
 import androidx.appcompat.app.AlertDialog;
@@ -28,6 +38,7 @@ public class HomeActivity extends AppCompatActivity {
     private ActivityHomeBinding homeBinding;
     private TransactionViewModel transactionViewModel;
     private CategoryViewModel categoryViewModel;
+    private MainBudgetViewModel mainBudgetViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +50,35 @@ public class HomeActivity extends AppCompatActivity {
 
         categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
+        mainBudgetViewModel = new ViewModelProvider(this).get(MainBudgetViewModel.class);
 
         setupCategoryTracker();
         setupMenuButton();
         setupAddTransactionButton();
+        setupBalance();
+    }
+
+    private void setupBalance() {
+        updateBalanceView();
+        homeBinding.textBalance.setOnClickListener(
+                editBudget -> EditMainBudgetBuilder.showPopup(
+                        this,
+                        getLayoutInflater(),
+                        this,
+                        this::updateBalanceView
+                )
+        );
+    }
+
+    private void updateBalanceView() {
+        String balanceString = Constants.NAMING_BUDGET_HIDDEN;
+        MainBudget mainBudget = mainBudgetViewModel.getMainBudget();
+
+        if(!mainBudget.isHidden()) {
+            balanceString = String.valueOf(mainBudget.getBalance());
+        }
+
+        homeBinding.textBalance.setText(balanceString);
     }
 
     /**
@@ -86,6 +122,7 @@ public class HomeActivity extends AppCompatActivity {
         addPaymentBinding.buttonAddPaymentyCancel.setOnClickListener(listener -> addTransactionDialog.dismiss());
         addPaymentBinding.buttonAddPaymentSubmit.setOnClickListener(listener -> {
             transactionViewModel.addPayment(addPaymentBinding, categories);
+            updateBalanceView();
             addTransactionDialog.dismiss();
         });
 

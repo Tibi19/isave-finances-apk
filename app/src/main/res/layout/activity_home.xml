@@ -24,21 +24,22 @@
                 android:id="@+id/button_home_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="MENU" />
+                android:layout_weight="0.15"
+                android:text="History" />
 
             <TextView
                 android:id="@+id/text_balance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="BALANCE" />
+                android:layout_weight="0.7"
+                android:textAlignment="center"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/button_add_transaction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="0.15"
                 android:text="ADD" />
         </LinearLayout>
 
