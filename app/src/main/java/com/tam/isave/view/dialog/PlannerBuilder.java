@@ -22,7 +22,7 @@ import com.tam.isave.viewmodel.PlannerViewModel;
 
 public class PlannerBuilder {
 
-    public static void showCashingPlannerPopup(Activity activity, LayoutInflater inflater, ViewModelStoreOwner owner) {
+    public static void showCashingPlannerPopup(Activity activity, LayoutInflater inflater, ViewModelStoreOwner owner, Runnable onSubmit) {
         // TODO
     }
 
