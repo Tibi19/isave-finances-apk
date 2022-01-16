@@ -10,7 +10,6 @@ import com.tam.isave.databinding.PopupAddPaymentBinding;
 import com.tam.isave.databinding.PopupEditPaymentBinding;
 import com.tam.isave.model.ModelRepository;
 import com.tam.isave.model.category.Category;
-import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.model.category.CategoryUtils;
 import com.tam.isave.utils.Date;
@@ -86,16 +85,8 @@ public class TransactionViewModel extends AndroidViewModel {
         modelRepository.modifyPayment(transaction, newCategory.getId(), newPaymentName, newPaymentDate, newPaymentValue);
     }
 
-    public void addCashing(Date date, String name, double value, boolean modifiesOrganizer) {
-        modelRepository.newCashing(date, name, value, modifiesOrganizer);
-    }
-
     public void deletePayment(Transaction payment) {
         modelRepository.deletePayment(payment);
-    }
-
-    public void deleteCashing(Transaction cashing) {
-        modelRepository.deleteCashing(cashing);
     }
 
 }
