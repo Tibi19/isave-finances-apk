@@ -6,29 +6,28 @@ import androidx.lifecycle.LiveData;
 
 import com.tam.isave.data.DataRepository;
 import com.tam.isave.data.GoalOrganizerPreferences;
+import com.tam.isave.data.MainBudgetPreferences;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.category.CategoryTracker;
-import com.tam.isave.model.category.CategoryUtils;
 import com.tam.isave.model.goalorganizer.GoalOrganizer;
 import com.tam.isave.model.goalorganizer.Interval;
-import com.tam.isave.model.transaction.Cashing;
 import com.tam.isave.model.transaction.History;
 import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Date;
-import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.NumberUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ModelRepository {
 
-    private double balance;
-    GoalOrganizer organizer;
-    CategoryTracker tracker;
-    DataRepository dataRepository;
-    GoalOrganizerPreferences organizerPreferences;
+    private MainBudget mainBudget;
+    private GoalOrganizer organizer;
+    private CategoryTracker tracker;
+
+    private DataRepository dataRepository;
+    private GoalOrganizerPreferences organizerPreferences;
+    private MainBudgetPreferences mainBudgetPreferences;
 
     // Singleton of the ModelRepository.
     private static ModelRepository INSTANCE;
@@ -44,7 +43,9 @@ public class ModelRepository {
     private ModelRepository(Application application) {
         tracker = new CategoryTracker();
         dataRepository = new DataRepository(application);
+        mainBudgetPreferences = new MainBudgetPreferences(application);
         organizerPreferences = new GoalOrganizerPreferences(application);
+        setupMainBudget();
         setupOrganizer();
     }
 
@@ -91,6 +92,14 @@ public class ModelRepository {
         return dataRepository.getIntervalTransactions(startDateValue, endDate.getValue());
     }
 
+    private void setupMainBudget() {
+        double budget = mainBudgetPreferences.readBudget();
+        double spent = mainBudgetPreferences.readSpent();
+        boolean isHidden = mainBudgetPreferences.readIsHidden();
+
+        mainBudget = new MainBudget(budget, spent, isHidden);
+    }
+
     private void setupOrganizer() {
         double globalGoal = organizerPreferences.readGlobalGoal();
         int globalDays = organizerPreferences.readGlobalDays();
@@ -124,11 +133,14 @@ public class ModelRepository {
         if(value <= NumberUtils.ZERO_DOUBLE) { return false; }
 
         Payment payment = new Payment(name, date, value, parentId, organizable);
-        balance = payment.makeTransaction(balance); // Update balance.
         tracker.makePayment(payment);
 
-        if(organizable && organizer != null) {
-            organizer.makePayment(payment);
+        if(organizable) {
+            if(organizer != null) { organizer.makePayment(payment); }
+            if(mainBudget != null) {
+                mainBudget.makePayment(payment);
+                mainBudgetPreferences.saveMainBudget(mainBudget);
+            }
         }
 
         dataRepository.insertTransaction(payment);
@@ -138,27 +150,11 @@ public class ModelRepository {
         return true;
     }
 
-    /**
-     * Creates a new cashing
-     * @param date When the cashing took place.
-     * @param name The name of the cashing.
-     * @param value The value of the cashing.
-     * @param modifiesOrganizer Whether the cashing should modify the goal of the organizer.
-     * @return True if a cashing has been created successfully.
-     */
-    public boolean newCashing(Date date, String name, double value, boolean modifiesOrganizer) {
-        if( (date == null) || (name == null) || (value <= NumberUtils.ZERO_DOUBLE) ) { return false; }
+    public void addCashing(double cashingValue) {
+        if( cashingValue < -NumberUtils.ZERO_DOUBLE || mainBudget == null ) { return; }
 
-        Cashing cashing = new Cashing(name, date, value, modifiesOrganizer);
-        balance = cashing.makeTransaction(balance);
-
-        if(modifiesOrganizer && organizer != null) {
-            organizer.modify(organizer.getGlobalGoal() + cashing.getValue());
-        }
-
-        dataRepository.insertTransaction(cashing);
-
-        return true;
+        mainBudget.addToBudget(cashingValue);
+        mainBudgetPreferences.saveMainBudget(mainBudget);
     }
 
     /**
@@ -167,17 +163,22 @@ public class ModelRepository {
      * @param newEnd The new end date.
      * @param newIntervalsNr The new number of intervals.
      * @param newGoal The new goal.
-     * @return True if goal organizer has been successfully modified.
      */
     public void modifyGoalOrganizer(double newGoal, int newIntervalsNr, Date newStart, Date newEnd, List<Transaction> transactions) {
         if ( (newStart == null) || (newEnd == null) || (transactions == null) || (newIntervalsNr <= 0) ) { return; }
-        if (newGoal <= NumberUtils.ZERO_DOUBLE) { return; }
+        if (newGoal <= -NumberUtils.ZERO_DOUBLE) { return; }
         if (organizer == null) { return; }
 
         History newHistory = new History(transactions);
         organizer.modify(newGoal, newIntervalsNr, newStart, newEnd, newHistory);
         organizerPreferences.saveGoalOrganizer(organizer);
-        // dataRepository.updateAllIntervals(organizer.getIntervals());
+    }
+
+    public void modifyMainBudget(double budget, double spent, boolean isHidden) {
+        if( budget < -NumberUtils.ZERO_DOUBLE || spent < -NumberUtils.ZERO_DOUBLE) { return; }
+        if ( mainBudget == null ) { return; }
+        mainBudget.modify(budget, spent, isHidden);
+        mainBudgetPreferences.saveMainBudget(mainBudget);
     }
 
     /**
@@ -262,7 +263,6 @@ public class ModelRepository {
         tracker.addCategory(category);
         dataRepository.insertCategory(category);
 
-        // TODO add overflow handling update when adding category.
         // Tracker modifications can modify all categories because of overflow handling, all categories should be updated.
         dataRepository.updateAllCategories(tracker.getCategories());
     }
@@ -285,20 +285,16 @@ public class ModelRepository {
             // Tracker modifications can modify all categories because of overflow handling, all categories should be updated.
             dataRepository.updateAllCategories(tracker.getCategories());
         }
-        if (organizer != null) {
-            organizer.modifyPayment(payment, valueDifference);
+
+        if(payment.isOrganizable()) {
+            if (organizer != null) { organizer.modifyPayment(payment, valueDifference); }
+            if (mainBudget != null) {
+                mainBudget.addToBudget(valueDifference);
+                mainBudgetPreferences.saveMainBudget(mainBudget);
+            }
         }
 
         dataRepository.updateTransaction(payment);
-    }
-
-    /**
-     * Remove payment only from the organizer.
-     * @param payment Payment to be removed.
-     */
-    public void removePaymentFromOrganizer(Payment payment) {
-        if(payment == null || organizer == null) { return; }
-        organizer.removePayment(payment);
     }
 
     /**
@@ -307,32 +303,29 @@ public class ModelRepository {
      */
     public void deletePayment(Transaction payment) {
         if(payment == null) { return; }
-        if(organizer != null) { organizer.removePayment(payment); }
+
         if(tracker != null) {
             tracker.removePaymentGlobally(payment);
             // Tracker modifications can modify all categories because of overflow handling, all categories should be updated.
             dataRepository.updateAllCategories(tracker.getCategories());
         }
+
+        if(payment.isOrganizable()) {
+            if(organizer != null) { organizer.removePayment(payment); }
+            if(mainBudget != null) {
+                mainBudget.removePayment(payment);
+                mainBudgetPreferences.saveMainBudget(mainBudget);
+            }
+        }
+
         dataRepository.deleteTransaction(payment);
-    }
-
-    /**
-     * Delete Cashing.
-     * @param cashing Cashing to be deleted.
-     */
-    public void deleteCashing(Transaction cashing) {
-        if(cashing == null) { return; }
-        dataRepository.deleteTransaction(cashing);
-    }
-
-    /**
-     * Cleans histories of old transactions.
-     */
-    public void cleanHistories() {
-        History.cleanHistories(tracker);
     }
 
     public GoalOrganizer getGoalOrganizer() {
         return organizer;
+    }
+
+    public MainBudget getMainBudget() {
+        return mainBudget;
     }
 }
