@@ -16,7 +16,7 @@ public class GoalOrganizerPreferences {
     }
 
     public double readGlobalGoal() {
-        return sharedPreferences.getFloat(Constants.PREFERENCES_KEY_GLOBAL_GOAL, Constants.PREFERENCES_DEFAULT_FLOAT);
+        return sharedPreferences.getFloat(Constants.PREFERENCES_KEY_GLOBAL_GOAL, Constants.PREFERENCES_DEFAULT_ORGANIZER_FLOAT);
     }
 
     public int readGlobalDays() {
@@ -45,7 +45,7 @@ public class GoalOrganizerPreferences {
     public void deleteGoalOrganizer() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putFloat(Constants.PREFERENCES_KEY_GLOBAL_GOAL, Constants.PREFERENCES_DEFAULT_FLOAT);
+        editor.putFloat(Constants.PREFERENCES_KEY_GLOBAL_GOAL, Constants.PREFERENCES_DEFAULT_ORGANIZER_FLOAT);
         editor.putInt(Constants.PREFERENCES_KEY_GLOBAL_DAYS, Constants.PREFERENCES_DEFAULT_INT);
         editor.putInt(Constants.PREFERENCES_KEY_FIRST_DAY_VALUE, Constants.PREFERENCES_DEFAULT_INT);
         editor.putInt(Constants.PREFERENCES_KEY_INTERVALS_COUNT, Constants.PREFERENCES_DEFAULT_INT);
