@@ -14,6 +14,7 @@ public class Constants {
     public final static String NAMING_HISTORY = "History";
     public final static String NAMING_INTERVAL = "Interval ";
     public final static String NAMING_FROM_CATEGORY = "From category ";
+    public final static String NAMING_BUDGET_HIDDEN = "***.**";
 
     // Category Database Constants
     public final static String CATEGORY_DATABASE = "category_database";
@@ -54,7 +55,12 @@ public class Constants {
     public final static String PREFERENCES_KEY_GLOBAL_DAYS = "global_days_key";
     public final static String PREFERENCES_KEY_FIRST_DAY_VALUE = "first_day_value_key";
     public final static String PREFERENCES_KEY_INTERVALS_COUNT = "intervals_count_key";
-    public final static float PREFERENCES_DEFAULT_FLOAT = -1.0f;
+    public final static String PREFERENCES_KEY_MAIN_BUDGET_VALUE = "main_budget_value_key";
+    public final static String PREFERENCES_KEY_MAIN_BUDGET_SPENT = "main_budget_spent_key";
+    public final static String PREFERENCES_KEY_MAIN_BUDGET_HIDDEN = "main_budget_hidden_key";
+    public final static boolean PREFERENCES_DEFAULT_MAIN_BUDGET_HIDDEN = true;
+    public final static float PREFERENCES_DEFAULT_MAIN_BUDGET_FLOAT = 0.0f;
+    public final static float PREFERENCES_DEFAULT_ORGANIZER_FLOAT = -1.0f;
     public final static int PREFERENCES_DEFAULT_INT = -1;
 
     // Bundle Keys
