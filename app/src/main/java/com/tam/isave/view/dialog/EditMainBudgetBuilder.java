@@ -12,11 +12,11 @@ import androidx.viewbinding.ViewBinding;
 
 import com.tam.isave.databinding.PopupEditBudgetBinding;
 import com.tam.isave.model.MainBudget;
+import com.tam.isave.model.goalorganizer.GoalOrganizer;
 import com.tam.isave.utils.EditTextUtils;
 import com.tam.isave.utils.NumberUtils;
+import com.tam.isave.viewmodel.GoalOrganizerViewModel;
 import com.tam.isave.viewmodel.MainBudgetViewModel;
-
-import org.w3c.dom.Text;
 
 public class EditMainBudgetBuilder {
 
@@ -25,7 +25,7 @@ public class EditMainBudgetBuilder {
         PopupEditBudgetBinding editBudgetBinding = PopupEditBudgetBinding.inflate(inflater);
         AlertDialog editBudgetDialog = setupPopupDialog(activity, editBudgetBinding);
 
-        initializeEditBudgetPopup(editBudgetBinding, mainBudgetViewModel);
+        updateEditBudgetPopup(editBudgetBinding, mainBudgetViewModel);
         setupEditTextListener(editBudgetBinding);
 
         editBudgetBinding.buttonEditBudgetCancel.setOnClickListener(listener -> editBudgetDialog.dismiss());
@@ -34,14 +34,36 @@ public class EditMainBudgetBuilder {
             onSubmit.run();
             editBudgetDialog.dismiss();
         });
-        editBudgetBinding.buttonEditBudgetCashing.setOnClickListener(
-                listener -> PlannerBuilder.showCashingPlannerPopup(activity, inflater, owner, onSubmit)
-        );
+        editBudgetBinding.buttonEditBudgetCashing.setOnClickListener(listener -> {
+            Runnable onCashingSubmit = () -> {
+                updateEditBudgetPopup(editBudgetBinding, mainBudgetViewModel);
+                onSubmit.run();
+            };
+            PlannerBuilder.showCashingPlannerPopup(activity, inflater, owner, onCashingSubmit);
+        });
         editBudgetBinding.buttonEditBudgetReset.setOnClickListener(
                 listener -> editBudgetBinding.etEditBudgetSpent.setText("0.0")
         );
+        editBudgetBinding.buttonEditBudgetSync.setOnClickListener(
+                listener -> syncStateWithOrganizer(editBudgetBinding, owner)
+        );
 
         editBudgetDialog.show();
+    }
+
+    private static void syncStateWithOrganizer(PopupEditBudgetBinding editBudgetBinding, ViewModelStoreOwner owner) {
+        GoalOrganizerViewModel organizerViewModel = new ViewModelProvider(owner).get(GoalOrganizerViewModel.class);
+        GoalOrganizer organizer = organizerViewModel.getGoalOrganizer();
+        double organizerBudget = 0.0;
+        double organizerSpent = 0.0;
+
+        if(organizer != null) {
+            organizerBudget = organizer.getGlobalGoal();
+            organizerSpent = organizer.getGlobalSpent();
+        }
+
+        editBudgetBinding.etEditBudget.setText(String.valueOf(organizerBudget));
+        editBudgetBinding.etEditBudgetSpent.setText(String.valueOf(organizerSpent));
     }
 
     private static AlertDialog setupPopupDialog(Activity activity, ViewBinding binding) {
@@ -54,7 +76,7 @@ public class EditMainBudgetBuilder {
         return popupDialog;
     }
 
-    private static void initializeEditBudgetPopup(PopupEditBudgetBinding popupBinding, MainBudgetViewModel mainBudgetViewModel) {
+    private static void updateEditBudgetPopup(PopupEditBudgetBinding popupBinding, MainBudgetViewModel mainBudgetViewModel) {
         MainBudget mainBudget = mainBudgetViewModel.getMainBudget();
         double budget = mainBudget.getBudgetFormatted();
         double spent = mainBudget.getSpentFormatted();
