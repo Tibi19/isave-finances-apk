@@ -106,16 +106,23 @@
                     android:id="@+id/tv_edit_organizer_budget"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.31"
                     android:text="Budget" />
 
                 <EditText
                     android:id="@+id/et_edit_organizer_budget"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
+                    android:layout_weight="0.6"
                     android:inputType="numberDecimal" />
+
+                <Button
+                    android:id="@+id/button_edit_organizer_sync"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:text="Sync" />
+
             </LinearLayout>
 
             <LinearLayout
