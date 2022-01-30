@@ -16,9 +16,6 @@ public class Constants {
     public final static String NAMING_FROM_CATEGORY = "From category ";
     public final static String NAMING_BUDGET_HIDDEN = "***.**";
 
-    // Feedback
-    public final static String FEEDBACK_SYNCED_WITH_MAIN_BUDGET = "Synced with main budget.";
-
     // Category Database Constants
     public final static String CATEGORY_DATABASE = "category_database";
 
