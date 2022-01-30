@@ -11,6 +11,7 @@ import com.tam.isave.model.goalorganizer.GoalOrganizer;
 import com.tam.isave.model.goalorganizer.Interval;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Date;
+import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.NumberUtils;
 
 import java.util.List;
@@ -31,6 +32,23 @@ public class GoalOrganizerViewModel extends AndroidViewModel {
         if(firstDay == null || lastDay == null) { return; }
 
         modelRepository.modifyGoalOrganizer(globalGoal, intervalsCount, firstDay, lastDay, intervalTransactions);
+    }
+
+    public void addCashing(double cashingValue, boolean shouldReset) {
+        if( cashingValue < -NumberUtils.ZERO_DOUBLE ) { return; }
+        GoalOrganizer organizer = getGoalOrganizer();
+        double goal = organizer.getGlobalGoal();
+        List<Transaction> transactions = organizer.getHistory().getHistoryList();
+
+        if(shouldReset) {
+            goal = 0.0;
+            transactions = organizer.getHistory().getTransactionsOfToday();
+            resetGoalOrganizer();
+        }
+
+        goal += cashingValue;
+        modelRepository.modifyGoalOrganizer(goal,
+                organizer.getIntervalsNr(), organizer.getFirstDay(), organizer.getLastDay(), transactions);
     }
 
     public void updateOrganizer() {
@@ -56,8 +74,4 @@ public class GoalOrganizerViewModel extends AndroidViewModel {
     }
 
     public void resetGoalOrganizer() { modelRepository.resetGoalOrganizer(); }
-
-    public void deleteGoalOrganizer() {
-        modelRepository.deleteGoalOrganizer();
-    }
 }

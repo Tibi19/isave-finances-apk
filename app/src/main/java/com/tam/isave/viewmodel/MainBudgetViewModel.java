@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import com.tam.isave.databinding.PopupEditBudgetBinding;
 import com.tam.isave.model.MainBudget;
 import com.tam.isave.model.ModelRepository;
+import com.tam.isave.utils.NumberUtils;
 
 public class MainBudgetViewModel extends AndroidViewModel {
 
@@ -29,8 +30,9 @@ public class MainBudgetViewModel extends AndroidViewModel {
         modelRepository.modifyMainBudget(newBudget, newSpent, newIsHidden);
     }
 
-    public void addCashing(double cashingValue) {
-        modelRepository.addCashing(cashingValue);
+    public void addCashing(double cashingValue, boolean shouldReset) {
+        if( cashingValue < -NumberUtils.ZERO_DOUBLE ) { return; }
+        modelRepository.addCashing(cashingValue, shouldReset);
     }
 
     public MainBudget getMainBudget() {

@@ -15,15 +15,88 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
 import com.tam.isave.adapter.PlannerAdapter;
+import com.tam.isave.databinding.PopupCashingBinding;
 import com.tam.isave.databinding.PopupPlannerBinding;
 import com.tam.isave.utils.EditTextUtils;
 import com.tam.isave.utils.NumberUtils;
+import com.tam.isave.utils.OrganizerBindingUtils;
+import com.tam.isave.viewmodel.GoalOrganizerViewModel;
+import com.tam.isave.viewmodel.MainBudgetViewModel;
 import com.tam.isave.viewmodel.PlannerViewModel;
 
 public class PlannerBuilder {
 
     public static void showCashingPlannerPopup(Activity activity, LayoutInflater inflater, ViewModelStoreOwner owner, Runnable onSubmit) {
-        // TODO
+        PopupCashingBinding cashingPopupBinding = PopupCashingBinding.inflate(inflater);
+        AlertDialog cashingPopupDialog = setupPopupDialog(activity, cashingPopupBinding);
+        PlannerViewModel plannerViewModel = new ViewModelProvider(owner).get(PlannerViewModel.class);
+        PlannerAdapter plannerAdapter = setupPlannerAdapter(cashingPopupBinding.recyclerCashingPlanCategories, plannerViewModel, inflater.getContext());
+
+        plannerViewModel.setPlannerAdapter(plannerAdapter);
+        setupRemainingAmountCounter(
+                cashingPopupBinding.tvRemainingAmount,
+                cashingPopupBinding.etCashing,
+                plannerAdapter
+        );
+
+        cashingPopupBinding.btnCashingCancel.setOnClickListener(listener -> cashingPopupDialog.dismiss());
+        cashingPopupBinding.btnCashingSubmit.setOnClickListener(listener -> onCashingSubmit(
+                cashingPopupBinding, cashingPopupDialog, plannerViewModel, inflater, owner, onSubmit
+        ));
+
+        cashingPopupDialog.show();
+    }
+
+    public static void onCashingSubmit(
+            PopupCashingBinding cashingBinding,
+            AlertDialog cashingDialog,
+            PlannerViewModel plannerViewModel,
+            LayoutInflater inflater,
+            ViewModelStoreOwner owner,
+            Runnable onSubmit
+    ) {
+        boolean shouldAddToOrganizer = cashingBinding.checkModifyOrganizer.isChecked();
+        boolean shouldResetEverything = cashingBinding.checkResetEverything.isChecked();
+        Runnable resolveCashingRunnable = () ->
+                resolveCashing(cashingBinding, plannerViewModel, cashingDialog,
+                        owner, onSubmit, shouldAddToOrganizer, shouldResetEverything);
+
+        if(shouldResetEverything) {
+            ConfirmationBuilder.ResetConfirmationType confirmationType = shouldAddToOrganizer ?
+                    ConfirmationBuilder.ResetConfirmationType.EVERYTHING :
+                    ConfirmationBuilder.ResetConfirmationType.EVERYTHING_BUT_ORGANIZER;
+            ConfirmationBuilder.showResetConfirmation(inflater, confirmationType, resolveCashingRunnable);
+        } else {
+            ConfirmationBuilder.PlanningConfirmationType confirmationType = shouldAddToOrganizer ?
+                    ConfirmationBuilder.PlanningConfirmationType.CATEGORIES_AND_ORGANIZER_CASHING :
+                    ConfirmationBuilder.PlanningConfirmationType.CATEGORIES_CASHING;
+            ConfirmationBuilder.showPlanningConfirmation(inflater, confirmationType, resolveCashingRunnable);
+        }
+    }
+
+    public static void resolveCashing(
+            PopupCashingBinding cashingBinding,
+            PlannerViewModel plannerViewModel,
+            AlertDialog cashingDialog,
+            ViewModelStoreOwner owner,
+            Runnable onSubmit,
+            boolean shouldAddToOrganizer,
+            boolean shouldResetEverything
+    ) {
+        MainBudgetViewModel mainBudgetViewModel = new ViewModelProvider(owner).get(MainBudgetViewModel.class);
+        GoalOrganizerViewModel organizerViewModel = new ViewModelProvider(owner).get(GoalOrganizerViewModel.class);
+        String cashingValueString = cashingBinding.etCashing.getText().toString();
+        double cashingValue = cashingValueString.isEmpty() ? -1.0 : Double.parseDouble(cashingValueString);
+
+        plannerViewModel.updateCategoriesNewBudgets(!shouldResetEverything);
+        mainBudgetViewModel.addCashing(cashingValue, shouldResetEverything);
+        if(shouldAddToOrganizer) {
+            organizerViewModel.addCashing(cashingValue, shouldResetEverything);
+            OrganizerBindingUtils.updateBinding();
+        }
+
+        onSubmit.run();
+        cashingDialog.dismiss();
     }
 
     public static void showPlannerPopup(Activity activity, LayoutInflater inflater, ViewModelStoreOwner owner, double startingBudget) {

@@ -126,11 +126,10 @@ public class ModelRepository {
      * @param value The value of the payment.
      * @param parentId In which category should the payment be tracked.
      * @param organizable Whether this payment should also be tracked by the goal organizer.
-     * @return True if a payment has been created successfully.
      */
-    public boolean newPayment(Date date, String name, double value, int parentId, boolean organizable) {
-        if( (date == null) || (name == null) ) { return false; }
-        if(value <= NumberUtils.ZERO_DOUBLE) { return false; }
+    public void newPayment(Date date, String name, double value, int parentId, boolean organizable) {
+        if( (date == null) || (name == null) ) { return; }
+        if(value <= NumberUtils.ZERO_DOUBLE) { return; }
 
         Payment payment = new Payment(name, date, value, parentId, organizable);
         tracker.makePayment(payment);
@@ -146,14 +145,12 @@ public class ModelRepository {
         dataRepository.insertTransaction(payment);
         // Tracker modifications can modify all categories because of overflow handling, all categories should be updated.
         dataRepository.updateAllCategories(tracker.getCategories());
-
-        return true;
     }
 
-    public void addCashing(double cashingValue) {
+    public void addCashing(double cashingValue, boolean shouldReset) {
         if( cashingValue < -NumberUtils.ZERO_DOUBLE || mainBudget == null ) { return; }
-
-        mainBudget.addToBudget(cashingValue);
+        if(shouldReset) { mainBudget.setBudget(cashingValue); }
+        else { mainBudget.addToBudget(cashingValue); }
         mainBudgetPreferences.saveMainBudget(mainBudget);
     }
 
@@ -289,7 +286,7 @@ public class ModelRepository {
         if(payment.isOrganizable()) {
             if (organizer != null) { organizer.modifyPayment(payment, valueDifference); }
             if (mainBudget != null) {
-                mainBudget.addToBudget(valueDifference);
+                mainBudget.modifySpent(valueDifference);
                 mainBudgetPreferences.saveMainBudget(mainBudget);
             }
         }
