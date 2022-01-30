@@ -65,4 +65,17 @@ public class IntervalsProgress {
         if(activeInterval == null) { return Constants.DEFAULT_NOT_APPLICABLE; }
         return activeInterval.getProgress();
     }
+
+    public double getGlobalSpent() {
+        if(goalOrganizer == null) { return 0.0; }
+        Interval[] intervals = goalOrganizer.getIntervals();
+        if(intervals == null || intervals.length <= 0) { return 0.0; }
+
+        double globalSpent = 0.0;
+        for(Interval interval : intervals) {
+            globalSpent += interval.getSpent();
+        }
+
+        return globalSpent;
+    }
 }

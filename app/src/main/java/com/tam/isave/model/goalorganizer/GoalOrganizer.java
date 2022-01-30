@@ -245,6 +245,8 @@ public class GoalOrganizer{
         return intervalsProgress.getBudgetProgress();
     }
 
+    public double getGlobalSpent() { return intervalsProgress.getGlobalSpent(); }
+
     public double getGlobalGoal() {
         return globalGoal;
     }
