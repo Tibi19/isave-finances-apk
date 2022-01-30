@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.tam.isave.databinding.FragmentOrganizerBinding;
 import com.tam.isave.databinding.PopupEditOrganizerBinding;
+import com.tam.isave.model.MainBudget;
 import com.tam.isave.model.goalorganizer.GoalOrganizer;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Constants;
@@ -24,10 +26,12 @@ import com.tam.isave.utils.Date;
 import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.LiveDataUtils;
 import com.tam.isave.utils.NumberUtils;
+import com.tam.isave.utils.OrganizerBindingUtils;
 import com.tam.isave.view.activity.IntervalHistoryActivity;
 import com.tam.isave.view.dialog.ConfirmationBuilder;
 import com.tam.isave.view.dialog.EditTextDatePicker;
 import com.tam.isave.viewmodel.GoalOrganizerViewModel;
+import com.tam.isave.viewmodel.MainBudgetViewModel;
 import com.tam.isave.viewmodel.TransactionViewModel;
 
 import java.util.List;
@@ -62,6 +66,8 @@ public class GoalOrganizerFragment extends Fragment {
         organizerViewModel = new ViewModelProvider(this).get(GoalOrganizerViewModel.class);
         transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
         bindingUpdateObserver = transactions -> updateBinding();
+
+        OrganizerBindingUtils.setUpdateBinding(this::updateBinding);
 
         setupGoalOrganizerTransactions();
         setupOrganizerController();
@@ -145,8 +151,25 @@ public class GoalOrganizerFragment extends Fragment {
             editOrganizerWithBinding(editOrganizerBinding, originalFirstDayValue, originalOrganizerDays);
             editOrganizerDialog.dismiss();
         });
+        editOrganizerBinding.buttonEditOrganizerSync.setOnClickListener(
+                listener -> syncStateWithMainBudget(editOrganizerBinding)
+        );
 
         editOrganizerDialog.show();
+    }
+
+    private void syncStateWithMainBudget(PopupEditOrganizerBinding editOrganizerBinding) {
+        MainBudgetViewModel mainBudgetViewModel = new ViewModelProvider(this).get(MainBudgetViewModel.class);
+        MainBudget mainBudget = mainBudgetViewModel.getMainBudget();
+        double mainBudgetValue = mainBudget == null ? 0.0 : mainBudget.getBudget();
+
+        editOrganizerBinding.etEditOrganizerBudget.setText(String.valueOf(mainBudgetValue));
+
+        Toast.makeText(
+                getContext(),
+                Constants.FEEDBACK_SYNCED_WITH_MAIN_BUDGET,
+                Toast.LENGTH_SHORT
+        ).show();
     }
 
     private void populateEditBinding(PopupEditOrganizerBinding editOrganizerBinding) {
@@ -210,10 +233,5 @@ public class GoalOrganizerFragment extends Fragment {
 
         transactionsLiveData.removeObserver(bindingUpdateObserver);
         attachBindingUpdateObserver();
-    }
-
-    private void deleteOrganizer() {
-        organizerViewModel.deleteGoalOrganizer();
-        updateBinding();
     }
 }
