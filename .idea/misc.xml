@@ -14,7 +14,7 @@
         <entry key="app/src/main/res/layout/popup_add_category.xml" value="0.32155797101449274" />
         <entry key="app/src/main/res/layout/popup_add_payment.xml" value="0.20052083333333334" />
         <entry key="app/src/main/res/layout/popup_add_transaction.xml" value="0.20052083333333334" />
-        <entry key="app/src/main/res/layout/popup_cashing.xml" value="0.18795289855072464" />
+        <entry key="app/src/main/res/layout/popup_cashing.xml" value="0.25" />
         <entry key="app/src/main/res/layout/popup_confirm.xml" value="0.22" />
         <entry key="app/src/main/res/layout/popup_confirmation.xml" value="0.14719202898550723" />
         <entry key="app/src/main/res/layout/popup_edit_budget.xml" value="0.33" />
