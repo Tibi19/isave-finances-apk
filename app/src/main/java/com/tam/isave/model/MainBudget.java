@@ -20,6 +20,7 @@ public class MainBudget {
     public void removePayment(Transaction payment) { spent -= Math.abs( payment.getValue() ); }
 
     public void addToBudget(double value) { budget += value; }
+    public void modifySpent(double value) { spent -= value; }
 
     public void modify(double newBudget, double newSpent, boolean newIsHidden) {
         this.budget = newBudget;
