@@ -380,6 +380,8 @@ public class Date {
         return this.getValue() < Date.today().getValue();
     }
 
+    public boolean isToday() { return this.getValue() == Date.today().getValue(); }
+
     // Returns true if dates are ordered:
     // newDate > midDate > oldDate.
     static boolean areOrdered(Date newDate, Date midDate, Date oldDate) {

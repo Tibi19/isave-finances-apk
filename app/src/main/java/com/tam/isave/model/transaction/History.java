@@ -56,6 +56,15 @@ public class History {
 
     public List<Transaction> getHistoryList() { return historyList; }
 
+    public List<Transaction> getTransactionsOfToday() {
+        ArrayList<Transaction> transactionsOfToday = new ArrayList<>();
+        for(Transaction transaction : historyList) {
+            if(transaction.getDate().isBeforeToday()) { break; }
+            if(transaction.getDate().isToday()) { transactionsOfToday.add(transaction); }
+        }
+        return transactionsOfToday;
+    }
+
     // Checks if history is sorted and sorts it if not.
     private void validateSorting() {
         if(!isSorted()) {
