@@ -149,8 +149,13 @@ public class ModelRepository {
 
     public void addCashing(double cashingValue, boolean shouldReset) {
         if( cashingValue < -NumberUtils.ZERO_DOUBLE || mainBudget == null ) { return; }
-        if(shouldReset) { mainBudget.setBudget(cashingValue); }
-        else { mainBudget.addToBudget(cashingValue); }
+        if(shouldReset) {
+            mainBudget.setBudget(cashingValue);
+            mainBudget.setSpent(0.0);
+        }
+        else {
+            mainBudget.addToBudget(cashingValue);
+        }
         mainBudgetPreferences.saveMainBudget(mainBudget);
     }
 
