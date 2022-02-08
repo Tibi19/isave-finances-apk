@@ -23,18 +23,20 @@ public class PlannerViewModel extends AndroidViewModel {
         categories = modelRepository.getCategories().getValue();
     }
 
-    public void updateCategoriesNewBudgets(boolean addToExistingBudget) {
+    public void updateCategoriesNewBudgets(boolean addToExistingBudget, boolean shouldResetCategories) {
+        if(shouldResetCategories) { modelRepository.resetAllCategories(); }
+
         for(Category category : categories) {
             String categoryName = category.getName();
             double newBudget = plannerAdapter.getCategoryPlannedBudget(categoryName);
             if(newBudget < 0.0) { continue; }
-            if(addToExistingBudget) { newBudget += category.getGoal(); }
+            if(addToExistingBudget && !shouldResetCategories) { newBudget += category.getGoal(); }
             modelRepository.modifyCategory(category, categoryName, category.getSpent(), newBudget, category.isFlexibleGoal());
         }
     }
 
     public void updateCategoriesNewBudgets() {
-        updateCategoriesNewBudgets(false);
+        updateCategoriesNewBudgets(false, false);
     }
 
     public List<Category> getCategories() { return categories; }
