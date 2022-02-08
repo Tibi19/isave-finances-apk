@@ -1,5 +1,6 @@
 package com.tam.isave.view.fragment;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -97,15 +98,12 @@ public class CategoriesFragment extends Fragment {
             categoryViewModel.editCategory(category, editCategoryBinding);
             editCategoryDialog.dismiss();
         });
-        editCategoryBinding.buttonMoveBudget.setOnClickListener(listener -> {
-            showMoveBudgetPopup(category);
-            editCategoryDialog.dismiss();
-        });
+        editCategoryBinding.buttonMoveBudget.setOnClickListener(listener -> showMoveBudgetPopup(category, editCategoryDialog));
 
         editCategoryDialog.show();
     }
 
-    private void showMoveBudgetPopup(Category category) {
+    private void showMoveBudgetPopup(Category category, Dialog editDialog) {
         AlertDialog moveBudgetDialog;
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         PopupMoveBudgetBinding moveBudgetBinding = PopupMoveBudgetBinding.inflate(getLayoutInflater());
@@ -127,6 +125,7 @@ public class CategoriesFragment extends Fragment {
         moveBudgetBinding.buttonMoveCancel.setOnClickListener(listener -> moveBudgetDialog.dismiss());
         moveBudgetBinding.buttonMoveSubmit.setOnClickListener(Listener -> {
             categoryViewModel.moveBudget(category, moveBudgetBinding);
+            editDialog.dismiss();
             moveBudgetDialog.dismiss();
         });
 

@@ -88,7 +88,7 @@ public class PlannerBuilder {
         String cashingValueString = cashingBinding.etCashing.getText().toString();
         double cashingValue = cashingValueString.isEmpty() ? -1.0 : Double.parseDouble(cashingValueString);
 
-        plannerViewModel.updateCategoriesNewBudgets(!shouldResetEverything);
+        plannerViewModel.updateCategoriesNewBudgets(true, shouldResetEverything);
         mainBudgetViewModel.addCashing(cashingValue, shouldResetEverything);
         if(shouldAddToOrganizer) {
             organizerViewModel.addCashing(cashingValue, shouldResetEverything);
@@ -115,12 +115,15 @@ public class PlannerBuilder {
 
         plannerPopupBinding.btnPlanCancel.setOnClickListener(listener -> plannerPopupDialog.dismiss());
         plannerPopupBinding.btnPlanSubmit.setOnClickListener(listener -> {
+            Runnable onSubmit = () -> {
+                plannerViewModel.updateCategoriesNewBudgets();
+                plannerPopupDialog.dismiss();
+            };
             ConfirmationBuilder.showPlanningConfirmation(
                     inflater,
                     ConfirmationBuilder.PlanningConfirmationType.CATEGORIES_BUDGETS,
-                    plannerViewModel::updateCategoriesNewBudgets
+                    onSubmit
             );
-            plannerPopupDialog.dismiss();
         });
 
         plannerPopupDialog.show();
