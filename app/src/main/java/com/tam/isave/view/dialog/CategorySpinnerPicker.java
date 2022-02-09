@@ -5,6 +5,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.tam.isave.model.category.Category;
+import com.tam.isave.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +24,7 @@ public class CategorySpinnerPicker  {
         for (Category category : categories) {
             categoriesNames.add(category.getName());
         }
+        categoriesNames.add(Constants.NAMING_NO_CATEGORY);
 
         int standardSpinnerLayout = android.R.layout.simple_spinner_dropdown_item;
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, standardSpinnerLayout, categoriesNames);
@@ -33,7 +35,11 @@ public class CategorySpinnerPicker  {
     public CategorySpinnerPicker(Context context, Spinner spinner, List<Category> categories, Category defaultCategory) {
         this(context, spinner, categories);
 
-        if(defaultCategory == null) { return; }
+        if(defaultCategory == null) {
+            // The element at the 'size' position is the 'no category' element.
+            spinner.setSelection(categories.size());
+            return;
+        }
 
         for(int i = 0; i < categories.size(); i++) {
             if(categories.get(i).getId() == defaultCategory.getId()) {

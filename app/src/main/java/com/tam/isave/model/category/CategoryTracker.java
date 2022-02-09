@@ -217,15 +217,19 @@ public class CategoryTracker {
     }
 
     // Moves @payment from @origCategory to @newCategory.
-    // Handles overflow if it's the case.
+    // Returns true if the transaction is moved from a category to another.
     public boolean movePayment(Category origCategory, Category newCategory, Transaction payment) {
-        if( (origCategory == null) || (newCategory == null) || (payment == null) ) { return false; }
-        if(origCategory.equals(newCategory)) { return false; }
+        if(payment == null) { return false; }
+        // Only one category can be null (i.e. payment didn't have or no longer has a category)
+        if(origCategory == null && newCategory == null) { return false; }
+
+        boolean categoriesAreNotNull = (origCategory != null) && (newCategory != null);
+        if( categoriesAreNotNull && (origCategory.getId() == newCategory.getId()) ) { return false; }
 
         // Move payment by removing it from original category,
         // And making the payment in the new category.
-        removePayment(origCategory, payment);
-        makePayment(newCategory, payment);
+        if(origCategory != null) { removePayment(origCategory, payment); }
+        if(newCategory != null) { makePayment(newCategory, payment); }
 
         return true;
     }

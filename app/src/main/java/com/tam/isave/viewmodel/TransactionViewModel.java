@@ -65,9 +65,9 @@ public class TransactionViewModel extends AndroidViewModel {
 
         String categoryName = addPaymentBinding.spinAddPaymentCategories.getSelectedItem().toString();
         Category category = CategoryUtils.getCategoryByName(categories, categoryName);
-        if (category == null) { return; }
+        int categoryId = category != null ? category.getId() : -1;
 
-        modelRepository.newPayment(paymentDate, paymentName, paymentValue, category.getId(), organizablePayment);
+        modelRepository.newPayment(paymentDate, paymentName, paymentValue, categoryId, organizablePayment);
     }
 
     public void editPayment(Transaction transaction, PopupEditPaymentBinding editPaymentBinding, List<Category> categories) {
@@ -80,9 +80,9 @@ public class TransactionViewModel extends AndroidViewModel {
 
         String newCategoryName = editPaymentBinding.spinEditPaymentCategories.getSelectedItem().toString();
         Category newCategory = CategoryUtils.getCategoryByName(categories, newCategoryName);
-        if (newCategory == null) { return; }
+        int newCategoryId = newCategory != null ? newCategory.getId() : -1;
 
-        modelRepository.modifyPayment(transaction, newCategory.getId(), newPaymentName, newPaymentDate, newPaymentValue);
+        modelRepository.modifyPayment(transaction, newCategoryId, newPaymentName, newPaymentDate, newPaymentValue);
     }
 
     public void deletePayment(Transaction payment) {
