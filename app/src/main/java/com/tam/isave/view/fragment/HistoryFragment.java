@@ -132,6 +132,7 @@ public class HistoryFragment extends Fragment {
         editPaymentBinding.etEditPaymentValue.setText(String.valueOf(absTransactionValue));
         editPaymentBinding.buttonEditPaymentyCancel.setOnClickListener(listener -> editTransactionDialog.dismiss());
         editPaymentBinding.buttonEditPaymentSubmit.setOnClickListener(listener -> {
+            if( !transactionViewModel.isEditPaymentValid(editPaymentBinding, getContext()) ) { return; }
             transactionViewModel.editPayment(transaction, editPaymentBinding, categories);
             editTransactionDialog.dismiss();
         });

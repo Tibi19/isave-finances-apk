@@ -1,6 +1,7 @@
 package com.tam.isave.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -13,6 +14,8 @@ import com.tam.isave.model.category.Category;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.model.category.CategoryUtils;
 import com.tam.isave.utils.Date;
+import com.tam.isave.utils.NumberUtils;
+import com.tam.isave.view.dialog.ErrorBuilder;
 
 import java.util.List;
 
@@ -70,6 +73,18 @@ public class TransactionViewModel extends AndroidViewModel {
         modelRepository.newPayment(paymentDate, paymentName, paymentValue, categoryId, organizablePayment);
     }
 
+    public boolean isAddPaymentValid(PopupAddPaymentBinding addPaymentBinding, Context context) {
+        String name = addPaymentBinding.editAddPaymentName.getText().toString();
+        String valueString = addPaymentBinding.editAddPaymentValue.getText().toString();
+
+        if(name.isEmpty() || valueString.isEmpty()) {
+            ErrorBuilder.missingValue(context);
+            return false;
+        }
+
+        return true;
+    }
+
     public void editPayment(Transaction transaction, PopupEditPaymentBinding editPaymentBinding, List<Category> categories) {
         String newPaymentName = editPaymentBinding.etEditPaymentName.getText().toString();
 
@@ -83,6 +98,18 @@ public class TransactionViewModel extends AndroidViewModel {
         int newCategoryId = newCategory != null ? newCategory.getId() : -1;
 
         modelRepository.modifyPayment(transaction, newCategoryId, newPaymentName, newPaymentDate, newPaymentValue);
+    }
+
+    public boolean isEditPaymentValid(PopupEditPaymentBinding editPaymentBinding, Context context) {
+        String name = editPaymentBinding.etEditPaymentName.getText().toString();
+        String valueString = editPaymentBinding.etEditPaymentValue.getText().toString();
+
+        if(name.isEmpty() || valueString.isEmpty()) {
+            ErrorBuilder.missingValue(context);
+            return false;
+        }
+
+        return true;
     }
 
     public void deletePayment(Transaction payment) {

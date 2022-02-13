@@ -121,6 +121,7 @@ public class HomeActivity extends AppCompatActivity {
 
         addPaymentBinding.buttonAddPaymentyCancel.setOnClickListener(listener -> addTransactionDialog.dismiss());
         addPaymentBinding.buttonAddPaymentSubmit.setOnClickListener(listener -> {
+            if(!transactionViewModel.isAddPaymentValid(addPaymentBinding, this)) { return; }
             transactionViewModel.addPayment(addPaymentBinding, categories);
             updateBalanceView();
             addTransactionDialog.dismiss();
