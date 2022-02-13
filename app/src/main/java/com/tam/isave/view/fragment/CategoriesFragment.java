@@ -21,6 +21,7 @@ import com.tam.isave.databinding.PopupAddCategoryBinding;
 import com.tam.isave.databinding.PopupEditCategoryBinding;
 import com.tam.isave.databinding.PopupMoveBudgetBinding;
 import com.tam.isave.model.category.Category;
+import com.tam.isave.model.category.CategoryUtils;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.NumberUtils;
 import com.tam.isave.view.dialog.PlannerBuilder;
@@ -95,10 +96,14 @@ public class CategoriesFragment extends Fragment {
         editCategoryBinding.checkEditCategoryIsFlexible.setChecked(category.isFlexibleGoal());
         editCategoryBinding.buttonEditCategoryCancel.setOnClickListener(listener -> editCategoryDialog.dismiss());
         editCategoryBinding.buttonEditCategorySubmit.setOnClickListener(listener -> {
+            if(!categoryViewModel.isEditCategoryValid(editCategoryBinding, getContext(), category)) { return; }
             categoryViewModel.editCategory(category, editCategoryBinding);
             editCategoryDialog.dismiss();
         });
-        editCategoryBinding.buttonMoveBudget.setOnClickListener(listener -> showMoveBudgetPopup(category, editCategoryDialog));
+        editCategoryBinding.buttonMoveBudget.setOnClickListener(listener -> {
+            if( !categoryViewModel.canMoveBudget(getContext()) ) { return; }
+            showMoveBudgetPopup(category, editCategoryDialog);
+        });
 
         editCategoryDialog.show();
     }
@@ -118,12 +123,14 @@ public class CategoriesFragment extends Fragment {
         moveBudgetDialog.setCancelable(true);
         moveBudgetDialog.getWindow().setGravity(Gravity.BOTTOM);
 
-        CategorySpinnerPicker.build(getActivity(), moveBudgetBinding.spinToCategory, categories);
+        List<Category> otherCategories = CategoryUtils.getCategoriesExcept(categories, category);
+        CategorySpinnerPicker.build(getActivity(), moveBudgetBinding.spinToCategory, otherCategories, false);
 
         moveBudgetBinding.tvFromCategory.setText(fromCategoryText);
         moveBudgetBinding.etMoveBudgetValue.setText(remainingBudgetText);
         moveBudgetBinding.buttonMoveCancel.setOnClickListener(listener -> moveBudgetDialog.dismiss());
         moveBudgetBinding.buttonMoveSubmit.setOnClickListener(Listener -> {
+            if( !categoryViewModel.isMoveBudgetValid(moveBudgetBinding, getContext()) ) { return; }
             categoryViewModel.moveBudget(category, moveBudgetBinding);
             editDialog.dismiss();
             moveBudgetDialog.dismiss();
@@ -161,6 +168,7 @@ public class CategoriesFragment extends Fragment {
 
         addCategoryBinding.buttonAddCategoryCancel.setOnClickListener(listener -> addCategoryDialog.dismiss());
         addCategoryBinding.buttonAddCategorySubmit.setOnClickListener(listener -> {
+            if( !categoryViewModel.isAddCategoryValid(addCategoryBinding, getContext()) ) { return; }
             categoryViewModel.addCategory(addCategoryBinding);
             addCategoryDialog.dismiss();
         });
