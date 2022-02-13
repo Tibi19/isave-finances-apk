@@ -2,6 +2,7 @@ package com.tam.isave.model.category;
 
 import com.tam.isave.model.category.Category;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryUtils {
@@ -27,6 +28,15 @@ public class CategoryUtils {
         }
 
         return null;
+    }
+
+    public static List<Category> getCategoriesExcept(List<Category> categories, Category categoryToOmit) {
+        if(categories == null || categoryToOmit == null) { return null; }
+
+        ArrayList<Category> otherCategories = new ArrayList<>(categories);
+        otherCategories.remove(categoryToOmit);
+
+        return otherCategories;
     }
 
 }
