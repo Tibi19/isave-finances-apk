@@ -13,18 +13,24 @@ import java.util.List;
 public class CategorySpinnerPicker  {
 
     public static void build(Context context, Spinner spinner, List<Category> categories) {
-        new CategorySpinnerPicker(context, spinner, categories);
+        new CategorySpinnerPicker(context, spinner, categories, true);
     }
     public static void build(Context context, Spinner spinner, List<Category> categories, Category defaultCategory) {
         new CategorySpinnerPicker(context, spinner, categories, defaultCategory);
     }
+    public static void build(Context context, Spinner spinner, List<Category> categories, boolean includeNoCategoryOption) {
+        new CategorySpinnerPicker(context, spinner, categories, includeNoCategoryOption);
+    }
 
-    public CategorySpinnerPicker(Context context, Spinner spinner, List<Category> categories) {
+    public CategorySpinnerPicker(Context context, Spinner spinner, List<Category> categories, boolean includeNoCategoryOption) {
         List<String> categoriesNames = new ArrayList<>();
         for (Category category : categories) {
             categoriesNames.add(category.getName());
         }
-        categoriesNames.add(Constants.NAMING_NO_CATEGORY);
+
+        if(includeNoCategoryOption) {
+            categoriesNames.add(Constants.NAMING_NO_CATEGORY);
+        }
 
         int standardSpinnerLayout = android.R.layout.simple_spinner_dropdown_item;
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, standardSpinnerLayout, categoriesNames);
@@ -33,7 +39,7 @@ public class CategorySpinnerPicker  {
     }
 
     public CategorySpinnerPicker(Context context, Spinner spinner, List<Category> categories, Category defaultCategory) {
-        this(context, spinner, categories);
+        this(context, spinner, categories, true);
 
         if(defaultCategory == null) {
             // The element at the 'size' position is the 'no category' element.
