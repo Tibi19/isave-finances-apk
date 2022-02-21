@@ -17,10 +17,10 @@ public class ErrorBuilder {
     private static final String MISSING_OTHER_CATEGORIES = "Please add more categories.";
     public static void missingOtherCategories(Context context) { makeErrorToast(context, MISSING_OTHER_CATEGORIES); }
 
-    private static final String TOO_MANY_INTERVALS = "Organizer can have a maximum of 10 intervals.";
-    public static void tooManyIntervals(Context context) { makeErrorToast(context, TOO_MANY_INTERVALS); }
+    private static final String INTERVALS_RANGE = "Organizer can have between 1 and 10 intervals.";
+    public static void intervalsRange(Context context) { makeErrorToast(context, INTERVALS_RANGE); }
 
-    private static final String ORGANIZER_DAYS_ORDER = "Last day must be after First Day.";
+    private static final String ORGANIZER_DAYS_ORDER = "Last day must be after first day.";
     public static void organizerDaysOrder(Context context) { makeErrorToast(context, ORGANIZER_DAYS_ORDER); }
 
     private static void makeErrorToast(Context context, String text) {
