@@ -30,6 +30,7 @@ public class EditMainBudgetBuilder {
 
         editBudgetBinding.buttonEditBudgetCancel.setOnClickListener(listener -> editBudgetDialog.dismiss());
         editBudgetBinding.buttonEditBudgetSubmit.setOnClickListener(listener -> {
+            if( !mainBudgetViewModel.isModifyMainBudgetValid(editBudgetBinding, inflater.getContext()) ) { return; }
             mainBudgetViewModel.modifyMainBudget(editBudgetBinding);
             onSubmit.run();
             editBudgetDialog.dismiss();
