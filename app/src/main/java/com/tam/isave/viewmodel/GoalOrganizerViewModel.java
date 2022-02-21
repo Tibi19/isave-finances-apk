@@ -1,18 +1,20 @@
 package com.tam.isave.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.tam.isave.databinding.PopupEditOrganizerBinding;
 import com.tam.isave.model.ModelRepository;
 import com.tam.isave.model.goalorganizer.GoalOrganizer;
 import com.tam.isave.model.goalorganizer.Interval;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Date;
-import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.NumberUtils;
+import com.tam.isave.view.dialog.ErrorBuilder;
 
 import java.util.List;
 
@@ -32,6 +34,31 @@ public class GoalOrganizerViewModel extends AndroidViewModel {
         if(firstDay == null || lastDay == null) { return; }
 
         modelRepository.modifyGoalOrganizer(globalGoal, intervalsCount, firstDay, lastDay, intervalTransactions);
+    }
+
+    public boolean isModifyOrganizerValid(PopupEditOrganizerBinding editOrganizerBinding, Context context) {
+        String intervalsString = editOrganizerBinding.etEditOrganizerIntervals.getText().toString();
+        String budgetString = editOrganizerBinding.etEditOrganizerBudget.getText().toString();
+        Date firstDay = new Date(editOrganizerBinding.etEditOrganizerStart.getText().toString());
+        Date lastDay = new Date(editOrganizerBinding.etEditOrganizerEnd.getText().toString());
+
+        if(intervalsString.isEmpty() || budgetString.isEmpty()) {
+            ErrorBuilder.missingValue(context);
+            return false;
+        }
+
+        int intervalsCount = Integer.parseInt(intervalsString);
+        if(intervalsCount < 1 || intervalsCount > 10) {
+            ErrorBuilder.intervalsRange(context);
+            return false;
+        }
+
+        if(firstDay.isNewerThan(lastDay)) {
+            ErrorBuilder.organizerDaysOrder(context);
+            return false;
+        }
+
+        return true;
     }
 
     public void addCashing(double cashingValue, boolean shouldReset) {

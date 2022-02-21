@@ -133,7 +133,7 @@ public class GoalOrganizerFragment extends Fragment {
 
     private void showEditOrganizerPopup() {
         AlertDialog editOrganizerDialog;
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity()); // requireActivity() ?
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         PopupEditOrganizerBinding editOrganizerBinding = PopupEditOrganizerBinding.inflate(getLayoutInflater());
 
         builder.setView(editOrganizerBinding.getRoot());
@@ -148,6 +148,7 @@ public class GoalOrganizerFragment extends Fragment {
 
         editOrganizerBinding.buttonEditOrganizerCancel.setOnClickListener(listener -> editOrganizerDialog.dismiss());
         editOrganizerBinding.buttonEditOrganizerSubmit.setOnClickListener(listener -> {
+            if( !organizerViewModel.isModifyOrganizerValid(editOrganizerBinding, getContext()) ) { return; }
             editOrganizerWithBinding(editOrganizerBinding, originalFirstDayValue, originalOrganizerDays);
             editOrganizerDialog.dismiss();
         });
