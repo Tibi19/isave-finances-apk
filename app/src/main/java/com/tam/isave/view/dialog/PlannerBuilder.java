@@ -40,9 +40,10 @@ public class PlannerBuilder {
         );
 
         cashingPopupBinding.btnCashingCancel.setOnClickListener(listener -> cashingPopupDialog.dismiss());
-        cashingPopupBinding.btnCashingSubmit.setOnClickListener(listener -> onCashingSubmit(
-                cashingPopupBinding, cashingPopupDialog, plannerViewModel, inflater, owner, onSubmit
-        ));
+        cashingPopupBinding.btnCashingSubmit.setOnClickListener(listener -> {
+            if( !plannerViewModel.isCashingValid(cashingPopupBinding, inflater.getContext()) ) { return; }
+            onCashingSubmit(cashingPopupBinding, cashingPopupDialog, plannerViewModel, inflater, owner, onSubmit);
+        });
 
         cashingPopupDialog.show();
     }
