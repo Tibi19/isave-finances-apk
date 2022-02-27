@@ -1,6 +1,5 @@
 package com.tam.isave.model;
 
-import com.tam.isave.model.transaction.Payment;
 import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.NumberUtils;
 
@@ -40,5 +39,4 @@ public class MainBudget {
     public void setSpent(double spent) { this.spent = spent; }
 
     public boolean isHidden() { return isHidden; }
-    public void setHidden(boolean hidden) { isHidden = hidden; }
 }

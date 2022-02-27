@@ -201,15 +201,6 @@ public class ModelRepository {
         dataRepository.updateAllCategories(tracker.getCategories());
     }
 
-    /**
-     * Reset the progress of the goal organizer.
-     */
-    public void resetGoalOrganizer() {
-        if (organizer == null) { return; }
-        organizer.reset();
-        organizerPreferences.saveGoalOrganizer(organizer);
-    }
-
     public void deleteGoalOrganizer() {
         organizer = new GoalOrganizer();
         organizerPreferences.deleteGoalOrganizer();
