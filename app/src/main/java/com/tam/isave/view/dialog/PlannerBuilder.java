@@ -18,11 +18,13 @@ import com.tam.isave.adapter.PlannerAdapter;
 import com.tam.isave.databinding.PopupCashingBinding;
 import com.tam.isave.databinding.PopupPlannerBinding;
 import com.tam.isave.utils.EditTextUtils;
+import com.tam.isave.utils.LiveDataUtils;
 import com.tam.isave.utils.NumberUtils;
 import com.tam.isave.utils.OrganizerBindingUtils;
 import com.tam.isave.viewmodel.GoalOrganizerViewModel;
 import com.tam.isave.viewmodel.MainBudgetViewModel;
 import com.tam.isave.viewmodel.PlannerViewModel;
+import com.tam.isave.viewmodel.TransactionViewModel;
 
 public class PlannerBuilder {
 
@@ -92,12 +94,39 @@ public class PlannerBuilder {
         plannerViewModel.updateCategoriesNewBudgets(true, shouldResetEverything);
         mainBudgetViewModel.addCashing(cashingValue, shouldResetEverything);
         if(shouldAddToOrganizer) {
-            organizerViewModel.addCashing(cashingValue, shouldResetEverything);
-            OrganizerBindingUtils.updateBinding();
+            addToOrganizer(cashingValue, shouldResetEverything, mainBudgetViewModel, organizerViewModel, owner);
         }
 
         onSubmit.run();
         cashingDialog.dismiss();
+    }
+
+    public static void addToOrganizer(
+            double cashingValue,
+            boolean shouldResetEverything,
+            MainBudgetViewModel mainBudgetViewModel,
+            GoalOrganizerViewModel organizerViewModel,
+            ViewModelStoreOwner owner
+    ) {
+        int originalFirstDayValue = organizerViewModel.getGoalOrganizerFirstDayValue();
+        int originalOrganizerDays = organizerViewModel.getGoalOrganizerDays();
+
+        int firstDayValueForReset = organizerViewModel.getFirstDayValueForReset();
+        int lastDayValueForReset = organizerViewModel.getLastDayValueForReset();
+
+        TransactionViewModel transactionViewModel = new ViewModelProvider(owner).get(TransactionViewModel.class);
+        LiveDataUtils.observeOnce(
+                transactionViewModel.getIntervalTransactions(firstDayValueForReset, lastDayValueForReset),
+                transactions -> {
+                    organizerViewModel.addCashing(
+                            cashingValue,
+                            shouldResetEverything,
+                            mainBudgetViewModel.getMainBudget().getBudget(),
+                            transactions);
+                    OrganizerBindingUtils.updateBinding();
+                    OrganizerBindingUtils.resetBindingIfTimeChange(originalFirstDayValue, originalOrganizerDays);
+                }
+        );
     }
 
     public static void showPlannerPopup(Activity activity, LayoutInflater inflater, ViewModelStoreOwner owner, double startingBudget) {

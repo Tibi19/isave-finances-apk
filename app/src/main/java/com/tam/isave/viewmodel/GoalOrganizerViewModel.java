@@ -61,7 +61,7 @@ public class GoalOrganizerViewModel extends AndroidViewModel {
         return true;
     }
 
-    public void addCashing(double cashingValue, boolean shouldReset) {
+    public void addCashing(double cashingValue, boolean shouldReset, double mainBudgetValue, List<Transaction> newTransactions) {
         if( cashingValue < -NumberUtils.ZERO_DOUBLE ) { return; }
         GoalOrganizer organizer = getGoalOrganizer();
         double goal = organizer.getGlobalGoal();
@@ -70,7 +70,7 @@ public class GoalOrganizerViewModel extends AndroidViewModel {
         if(shouldReset) {
             goal = 0.0;
             transactions = organizer.getHistory().getTransactionsOfToday();
-            resetGoalOrganizer();
+            resetGoalOrganizer(mainBudgetValue, newTransactions);
         }
 
         goal += cashingValue;
@@ -100,5 +100,25 @@ public class GoalOrganizerViewModel extends AndroidViewModel {
         return intervals;
     }
 
-    public void resetGoalOrganizer() { modelRepository.resetGoalOrganizer(); }
+    public void resetGoalOrganizer(double mainBudgetValue, List<Transaction> newTransactions) {
+        GoalOrganizer organizer = getGoalOrganizer();
+
+        double newGoal = mainBudgetValue > NumberUtils.ZERO_DOUBLE ? mainBudgetValue : organizer.getGlobalGoal();
+
+        int intervalsCount = organizer.getIntervalsNr();
+        int organizerDays = organizer.getGlobalIntervalDays();
+
+        Date firstDay = Date.today();
+        Date lastDay = firstDay.countDays(organizerDays);
+
+        modifyOrganizer(newGoal, intervalsCount, firstDay, lastDay, newTransactions);
+    }
+
+    public int getFirstDayValueForReset() { return Date.today().getValue(); }
+
+    public int getLastDayValueForReset() {
+        Date firstDayForReset = Date.today();
+        Date lastDayForReset = firstDayForReset.countDays(getGoalOrganizerDays());
+        return lastDayForReset.getValue();
+    }
 }
