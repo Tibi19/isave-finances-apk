@@ -133,7 +133,7 @@ public class GoalOrganizerFragment extends Fragment {
         int firstDayValueForReset = organizerViewModel.getFirstDayValueForReset();
         int lastDayValueForReset = organizerViewModel.getLastDayValueForReset();
 
-        double mainBudgetValue = getMaiBudgetValue();
+        double mainBudgetValue = getMainBudgetValue();
 
         LiveDataUtils.observeOnce(
                 transactionViewModel.getIntervalTransactions(firstDayValueForReset, lastDayValueForReset),
@@ -179,7 +179,7 @@ public class GoalOrganizerFragment extends Fragment {
     }
 
     private void syncStateWithMainBudget(PopupEditOrganizerBinding editOrganizerBinding) {
-        double mainBudgetValue = getMaiBudgetValue();
+        double mainBudgetValue = getMainBudgetValue();
         editOrganizerBinding.etEditOrganizerBudget.setText(String.valueOf(mainBudgetValue));
 
         Toast.makeText(
@@ -189,11 +189,11 @@ public class GoalOrganizerFragment extends Fragment {
         ).show();
     }
 
-    private double getMaiBudgetValue() {
+    private double getMainBudgetValue() {
         MainBudgetViewModel mainBudgetViewModel = new ViewModelProvider(this).get(MainBudgetViewModel.class);
         MainBudget mainBudget = mainBudgetViewModel.getMainBudget();
 
-        return mainBudget == null ? 0.0 : mainBudget.getBudget();
+        return mainBudget == null ? 0.0 : NumberUtils.twoDecimalsRounded(mainBudget.getBudget());
     }
 
     private void populateEditBinding(PopupEditOrganizerBinding editOrganizerBinding) {
