@@ -26,6 +26,13 @@
                 android:textSize="18sp"
                 android:text="Edit Payment" />
 
+            <CheckBox
+                android:id="@+id/check_edit_payment_is_organizable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Organizable" />
+
             <LinearLayout
                 android:id="@+id/row_edit_payment_name"
                 android:layout_width="match_parent"
@@ -122,7 +129,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/button_edit_paymenty_cancel"
+                    android:id="@+id/button_edit_payment_cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

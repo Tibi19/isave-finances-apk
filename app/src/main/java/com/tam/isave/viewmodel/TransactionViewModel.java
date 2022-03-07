@@ -97,7 +97,9 @@ public class TransactionViewModel extends AndroidViewModel {
         Category newCategory = CategoryUtils.getCategoryByName(categories, newCategoryName);
         int newCategoryId = newCategory != null ? newCategory.getId() : -1;
 
-        modelRepository.modifyPayment(transaction, newCategoryId, newPaymentName, newPaymentDate, newPaymentValue);
+        boolean newIsOrganizable = editPaymentBinding.checkEditPaymentIsOrganizable.isChecked();
+
+        modelRepository.modifyPayment(transaction, newCategoryId, newPaymentName, newPaymentDate, newPaymentValue, newIsOrganizable);
     }
 
     public boolean isEditPaymentValid(PopupEditPaymentBinding editPaymentBinding, Context context) {

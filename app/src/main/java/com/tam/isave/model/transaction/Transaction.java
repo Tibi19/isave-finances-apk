@@ -62,9 +62,10 @@ public class Transaction {
      * @param newValue The new value.
      * @param newDate The new date.
      * @param newParentId The id of a new parent category.
+     * @param newIsOrganizable The new organizable flag.
      * @return A value representing the difference in money spent after modification.
      */
-    public double modify(String newName, double newValue, Date newDate, int newParentId) {
+    public double modify(String newName, double newValue, Date newDate, int newParentId, boolean newIsOrganizable) {
         if( (newName != null) && !name.equalsIgnoreCase(newName)) { name = newName; }
         if( (newDate != null) && (date.getValue() != newDate.getValue()) ) {
             date = newDate;
@@ -77,6 +78,8 @@ public class Transaction {
             value = newValue;
             return Math.abs(origValue) - Math.abs(newValue);
         }
+
+        organizable = newIsOrganizable;
 
         return 0.0;
     }

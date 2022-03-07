@@ -268,19 +268,25 @@ public class ModelRepository {
      * @param newDate The new date when payment happened.
      * @param newValue The new value of the payment.
      */
-    public void modifyPayment(Transaction payment, int newParentId, String newName, Date newDate, double newValue) {
+    public void modifyPayment(Transaction payment, int newParentId, String newName, Date newDate, double newValue, boolean newIsOrganizable) {
         if( (payment == null) || (newName == null) || (newDate == null) ) { return; }
         if(newValue <= NumberUtils.ZERO_DOUBLE) { return; }
 
-        double valueDifference = payment.modify(newName, -newValue, newDate, newParentId);
+        boolean originalIsOrganizable = payment.isOrganizable();
+
+        double valueDifference = payment.modify(newName, -newValue, newDate, newParentId, newIsOrganizable);
         if (tracker != null) {
             tracker.modifyPaymentInParent(payment, valueDifference);
             // Tracker modifications can modify all categories because of overflow handling, all categories should be updated.
             dataRepository.updateAllCategories(tracker.getCategories());
         }
 
-        if(payment.isOrganizable()) {
-            if (organizer != null) { organizer.modifyPayment(payment, valueDifference); }
+        if(originalIsOrganizable != newIsOrganizable) {
+            handlePaymentOrganizableChange(payment, originalIsOrganizable, newIsOrganizable);
+        }else if(payment.isOrganizable()) {
+            if (organizer != null) {
+                organizer.modifyPayment(payment, valueDifference);
+            }
             if (mainBudget != null) {
                 mainBudget.modifySpent(valueDifference);
                 mainBudgetPreferences.saveMainBudget(mainBudget);
@@ -288,6 +294,29 @@ public class ModelRepository {
         }
 
         dataRepository.updateTransaction(payment);
+    }
+
+    private void handlePaymentOrganizableChange(Transaction payment, boolean originalIsOrganizable, boolean newIsOrganizable) {
+        if(!originalIsOrganizable && newIsOrganizable) {
+            if(organizer != null) {
+                organizer.makePayment(payment);
+            }
+            if(mainBudget != null) {
+                mainBudget.makePayment(payment);
+                mainBudgetPreferences.saveMainBudget(mainBudget);
+            }
+            return;
+        }
+
+        if(originalIsOrganizable && !newIsOrganizable) {
+            if(organizer != null) {
+                organizer.removePayment(payment);
+            }
+            if(mainBudget != null) {
+                mainBudget.removePayment(payment);
+                mainBudgetPreferences.saveMainBudget(mainBudget);
+            }
+        }
     }
 
     /**

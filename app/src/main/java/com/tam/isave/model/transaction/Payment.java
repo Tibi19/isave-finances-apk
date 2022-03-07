@@ -10,8 +10,8 @@ public class Payment extends Transaction {
     }
 
     // Modifies parent category if it's different and calls the super class method.
-    public double modify(String newName, double newValue, Date newDate, int newParentId) {
-        return super.modify(newName, -newValue, newDate, newParentId);
+    public double modify(String newName, double newValue, Date newDate, int newParentId, boolean newIsOrganizable) {
+        return super.modify(newName, -newValue, newDate, newParentId, newIsOrganizable);
     }
 
     public double getAbsValue() { return Math.abs(getValue()); }
