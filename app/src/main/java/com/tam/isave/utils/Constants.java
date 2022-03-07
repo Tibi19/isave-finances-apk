@@ -73,4 +73,8 @@ public class Constants {
     public static final String KEY_CATEGORY_NAME = "category_name_key";
     public static final String KEY_START_DATE_VALUE = "start_date_value_key";
     public static final String KEY_END_DATE_VALUE = "end_date_value_key";
+
+    // Export transactions values
+    public static final String EXPORT_INTENT_TITLE = "Handle transactions file with:";
+    public static final String EXPORT_FILE_NAME_START = "isave_transactions_";
 }
