@@ -128,9 +128,10 @@ public class HistoryFragment extends Fragment {
         CategorySpinnerPicker.build(getActivity(), editPaymentBinding.spinEditPaymentCategories, categories,
                 CategoryUtils.getCategoryById(categories, transaction.getParentId()) );
 
+        editPaymentBinding.checkEditPaymentIsOrganizable.setChecked(transaction.isOrganizable());
         editPaymentBinding.etEditPaymentName.setText(transaction.getName());
         editPaymentBinding.etEditPaymentValue.setText(String.valueOf(absTransactionValue));
-        editPaymentBinding.buttonEditPaymentyCancel.setOnClickListener(listener -> editTransactionDialog.dismiss());
+        editPaymentBinding.buttonEditPaymentCancel.setOnClickListener(listener -> editTransactionDialog.dismiss());
         editPaymentBinding.buttonEditPaymentSubmit.setOnClickListener(listener -> {
             if( !transactionViewModel.isEditPaymentValid(editPaymentBinding, getContext()) ) { return; }
             transactionViewModel.editPayment(transaction, editPaymentBinding, categories);
