@@ -4,7 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_category_history.xml" value="0.33559782608695654" />
-        <entry key="app/src/main/res/layout/activity_global_history.xml" value="0.33559782608695654" />
+        <entry key="app/src/main/res/layout/activity_global_history.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.264" />
         <entry key="app/src/main/res/layout/activity_interval_history.xml" value="0.32155797101449274" />
         <entry key="app/src/main/res/layout/fragment_categories.xml" value="0.264" />
@@ -27,6 +27,7 @@
         <entry key="app/src/main/res/layout/recycler_category_row.xml" value="0.33559782608695654" />
         <entry key="app/src/main/res/layout/recycler_history_row.xml" value="0.1" />
         <entry key="app/src/main/res/layout/recycler_planner_row.xml" value="0.19972826086956522" />
+        <entry key="app/src/main/res/xml/provider_paths.xml" value="0.17527173913043478" />
       </map>
     </option>
   </component>
