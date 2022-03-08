@@ -77,4 +77,5 @@ public class Constants {
     // Export transactions values
     public static final String EXPORT_INTENT_TITLE = "Handle transactions file with:";
     public static final String EXPORT_FILE_NAME_START = "isave_transactions_";
+    public static final String EXPORT_HEADER = "Payment, Value, Date, Category,\n";
 }
