@@ -1,9 +1,7 @@
 package com.tam.isave.data;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Environment;
-import android.os.storage.StorageManager;
 
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.category.CategoryUtils;
@@ -27,22 +25,31 @@ public class DataConverter {
     }
 
     public File getTransactionsCSV(List<Transaction> transactions, List<Category> categories) throws IOException {
-        String storagePath = getStoragePath();
-        String csvFilePath = getCsvFilePath(storagePath);
-        File transactionsCSV = new File(csvFilePath);
-        transactionsCSV.createNewFile();
+        String storagePath = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
+        String transactionsFilePrefix = Constants.EXPORT_FILE_NAME_START + Date.today().getValue() + "_";
+        String transactionsFileSuffix = ".csv";
+
+        File transactionsCSV = File.createTempFile(
+                transactionsFilePrefix,
+                transactionsFileSuffix,
+                new File(storagePath)
+        );
 
         FileWriter writer = new FileWriter(transactionsCSV);
         BufferedWriter bufferedWriter = new BufferedWriter(writer);
 
+        bufferedWriter.write(Constants.EXPORT_HEADER);
+
         transactions.forEach( transaction -> writeTransactionToBuffer(bufferedWriter, transaction, categories) );
+
+        bufferedWriter.close();
 
         return transactionsCSV;
     }
 
     private void writeTransactionToBuffer(BufferedWriter bufferedWriter, Transaction transaction, List<Category> categories) {
         String name = transaction.getName();
-        String value = String.valueOf(transaction.getValue());
+        String value = String.valueOf( Math.abs(transaction.getValue()) );
         String date = transaction.getDate().toString();
         Category categoryObject = CategoryUtils.getCategoryById(categories, transaction.getParentId());
         String category = categoryObject != null ? categoryObject.getName() : Constants.NAMING_NO_CATEGORY;
@@ -52,25 +59,12 @@ public class DataConverter {
                 name,
                 value,
                 date,
-                category
+                category,
+                "\n"
         );
 
         try { bufferedWriter.write(transactionLine); }
         catch (IOException e) { ErrorBuilder.exportWriteException(context); }
     }
 
-    private String getCsvFilePath(String storagePath) {
-        String fileName = Constants.EXPORT_FILE_NAME_START + Date.today().getValue() + ".csv";
-        return storagePath + File.separator + fileName;
-    }
-
-    private String getStoragePath() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            StorageManager storageManager = (StorageManager) context.getSystemService(Context.STORAGE_SERVICE);
-            return storageManager.getPrimaryStorageVolume().getDirectory().getAbsolutePath();
-        }
-
-        // storagePath = getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
-        return Environment.getExternalStorageDirectory().getAbsolutePath();
-    }
 }
