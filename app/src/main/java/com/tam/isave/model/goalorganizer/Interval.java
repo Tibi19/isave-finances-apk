@@ -46,6 +46,11 @@ public class Interval extends Category {
         return progress;
     }
 
+    @Override
+    public String getProgress() {
+        return String.valueOf(getLeftAmountTwoDecimals());
+    }
+
     public void setDays(int days) { this.days = days; }
     public int getDays() {
         return days;
