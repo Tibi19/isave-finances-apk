@@ -6,4 +6,5 @@
     <color name="colorForeground">#FFFFFF</color>
     <color name="colorBackground">#D9FDE5</color>
     <color name="colorText">#2F313F</color>
+    <color name="colorLine">@android:color/darker_gray</color>
 </resources>
