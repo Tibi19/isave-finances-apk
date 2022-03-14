@@ -5,4 +5,17 @@
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Project dimensions -->
+    <dimen name="card_margin">22dp</dimen>
+    <dimen name="card_corner_radius">20dp</dimen>
+    <dimen name="card_elevation">8dp</dimen>
+    <dimen name="layout_padding">10dp</dimen>
+    <dimen name="text_size">15.5sp</dimen>
+    <dimen name="text_size_title">18.5sp</dimen>
+    <dimen name="text_size_accent">30.5sp</dimen>
+    <dimen name="line_vertical_margin">12.5dp</dimen>
+    <dimen name="line_horizontal_margin">18dp</dimen>
+    <dimen name="button">30.5dp</dimen>
+    <dimen name="button_large">34dp</dimen>
 </resources>

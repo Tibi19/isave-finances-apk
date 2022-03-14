@@ -5,17 +5,17 @@
     android:id="@+id/fragment_organizer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="20dp"
+    android:layout_margin="@dimen/card_margin"
     app:cardBackgroundColor="@color/colorForeground"
-    app:cardCornerRadius="20dp"
-    app:cardElevation="8dp">
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/card_elevation">
 
     <LinearLayout
         android:id="@+id/layout_organizer_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="@dimen/layout_padding">
 
         <TextView
             android:id="@+id/tv_organizer_title"
@@ -25,7 +25,7 @@
             android:layout_marginBottom="20dp"
             android:textColor="@color/colorText"
             android:textStyle="bold"
-            android:textSize="22sp"
+            android:textSize="@dimen/text_size_title"
             android:text="Organize Budget" />
 
         <LinearLayout
@@ -55,7 +55,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorText"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/text_size"
                         android:text="Interval " />
 
                     <TextView
@@ -63,7 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorText"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/text_size"
                         android:text="N/A" />
 
                 </LinearLayout>
@@ -80,7 +80,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorText"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/text_size"
                         android:text="Day " />
 
                     <TextView
@@ -88,7 +88,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorText"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/text_size"
                         android:text="N/A" />
 
                 </LinearLayout>
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:textSize="22sp"
+                android:textSize="@dimen/text_size_accent"
                 android:textColor="@color/colorPrimary"
                 android:text="0.0"
                 android:textStyle="bold"
@@ -112,9 +112,9 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginVertical="12.5dp"
-            android:layout_marginHorizontal="18dp"
-            android:background="@android:color/darker_gray"/>
+            android:layout_marginVertical="@dimen/line_vertical_margin"
+            android:layout_marginHorizontal="@dimen/line_horizontal_margin"
+            android:background="@color/colorLine"/>
 
         <LinearLayout
             android:id="@+id/layout_organizer_controller"
@@ -130,8 +130,8 @@
 
             <Button
                 android:id="@+id/btn_organizer_history"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="@dimen/button"
+                android:layout_height="@dimen/button"
                 android:background="@drawable/button_details"/>
 
             <androidx.legacy.widget.Space
@@ -141,8 +141,8 @@
 
             <Button
                 android:id="@+id/btn_organizer_edit"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/button_large"
+                android:layout_height="@dimen/button_large"
                 android:background="@drawable/button_edit"/>
 
             <androidx.legacy.widget.Space
@@ -152,8 +152,8 @@
 
             <Button
                 android:id="@+id/btn_organizer_reset"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="@dimen/button"
+                android:layout_height="@dimen/button"
                 android:background="@drawable/button_reset" />
 
             <androidx.legacy.widget.Space
