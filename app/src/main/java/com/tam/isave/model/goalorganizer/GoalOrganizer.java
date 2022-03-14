@@ -235,6 +235,10 @@ public class GoalOrganizer{
         return intervalsProgress.getIntervalsProgress();
     }
 
+    /**
+     * The budget progress left in the interval.
+     * @return The current interval progress in format BB.BB
+     */
     public String getBudgetProgress() {
         return intervalsProgress.getBudgetProgress();
     }
