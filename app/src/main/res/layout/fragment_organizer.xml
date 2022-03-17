@@ -21,7 +21,7 @@
             android:id="@+id/tv_organizer_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="@dimen/margin_title"
             android:layout_marginBottom="20dp"
             android:textColor="@color/colorText"
             android:textStyle="bold"
@@ -102,7 +102,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:textSize="@dimen/text_size_accent"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@drawable/color_clickable_text"
                 android:text="0.0"
                 android:textStyle="bold"
                 android:textAlignment="center" />
