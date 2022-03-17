@@ -109,6 +109,7 @@ public class GoalOrganizerFragment extends Fragment {
 
     private void setupOrganizerController() {
         binding.btnOrganizerHistory.setOnClickListener(listener -> startIntervalHistoryActivity());
+        binding.tvOrganizerProgress.setOnClickListener(listener -> startIntervalHistoryActivity());
         binding.btnOrganizerEdit.setOnClickListener(listener -> showEditOrganizerPopup());
         binding.btnOrganizerReset.setOnClickListener(listener -> showResetOrganizerPopup());
     }
