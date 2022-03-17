@@ -3,15 +3,23 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/button_add.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/button_details.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/button_edit.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/button_history.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/button_reset.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/color_clickable_text.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_add.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_button_add_pressed.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_details.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_details_pressed.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_button_edit.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_edit_pressed.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_button_history_pressed.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_reset.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_reset_pressed.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_history.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/layout/activity_category_history.xml" value="0.33559782608695654" />
         <entry key="app/src/main/res/layout/activity_global_history.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.264" />
