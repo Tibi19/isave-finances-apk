@@ -16,6 +16,8 @@
     <dimen name="text_size_accent">30.5sp</dimen>
     <dimen name="line_vertical_margin">12.5dp</dimen>
     <dimen name="line_horizontal_margin">18dp</dimen>
+    <dimen name="margin_title">10dp</dimen>
+    <dimen name="margin_top_balance_bar_text">4dp</dimen>
     <dimen name="button">30.5dp</dimen>
     <dimen name="button_large">34dp</dimen>
 </resources>
