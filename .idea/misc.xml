@@ -7,6 +7,8 @@
         <entry key="app/src/main/res/drawable/button_details.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/button_edit.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/button_history.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/button_menu.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/button_plan.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/button_reset.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/color_clickable_text.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.21666666666666667" />
@@ -15,7 +17,12 @@
         <entry key="app/src/main/res/drawable/ic_button_details_pressed.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_edit.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_edit_pressed.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_button_history.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_history_pressed.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_button_menu.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_button_menu_pressed.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_button_plan.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_button_plan_pressed.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_reset.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_reset_pressed.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.21666666666666667" />
@@ -44,6 +51,7 @@
         <entry key="app/src/main/res/layout/recycler_category_row.xml" value="0.33559782608695654" />
         <entry key="app/src/main/res/layout/recycler_history_row.xml" value="0.1" />
         <entry key="app/src/main/res/layout/recycler_planner_row.xml" value="0.19972826086956522" />
+        <entry key="app/src/main/res/menu/category_menu.xml" value="0.20052083333333334" />
         <entry key="app/src/main/res/xml/provider_paths.xml" value="0.17527173913043478" />
       </map>
     </option>
