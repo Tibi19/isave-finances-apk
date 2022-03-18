@@ -1,55 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_fragment_categories"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="5dp"
-    android:layout_marginHorizontal="5dp"
-    android:id="@+id/fragment_categories">
-
-    <TextView
-        android:id="@+id/tv_categories_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="Categorize Payments" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_category"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="false">
-
-    </androidx.recyclerview.widget.RecyclerView>
+    android:layout_marginHorizontal="@dimen/card_margin"
+    android:layout_marginBottom="@dimen/card_margin"
+    app:cardBackgroundColor="@color/colorForeground"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:cardElevation="@dimen/card_elevation">
 
     <LinearLayout
-        android:id="@+id/layout_categories_controller"
+        android:id="@+id/layout_categories"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:padding="@dimen/layout_padding">
 
-        <Button
-            android:id="@+id/button_add_category"
+        <TextView
+            android:id="@+id/tv_categories_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="ADD" />
+            android:textColor="@color/colorText"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size_title"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="@dimen/margin_title"
+            android:text="Categorize Payments" />
 
-        <Button
-            android:id="@+id/button_plan"
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_category"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="PLAN" />
+            android:layout_marginHorizontal="17dp"
+            android:nestedScrollingEnabled="false">
 
-        <Button
-            android:id="@+id/button_reset_progress"
-            android:layout_width="wrap_content"
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <LinearLayout
+            android:id="@+id/layout_categories_controller"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="RESET" />
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+
+            <androidx.legacy.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"/>
+
+            <Button
+                android:id="@+id/button_add_category"
+                android:layout_width="@dimen/button"
+                android:layout_height="@dimen/button"
+                android:background="@drawable/button_add"/>
+
+            <androidx.legacy.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/button_plan"
+                android:layout_width="@dimen/button"
+                android:layout_height="@dimen/button"
+                android:background="@drawable/button_plan" />
+
+            <androidx.legacy.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/button_reset_progress"
+                android:layout_width="@dimen/button"
+                android:layout_height="@dimen/button"
+                android:background="@drawable/button_reset" />
+
+            <androidx.legacy.widget.Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>

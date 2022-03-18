@@ -1,87 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:id="@+id/row_category"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/row_category"
-    xmlns:card_view="http://schemas.android.com/tools">
+    android:paddingVertical="@dimen/layout_padding"
+    android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_category"
+    <LinearLayout
+        android:id="@+id/layout_category_description"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        card_view:elevation="5dp">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/layout_category_card"
-            android:padding="10dp"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/text_category_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size"
+            android:layout_marginLeft="10dp"
+            android:text="Category" />
 
-            <LinearLayout
-                android:id="@+id/layout_category_description"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="5dp"
-                android:orientation="horizontal">
+        <androidx.legacy.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
 
-                <TextView
-                    android:id="@+id/text_category_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center"
-                    android:layout_gravity="center"
-                    android:text="CATEGORY NAME" />
+        <TextView
+            android:id="@+id/text_category_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size"
+            android:layout_marginRight="23.5dp"
+            android:text="0.0" />
 
-                <TextView
-                    android:id="@+id/text_category_progress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAlignment="center"
-                    android:layout_gravity="center"
-                    android:text="PROGRESS" />
-            </LinearLayout>
+        <Button
+            android:id="@+id/btn_menu"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginBottom="17dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/button_menu" />
+    </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/layout_category_controller"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="7.5dp"
+        android:background="@color/colorLine"/>
 
-                <Button
-                    android:id="@+id/button_category_history"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="HISTORY" />
-
-                <Button
-                    android:id="@+id/button_category_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="EDIT" />
-
-                <Button
-                    android:id="@+id/button_category_reset"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="RESET" />
-
-                <Button
-                    android:id="@+id/button_category_delete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="DELETE" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
 </LinearLayout>
