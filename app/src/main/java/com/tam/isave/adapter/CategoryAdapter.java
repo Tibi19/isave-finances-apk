@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,10 +59,30 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         Category category = categories.get(position);
         holder.binding.textCategoryName.setText(category.getName());
         holder.binding.textCategoryProgress.setText(category.getProgress());
-        holder.binding.buttonCategoryHistory.setOnClickListener( startHistory -> startHistoryActivity(categories.get(position)) );
-        holder.binding.buttonCategoryDelete.setOnClickListener( deleteData -> deleteItemData.accept(categories.get(position)) );
-        holder.binding.buttonCategoryEdit.setOnClickListener( editData -> editItemData.accept(categories.get(position)) );
-        holder.binding.buttonCategoryReset.setOnClickListener( resetData -> resetItemData.accept(categories.get(position)) );
+        holder.binding.btnMenu.setOnClickListener( listener -> setOptionsMenu(holder.binding, position));
+    }
+
+    private void setOptionsMenu(RecyclerCategoryRowBinding binding, int position) {
+        PopupMenu menu = new PopupMenu(context, binding.btnMenu);
+        menu.inflate(R.menu.category_menu);
+        menu.setOnMenuItemClickListener(listener -> {
+            switch(listener.getItemId()) {
+                case R.id.action_history:
+                    startHistoryActivity(categories.get(position));
+                    return true;
+                case R.id.action_edit:
+                    editItemData.accept(categories.get(position));
+                    return true;
+                case R.id.action_delete:
+                    deleteItemData.accept(categories.get(position));
+                    return true;
+                case R.id.action_reset:
+                    resetItemData.accept(categories.get(position));
+                    return true;
+                default: return false;
+            }
+        });
+        menu.show();
     }
 
     private void startHistoryActivity(Category category) {
