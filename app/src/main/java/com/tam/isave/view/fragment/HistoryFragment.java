@@ -93,7 +93,8 @@ public class HistoryFragment extends Fragment {
     private void setupHistoryAdapter() {
         // Instantiate recyclerview and its adapter.
         RecyclerView historyRecycler = binding.recyclerHistory;
-        historyAdapter = new HistoryAdapter(getContext());
+        CategoryViewModel categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+        historyAdapter = new HistoryAdapter(getContext(), categoryViewModel);
         // Give adapter the methods for editing and deleting transaction data.
         historyAdapter.setDeleteItemData(this::showDeleteTransactionPopup);
         historyAdapter.setEditItemData(this::showEditTransactionPopup);
