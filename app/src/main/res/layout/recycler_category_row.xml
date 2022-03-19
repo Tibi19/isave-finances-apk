@@ -21,7 +21,7 @@
             android:layout_gravity="center"
             android:textColor="@color/colorText"
             android:textSize="@dimen/text_size"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:text="Category" />
 
         <androidx.legacy.widget.Space
@@ -36,7 +36,7 @@
             android:layout_gravity="center"
             android:textColor="@color/colorText"
             android:textSize="@dimen/text_size"
-            android:layout_marginRight="23.5dp"
+            android:layout_marginEnd="23.5dp"
             android:text="0.0" />
 
         <Button
@@ -44,7 +44,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginBottom="17dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
             android:background="@drawable/button_menu" />
     </LinearLayout>
 

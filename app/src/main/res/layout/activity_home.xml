@@ -40,7 +40,7 @@
                     android:textStyle="bold"
                     android:textAlignment="center"
                     android:layout_marginTop="@dimen/margin_top_balance_bar_text"
-                    android:layout_marginLeft="@dimen/margin_title"
+                    android:layout_marginStart="@dimen/margin_title"
                     android:textSize="@dimen/text_size_title" />
 
                 <androidx.legacy.widget.Space
@@ -67,14 +67,14 @@
                     android:id="@+id/button_home_menu"
                     android:layout_width="@dimen/button"
                     android:layout_height="@dimen/button"
-                    android:layout_marginRight="35dp"
+                    android:layout_marginEnd="35dp"
                     android:background="@drawable/button_history"/>
 
                 <Button
                     android:id="@+id/button_add_transaction"
                     android:layout_width="@dimen/button"
                     android:layout_height="@dimen/button"
-                    android:layout_marginRight="@dimen/margin_title"
+                    android:layout_marginEnd="@dimen/margin_title"
                     android:background="@drawable/button_add" />
 
             </LinearLayout>
