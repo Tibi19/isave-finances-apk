@@ -15,7 +15,7 @@ public class Constants {
     public final static String NAMING_INTERVAL = "Interval ";
     public final static String NAMING_FROM_CATEGORY = "From category ";
     public final static String NAMING_BUDGET_HIDDEN = "***.**";
-    public final static String NAMING_NO_CATEGORY = "None";
+    public final static String NAMING_NO_CATEGORY = "No Category";
 
     // Feedback
     public final static String FEEDBACK_SYNCED_WITH_MAIN_BUDGET = "Synced with main budget.";
