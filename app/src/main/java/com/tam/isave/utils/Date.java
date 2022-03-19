@@ -1,7 +1,5 @@
 package com.tam.isave.utils;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import java.time.LocalDateTime;
@@ -16,11 +14,12 @@ public class Date {
     private String errorMsg = "date error: ";
 
     public enum MONTH_ID {
-        JAN(1), FEB(2), MAR(3), APR(4), MAY(5), JUN(6), JUL(7), AUG(8), SEP(9), OCT(10), NOV(11), DEC(12);
+        Jan(1), Feb(2), Mar(3), Apr(4), May(5), Jun(6), Jul(7), Aug(8), Sep(9), Oct(10), Nov(11), Dec(12);
 
         private int id;
         MONTH_ID (final int id) { this.id = id; }
         public int getId() { return id; }
+        public static String getMonthName(int id) { return MONTH_ID.values()[id - 1].toString(); }
     }
 
     // Returns Date of today;
@@ -313,6 +312,21 @@ public class Date {
     @NonNull
     @Override
     public String toString() {
+        return getFormatDDMMMYY();
+    }
+
+    public String getFormatDDMMMYY() {
+        if (day == -1 || month == -1 || year == -1) { return errorMsg; }
+
+        String dayToString = "" + day;
+        String monthToString = MONTH_ID.getMonthName(month);
+        String yearToString = "" + (year % 100);
+
+        // Returns date in format "dd mmm yy".
+        return dayToString + " " + monthToString + " " + yearToString;
+    }
+
+    public String getFormatDDMMYYYY() {
         if (day == -1 || month == -1 || year == -1) { return errorMsg; }
 
         String dayToString = ( (day < 10) ? "0" : "" ) + day;
