@@ -1,46 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
 
     <LinearLayout
         android:id="@+id/layout_global_history"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginVertical="5dp"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/row_global_history_header"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedsv_home_fragments"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/text_global_history_name"
-                android:layout_width="wrap_content"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_global_history"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:paddingStart="100dp"
-                android:textSize="18sp"
-                android:text="History" />
+                android:layout_margin="@dimen/card_margin"
+                android:background="@color/colorForeground"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation">
 
-            <Button
-                android:id="@+id/btn_export"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:text="Export" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/layout_padding">
 
-        </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/row_global_history_header"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="5dp"
+                        android:orientation="horizontal">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/fragment_container_history" />
+                        <TextView
+                            android:id="@+id/text_global_history_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_title"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="15dp"
+                            android:text="History"
+                            android:textColor="@color/colorText"
+                            android:textSize="@dimen/text_size_title"
+                            android:textStyle="bold" />
+
+                        <Button
+                            android:id="@+id/btn_export"
+                            android:layout_width="24dp"
+                            android:layout_height="27dp"
+                            android:layout_marginStart="20dp"
+                            android:background="@drawable/button_export" />
+
+                    </LinearLayout>
+
+                    <androidx.fragment.app.FragmentContainerView
+                        android:id="@+id/fragment_container_history"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="17dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
