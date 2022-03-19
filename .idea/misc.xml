@@ -6,6 +6,7 @@
         <entry key="app/src/main/res/drawable/button_add.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/button_details.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/button_edit.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/button_export.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/button_history.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/button_menu.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/button_plan.xml" value="0.21666666666666667" />
@@ -17,6 +18,8 @@
         <entry key="app/src/main/res/drawable/ic_button_details_pressed.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_edit.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_edit_pressed.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_button_export.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_button_export_pressed.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_history.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_history_pressed.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_menu.xml" value="0.21666666666666667" />
@@ -28,7 +31,7 @@
         <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_history.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/layout/activity_category_history.xml" value="0.33559782608695654" />
-        <entry key="app/src/main/res/layout/activity_global_history.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_global_history.xml" value="0.4010416666666667" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.264" />
         <entry key="app/src/main/res/layout/activity_interval_history.xml" value="0.32155797101449274" />
         <entry key="app/src/main/res/layout/fragment_categories.xml" value="0.264" />
@@ -49,9 +52,11 @@
         <entry key="app/src/main/res/layout/popup_plan_categories.xml" value="0.19972826086956522" />
         <entry key="app/src/main/res/layout/popup_planner.xml" value="0.25" />
         <entry key="app/src/main/res/layout/recycler_category_row.xml" value="0.33559782608695654" />
-        <entry key="app/src/main/res/layout/recycler_history_row.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/recycler_history_row.xml" value="0.33" />
         <entry key="app/src/main/res/layout/recycler_planner_row.xml" value="0.19972826086956522" />
         <entry key="app/src/main/res/menu/category_menu.xml" value="0.20052083333333334" />
+        <entry key="app/src/main/res/menu/main.xml" value="0.20052083333333334" />
+        <entry key="app/src/main/res/menu/transaction_menu.xml" value="0.20052083333333334" />
         <entry key="app/src/main/res/xml/provider_paths.xml" value="0.17527173913043478" />
       </map>
     </option>
