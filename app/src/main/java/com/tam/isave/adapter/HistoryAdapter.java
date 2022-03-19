@@ -2,15 +2,23 @@ package com.tam.isave.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tam.isave.R;
 import com.tam.isave.databinding.RecyclerHistoryRowBinding;
+import com.tam.isave.model.category.Category;
+import com.tam.isave.model.category.CategoryUtils;
 import com.tam.isave.model.transaction.Transaction;
+import com.tam.isave.utils.Constants;
+import com.tam.isave.utils.LiveDataUtils;
 import com.tam.isave.utils.NumberUtils;
+import com.tam.isave.viewmodel.CategoryViewModel;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -18,12 +26,14 @@ import java.util.function.Consumer;
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryHolder>{
 
     private Context context;
+    private CategoryViewModel categoryViewModel;
     private List<Transaction> transactions;
     private Consumer<Transaction> deleteItemData;
     private Consumer<Transaction> editItemData;
 
-    public HistoryAdapter(Context context) {
+    public HistoryAdapter(Context context, CategoryViewModel categoryViewModel) {
         this.context = context;
+        this.categoryViewModel = categoryViewModel;
     }
 
     public static class HistoryHolder extends RecyclerView.ViewHolder{
@@ -53,12 +63,63 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
         }
 
         Transaction transaction = transactions.get(position);
+
         holder.binding.textTransactionName.setText(transaction.getName());
+
         String transactionValueString = String.valueOf(NumberUtils.twoDecimalsRounded(transaction.getValue()));
         holder.binding.textTransactionValue.setText(transactionValueString);
+
         holder.binding.textTransactionDate.setText(transaction.getDate().toString());
-        holder.binding.buttonTransactionDelete.setOnClickListener( deleteData -> deleteItemData.accept(transactions.get(position)) );
-        holder.binding.buttonTransactionEdit.setOnClickListener( editData -> editItemData.accept(transactions.get(position)) );
+
+        LiveDataUtils.observeOnce(
+                categoryViewModel.getCategories(),
+                categories -> {
+                    Category parentCategory = CategoryUtils.getCategoryById(categories, transaction.getParentId());
+                    String categoryName = parentCategory != null ? parentCategory.getName() : Constants.NAMING_NO_CATEGORY;
+                    holder.binding.textTransactionCategory.setText(categoryName);
+                }
+        );
+
+        holder.binding.btnMenu.setOnClickListener(listener -> setOptionsMenu(holder.binding, position));
+
+        removeLastDelimiter(holder.binding, position);
+    }
+
+    private void removeLastDelimiter(RecyclerHistoryRowBinding binding, int position) {
+        if( position != (transactions.size() - 1) ) { return; }
+
+        View delimiter = binding.transactionDelimiter;
+        delimiter.setAlpha(0.0f);
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) delimiter.getLayoutParams();
+        layoutParams.setMargins(0, 0, 0, 0);
+        delimiter.setLayoutParams(layoutParams);
+
+        adjustBottomMargins(binding.layoutTransactionDetails);
+    }
+
+    private void adjustBottomMargins(View bottomLayout) {
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) bottomLayout.getLayoutParams();
+        int originalStartMargin = layoutParams.getMarginStart();
+        layoutParams.setMargins(0, 0, 0, 0);
+        layoutParams.setMarginStart(originalStartMargin);
+        bottomLayout.setLayoutParams(layoutParams);
+    }
+
+    private void setOptionsMenu(RecyclerHistoryRowBinding binding, int position) {
+        PopupMenu menu = new PopupMenu(context, binding.btnMenu);
+        menu.inflate(R.menu.transaction_menu);
+        menu.setOnMenuItemClickListener(listener -> {
+            switch(listener.getItemId()) {
+                case R.id.action_transaction_edit:
+                    editItemData.accept(transactions.get(position));
+                    return true;
+                case R.id.action_transaction_delete:
+                    deleteItemData.accept(transactions.get(position));
+                    return true;
+                default: return false;
+            }
+        });
+        menu.show();
     }
 
     public void setDeleteItemData(Consumer<Transaction> callback) {
