@@ -88,8 +88,8 @@
     <View
         android:id="@+id/transaction_delimiter"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginVertical="7.5dp"
+        android:layout_height="@dimen/line_size"
+        android:layout_marginVertical="@dimen/line_vertical_margin_small"
         android:background="@color/colorLine"/>
 
 </LinearLayout>
