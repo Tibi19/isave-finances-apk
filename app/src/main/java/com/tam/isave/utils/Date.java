@@ -312,7 +312,7 @@ public class Date {
     @NonNull
     @Override
     public String toString() {
-        return getFormatDDMMMYY();
+        return getFormatDDMMYYYY();
     }
 
     public String getFormatDDMMMYY() {
@@ -333,7 +333,7 @@ public class Date {
         String monthToString = ( (month < 10) ? "0" : "" ) + month;
         String yearToString = "" + year;
 
-        // Returns date in format "dd.mm.yy".
+        // Returns date in format "dd.mm.yyyy".
         return dayToString + "." + monthToString + "." + yearToString;
     }
 
