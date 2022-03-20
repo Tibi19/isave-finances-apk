@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/button_add.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/button_arrow_next.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/button_arrow_prev.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/button_details.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/button_edit.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/button_export.xml" value="0.21666666666666667" />
@@ -14,6 +16,10 @@
         <entry key="app/src/main/res/drawable/color_clickable_text.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_add_pressed.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_button_arrow_next.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_button_arrow_next_pressed.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_button_arrow_prev.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_button_arrow_prev_pressed.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_details.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_details_pressed.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_edit.xml" value="0.21666666666666667" />
@@ -31,7 +37,7 @@
         <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_history.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/layout/activity_category_history.xml" value="0.33559782608695654" />
-        <entry key="app/src/main/res/layout/activity_global_history.xml" value="0.4010416666666667" />
+        <entry key="app/src/main/res/layout/activity_global_history.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.264" />
         <entry key="app/src/main/res/layout/activity_interval_history.xml" value="0.32155797101449274" />
         <entry key="app/src/main/res/layout/fragment_categories.xml" value="0.264" />
