@@ -43,7 +43,7 @@ public class EditTextDatePicker implements View.OnClickListener, DatePickerDialo
     public EditTextDatePicker(Context context, EditText datePickerView, Date defaultDate) {
         setViewState(context, datePickerView);
 
-        date = defaultDate;
+        date = defaultDate.isValidDate() ? defaultDate : Date.today();
         year = date.getYear();
         month = date.getMonth() - 1; // Date month is counted from 1, whereas Calendar month is counted from 0.
         day = date.getDay();
