@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
@@ -18,22 +17,22 @@ import com.tam.isave.model.transaction.Transaction;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.LiveDataUtils;
 import com.tam.isave.utils.NumberUtils;
-import com.tam.isave.viewmodel.CategoryViewModel;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryHolder>{
 
     private Context context;
-    private CategoryViewModel categoryViewModel;
+    private HashMap<Integer, String> categoriesIdToNameMap;
     private List<Transaction> transactions;
     private Consumer<Transaction> deleteItemData;
     private Consumer<Transaction> editItemData;
 
-    public HistoryAdapter(Context context, CategoryViewModel categoryViewModel) {
+    public HistoryAdapter(Context context, List<Category> categories) {
         this.context = context;
-        this.categoryViewModel = categoryViewModel;
+        this.categoriesIdToNameMap = CategoryUtils.getCategoriesIdToNameMap(categories);
     }
 
     public static class HistoryHolder extends RecyclerView.ViewHolder{
@@ -69,16 +68,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
         String transactionValueString = String.valueOf(NumberUtils.twoDecimalsRounded(transaction.getValue()));
         holder.binding.textTransactionValue.setText(transactionValueString);
 
-        holder.binding.textTransactionDate.setText(transaction.getDate().toString());
+        holder.binding.textTransactionDate.setText(transaction.getDate().getFormatDDMMMYY());
 
-        LiveDataUtils.observeOnce(
-                categoryViewModel.getCategories(),
-                categories -> {
-                    Category parentCategory = CategoryUtils.getCategoryById(categories, transaction.getParentId());
-                    String categoryName = parentCategory != null ? parentCategory.getName() : Constants.NAMING_NO_CATEGORY;
-                    holder.binding.textTransactionCategory.setText(categoryName);
-                }
-        );
+        if(categoriesIdToNameMap != null) {
+            String categoryName = categoriesIdToNameMap.getOrDefault(
+                    transaction.getParentId(),
+                    Constants.NAMING_NO_CATEGORY
+            );
+            holder.binding.textTransactionCategory.setText(categoryName);
+        }
 
         holder.binding.btnMenu.setOnClickListener(listener -> setOptionsMenu(holder.binding, position));
 

@@ -1,8 +1,10 @@
 package com.tam.isave.model.category;
 
 import com.tam.isave.model.category.Category;
+import com.tam.isave.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CategoryUtils {
@@ -39,4 +41,13 @@ public class CategoryUtils {
         return otherCategories;
     }
 
+    public static HashMap<Integer, String> getCategoriesIdToNameMap(List<Category> categories) {
+        if(categories == null) { return null; }
+
+        HashMap<Integer, String> categoriesIdToNameMap = new HashMap<>();
+
+        categories.forEach( category -> categoriesIdToNameMap.put(category.getId(), category.getName()) );
+
+        return categoriesIdToNameMap;
+    }
 }
