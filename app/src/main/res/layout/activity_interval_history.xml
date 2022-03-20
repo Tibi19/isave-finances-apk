@@ -1,183 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
 
     <LinearLayout
         android:id="@+id/layout_interval_history"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginVertical="5dp"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/row_interval_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="10dp">
-
-            <Button
-                android:id="@+id/button_previous_interval"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
-                android:text="Prev" />
-
-            <TextView
-                android:id="@+id/title_interval_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:layout_gravity="center"
-                android:text="Interval X" />
-
-            <Button
-                android:id="@+id/button_next_interval"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
-                android:text="Next" />
-
-        </LinearLayout>
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedsv_interval_history"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/nestedsv_interval_history">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:id="@+id/wrapper_interval_history"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_interval_history"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_margin="@dimen/card_margin"
+                android:background="@color/colorForeground"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation">
 
                 <LinearLayout
-                    android:id="@+id/table_interval_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="33dp"
-                    android:orientation="horizontal">
+                    android:orientation="vertical"
+                    android:padding="@dimen/layout_padding">
 
                     <LinearLayout
-                        android:id="@+id/column_left_interval_details"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/row_interval_title"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:layout_marginBottom="20dp"
+                        android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:id="@+id/row_interval_budget"
+                        <androidx.legacy.widget.Space
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <Button
+                            android:id="@+id/button_previous_interval"
+                            android:layout_width="@dimen/button_small"
+                            android:layout_height="@dimen/button_small"
+                            android:background="@drawable/button_arrow_prev" />
+
+                        <TextView
+                            android:id="@+id/title_interval_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="5dp"
-                            android:orientation="horizontal">
+                            android:layout_gravity="center"
+                            android:layout_marginHorizontal="20dp"
+                            android:text="Interval X"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorText"
+                            android:textSize="@dimen/text_size_title"
+                            android:textStyle="bold" />
 
-                            <TextView
-                                android:id="@+id/tv_budget_description"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Budget: " />
+                        <Button
+                            android:id="@+id/button_next_interval"
+                            android:layout_width="@dimen/button_small"
+                            android:layout_height="@dimen/button_small"
+                            android:background="@drawable/button_arrow_next" />
 
-                            <TextView
-                                android:id="@+id/tv_budget_details"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="XX.XX / YYY.YY" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/row_interval_days"
-                            android:layout_width="wrap_content"
+                        <androidx.legacy.widget.Space
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="5dp"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:id="@+id/tv_days_description"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Days in interval: " />
-
-                            <TextView
-                                android:id="@+id/tv_days_details"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Z" />
-
-                        </LinearLayout>
+                            android:layout_weight="1" />
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/column_right_interval_details"
+                        android:id="@+id/row_interval_days"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginStart="25dp"
+                        android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:id="@+id/row_interval_first_day"
+                        <TextView
+                            android:id="@+id/tv_days_details"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="5dp"
-                            android:layout_gravity="right"
-                            android:orientation="horizontal">
+                            android:textColor="@color/colorText"
+                            android:textSize="@dimen/text_size"
+                            android:textStyle="bold"
+                            android:text="X" />
 
-                            <TextView
-                                android:id="@+id/tv_first_day_description"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="First day: " />
-
-                            <TextView
-                                android:id="@+id/tv_first_day_details"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="dd.mm.yy" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/row_interval_last_day"
+                        <TextView
+                            android:id="@+id/tv_days_description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:layout_marginBottom="5dp"
-                            android:orientation="horizontal">
+                            android:textColor="@color/colorText"
+                            android:textSize="@dimen/text_size"
+                            android:textStyle="bold"
+                            android:text=" Days: " />
 
-                            <TextView
-                                android:id="@+id/tv_last_day_description"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Last day: " />
+                        <TextView
+                            android:id="@+id/tv_first_day_details"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorText"
+                            android:textSize="@dimen/text_size"
+                            android:text="dd.mm.yy" />
 
-                            <TextView
-                                android:id="@+id/tv_last_day_details"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="dd.mm.yy" />
+                        <TextView
+                            android:id="@+id/tv_days_delimiter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorText"
+                            android:textSize="@dimen/text_size"
+                            android:text=" to " />
 
-                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/tv_last_day_details"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorText"
+                            android:textSize="@dimen/text_size"
+                            android:text="dd.mm.yy" />
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/row_interval_budget"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tv_budget_description"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorText"
+                            android:textSize="@dimen/text_size"
+                            android:textStyle="bold"
+                            android:text="Budget: " />
+
+                        <TextView
+                            android:id="@+id/tv_budget_details"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorText"
+                            android:textSize="@dimen/text_size"
+                            android:text="XX.XX of YYY.YY" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/transaction_delimiter"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/line_size"
+                        android:layout_marginHorizontal="@dimen/margin_horizontal_inside_content"
+                        android:layout_marginVertical="@dimen/line_vertical_margin_small"
+                        android:background="@color/colorLine"/>
+
+                    <androidx.fragment.app.FragmentContainerView
+                        android:id="@+id/fragment_container_history"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/margin_horizontal_inside_content" />
 
                 </LinearLayout>
 
-                <androidx.fragment.app.FragmentContainerView
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/fragment_container_history" />
-
-            </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
         </androidx.core.widget.NestedScrollView>
 

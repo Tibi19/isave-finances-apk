@@ -1,25 +1,33 @@
 package com.tam.isave.view.activity;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.tam.isave.R;
 import com.tam.isave.databinding.ActivityIntervalHistoryBinding;
 import com.tam.isave.model.goalorganizer.GoalOrganizer;
 import com.tam.isave.model.goalorganizer.Interval;
 import com.tam.isave.model.goalorganizer.IntervalUtils;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.Date;
+import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.HistoryIdentifier;
+import com.tam.isave.utils.LiveDataUtils;
+import com.tam.isave.utils.NumberUtils;
 import com.tam.isave.view.fragment.HistoryFragment;
 import com.tam.isave.viewmodel.GoalOrganizerViewModel;
+import com.tam.isave.viewmodel.TransactionViewModel;
 
 public class IntervalHistoryActivity extends AppCompatActivity {
 
     private ActivityIntervalHistoryBinding binding;
+    private TransactionViewModel transactionViewModel;
     private GoalOrganizerViewModel organizerViewModel;
     private GoalOrganizer organizer;
     private Interval focusInterval;
@@ -31,14 +39,22 @@ public class IntervalHistoryActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         organizerViewModel = new ViewModelProvider(this).get(GoalOrganizerViewModel.class);
+        transactionViewModel = new ViewModelProvider(this).get(TransactionViewModel.class);
         organizer = organizerViewModel.getGoalOrganizer();
 
         initializeFocusInterval();
         updateHistoryFragment();
         updateBinding();
-
+        setupUpdateBindingObserver();
         setupPreviousButton();
         setupNextButton();
+    }
+
+    private void setupUpdateBindingObserver() {
+        transactionViewModel.getTransactions().observe(
+                this,
+                transactions -> updateBinding()
+        );
     }
 
     private void initializeFocusInterval() {
@@ -91,9 +107,51 @@ public class IntervalHistoryActivity extends AppCompatActivity {
 
         binding.titleIntervalName.setText(focusInterval.getName());
         binding.tvBudgetDetails.setText(focusInterval.getDetailedProgress());
-        binding.tvFirstDayDetails.setText(intervalFirstDay.toString());
-        binding.tvLastDayDetails.setText(intervalLastDay.toString());
+        binding.tvFirstDayDetails.setText(intervalFirstDay.getFormatDDMMMYY());
+        binding.tvLastDayDetails.setText(intervalLastDay.getFormatDDMMMYY());
         binding.tvDaysDetails.setText(String.valueOf(intervalDays));
+
+        toggleDelimiterBasedOnTransactions(intervalFirstDay, intervalLastDay);
+    }
+
+    private void toggleDelimiterBasedOnTransactions(Date intervalFirstDay, Date intervalLastDay) {
+        LiveDataUtils.observeOnce(
+                transactionViewModel.getIntervalTransactions(intervalFirstDay.getValue(), intervalLastDay.getValue()),
+                transactions -> {
+                    boolean isDelimiterHidden = NumberUtils.isZeroDouble(binding.transactionDelimiter.getAlpha());
+
+                    if(transactions.isEmpty() && !isDelimiterHidden) {
+                        removeDelimiter();
+                        return;
+                    }
+
+                    if(!transactions.isEmpty() && isDelimiterHidden) {
+                        restoreDelimiter();
+                    }
+                }
+        );
+    }
+
+    private void restoreDelimiter() {
+        Context context = getApplicationContext();
+        int marginsPxHorizontal = context.getResources().getDimensionPixelSize(R.dimen.line_horizontal_margin);
+        int marginsPxVertical = context.getResources().getDimensionPixelSize(R.dimen.line_vertical_margin_small);
+
+        View delimiter = binding.transactionDelimiter;
+
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) delimiter.getLayoutParams();
+        layoutParams.setMargins(marginsPxHorizontal, marginsPxVertical, marginsPxHorizontal, marginsPxVertical);
+
+        delimiter.setAlpha(1.0f);
+        delimiter.setLayoutParams(layoutParams);
+    }
+
+    private void removeDelimiter() {
+        View delimiter = binding.transactionDelimiter;
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) delimiter.getLayoutParams();
+        layoutParams.setMargins(0, 0, 0, 0);
+        delimiter.setAlpha(0.0f);
+        delimiter.setLayoutParams(layoutParams);
     }
 
     private void setupPreviousButton() {

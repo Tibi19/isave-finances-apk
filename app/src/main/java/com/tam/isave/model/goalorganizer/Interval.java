@@ -37,7 +37,7 @@ public class Interval extends Category {
         double endGoal = NumberUtils.twoDecimalsRounded(getEndGoal());
         double goalModifier = NumberUtils.twoDecimalsRounded(getGoalModifier());
         double leftAmount = NumberUtils.twoDecimalsRounded(endGoal - getSpent());
-        String progress = leftAmount + " / " + endGoal;
+        String progress = leftAmount + " of " + endGoal;
 
         if (!NumberUtils.isZeroDouble(goalModifier)) {
             progress += " (-" + goalModifier + ")";
