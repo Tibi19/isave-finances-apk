@@ -15,6 +15,7 @@
         <entry key="app/src/main/res/drawable/button_reset.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/color_clickable_text.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_button_add.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_add_pressed.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_arrow_next.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_arrow_next_pressed.xml" value="0.21666666666666667" />
@@ -36,6 +37,7 @@
         <entry key="app/src/main/res/drawable/ic_button_reset_pressed.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_history.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/layout/activity_category_history.xml" value="0.33559782608695654" />
         <entry key="app/src/main/res/layout/activity_global_history.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.264" />
