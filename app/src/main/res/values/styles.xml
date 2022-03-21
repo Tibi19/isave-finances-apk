@@ -5,6 +5,14 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- <item name="titleTextColor">@color/colorPrimary</item> -->
+        <item name="actionBarTheme">@style/ActionBar</item>
+    </style>
+
+    <style name="ActionBar" parent="@style/ThemeOverlay.MaterialComponents.ActionBar">
+        <item name="android:background">@color/colorForeground</item>
+        <item name="colorControlNormal">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
