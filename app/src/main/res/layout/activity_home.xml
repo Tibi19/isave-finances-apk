@@ -74,6 +74,7 @@
                     android:id="@+id/button_add_transaction"
                     android:layout_width="@dimen/button"
                     android:layout_height="@dimen/button"
+                    android:stateListAnimator="@animator/animator_button_pressed"
                     android:layout_marginEnd="@dimen/margin_title"
                     android:background="@drawable/button_add" />
 
