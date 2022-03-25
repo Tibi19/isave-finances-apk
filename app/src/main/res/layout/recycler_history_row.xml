@@ -33,6 +33,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginRight="5dp"
+                android:stateListAnimator="@animator/animator_button_pressed"
                 android:background="@drawable/button_menu" />
 
         </LinearLayout>

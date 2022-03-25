@@ -101,6 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
+                android:stateListAnimator="@animator/animator_button_pressed"
                 android:textSize="@dimen/text_size_accent"
                 android:textColor="@drawable/color_clickable_text"
                 android:text="0.0"
@@ -132,6 +133,7 @@
                 android:id="@+id/btn_organizer_history"
                 android:layout_width="@dimen/button"
                 android:layout_height="@dimen/button"
+                android:stateListAnimator="@animator/animator_button_pressed"
                 android:background="@drawable/button_details"/>
 
             <androidx.legacy.widget.Space
@@ -143,6 +145,7 @@
                 android:id="@+id/btn_organizer_edit"
                 android:layout_width="@dimen/button_large"
                 android:layout_height="@dimen/button_large"
+                android:stateListAnimator="@animator/animator_button_pressed"
                 android:background="@drawable/button_edit"/>
 
             <androidx.legacy.widget.Space
@@ -154,6 +157,7 @@
                 android:id="@+id/btn_organizer_reset"
                 android:layout_width="@dimen/button"
                 android:layout_height="@dimen/button"
+                android:stateListAnimator="@animator/animator_button_pressed"
                 android:background="@drawable/button_reset" />
 
             <androidx.legacy.widget.Space

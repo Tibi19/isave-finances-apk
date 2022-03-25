@@ -50,6 +50,7 @@
                             android:id="@+id/button_previous_interval"
                             android:layout_width="@dimen/button_small"
                             android:layout_height="@dimen/button_small"
+                            android:stateListAnimator="@animator/animator_button_pressed"
                             android:background="@drawable/button_arrow_prev" />
 
                         <TextView
@@ -68,6 +69,7 @@
                             android:id="@+id/button_next_interval"
                             android:layout_width="@dimen/button_small"
                             android:layout_height="@dimen/button_small"
+                            android:stateListAnimator="@animator/animator_button_pressed"
                             android:background="@drawable/button_arrow_next" />
 
                         <androidx.legacy.widget.Space

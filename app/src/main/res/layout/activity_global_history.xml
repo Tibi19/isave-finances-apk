@@ -55,6 +55,7 @@
                             android:layout_width="@dimen/button_small"
                             android:layout_height="27dp"
                             android:layout_marginStart="20dp"
+                            android:stateListAnimator="@animator/animator_button_pressed"
                             android:background="@drawable/button_export" />
 
                     </LinearLayout>
