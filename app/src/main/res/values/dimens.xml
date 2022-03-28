@@ -25,4 +25,7 @@
     <dimen name="button_small">24dp</dimen>
     <dimen name="button_large">34dp</dimen>
     <dimen name="button_hit_area_extension">12dp</dimen>
+    <dimen name="popup_left_info_size">80dp</dimen>
+    <dimen name="popup_margin">15dp</dimen>
+    <dimen name="popup_padding">20dp</dimen>
 </resources>
