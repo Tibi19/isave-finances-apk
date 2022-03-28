@@ -140,6 +140,10 @@ public class Category{
         //releasePayments();
     }
 
+    public void restore() {
+        this.goalModifier = 0.0;
+    }
+
     private void releasePayments() {
         for(Transaction transaction : history.getHistoryList()) { transaction.setParentId(-1); }
         history.reset();
@@ -153,10 +157,9 @@ public class Category{
     /**
      * Resets the entire state.
      * To be used when resetting all categories of a tracker.
-     * @param adapter The goal adapter that would handle the overflow
      */
-    public void fullReset(GoalAdapter adapter) {
-        reset(adapter);
+    public void fullReset() {
+        spent = 0.0;
         resetOverflowModifications();
     }
 
@@ -176,6 +179,8 @@ public class Category{
         if(goalPassed > NumberUtils.ZERO_DOUBLE && modifyRequest > NumberUtils.ZERO_DOUBLE) { return; }
 
         goalModifier += modifyRequest;
+
+        if(goalModifier < -NumberUtils.ZERO_DOUBLE) { goalModifier = 0.0; }
     }
 
     // Goal after goal modification.
@@ -277,7 +282,7 @@ public class Category{
     }
 
     public void setGoalModifier(double goalModifier) {
-        this.goalModifier = goalModifier;
+        this.goalModifier = goalModifier < -NumberUtils.ZERO_DOUBLE ? 0.0 : goalModifier;
     }
 
     public double getGoalPassed() {
