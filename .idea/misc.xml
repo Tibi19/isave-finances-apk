@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/button.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/button_add.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/button_arrow_next.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/button_arrow_prev.xml" value="0.21666666666666667" />
@@ -13,7 +14,9 @@
         <entry key="app/src/main/res/drawable/button_menu.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/button_plan.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/button_reset.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/button_sync.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/color_clickable_text.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/dialog_background.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_add.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_add_pressed.xml" value="0.21666666666666667" />
@@ -35,8 +38,12 @@
         <entry key="app/src/main/res/drawable/ic_button_plan_pressed.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_reset.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_button_reset_pressed.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_button_sync.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_button_sync_pressed.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_edit.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_history.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/shape_button.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/shape_button_pressed.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/layout/activity_category_history.xml" value="0.33559782608695654" />
         <entry key="app/src/main/res/layout/activity_global_history.xml" value="0.22" />
