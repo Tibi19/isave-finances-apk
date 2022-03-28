@@ -21,6 +21,7 @@ import com.tam.isave.databinding.PopupEditOrganizerBinding;
 import com.tam.isave.model.MainBudget;
 import com.tam.isave.model.goalorganizer.GoalOrganizer;
 import com.tam.isave.model.transaction.Transaction;
+import com.tam.isave.utils.ButtonAreaExtensionUtils;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.Date;
 import com.tam.isave.utils.LiveDataUtils;
@@ -72,6 +73,14 @@ public class GoalOrganizerFragment extends Fragment {
         setupGoalOrganizerTransactions();
         setupOrganizerController();
         attachBindingUpdateObserver();
+
+        ButtonAreaExtensionUtils.extendHitAreaOfButtons(
+                getContext(),
+                binding.btnOrganizerEdit,
+                binding.btnOrganizerHistory,
+                binding.btnOrganizerReset,
+                binding.tvOrganizerProgress
+        );
     }
 
     private void setupGoalOrganizerTransactions() {

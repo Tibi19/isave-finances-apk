@@ -14,9 +14,9 @@ import com.tam.isave.databinding.ActivityIntervalHistoryBinding;
 import com.tam.isave.model.goalorganizer.GoalOrganizer;
 import com.tam.isave.model.goalorganizer.Interval;
 import com.tam.isave.model.goalorganizer.IntervalUtils;
+import com.tam.isave.utils.ButtonAreaExtensionUtils;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.Date;
-import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.utils.HistoryIdentifier;
 import com.tam.isave.utils.LiveDataUtils;
 import com.tam.isave.utils.NumberUtils;
@@ -48,6 +48,12 @@ public class IntervalHistoryActivity extends AppCompatActivity {
         setupUpdateBindingObserver();
         setupPreviousButton();
         setupNextButton();
+
+        ButtonAreaExtensionUtils.extendHitAreaOfButtons(
+                this,
+                binding.buttonPreviousInterval,
+                binding.buttonNextInterval
+        );
     }
 
     private void setupUpdateBindingObserver() {

@@ -14,6 +14,7 @@ import com.tam.isave.data.DataConverter;
 import com.tam.isave.databinding.ActivityGlobalHistoryBinding;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.transaction.Transaction;
+import com.tam.isave.utils.ButtonAreaExtensionUtils;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.HistoryIdentifier;
 import com.tam.isave.utils.LiveDataUtils;
@@ -38,6 +39,11 @@ public class GlobalHistoryActivity extends AppCompatActivity {
 
         setupExportButton();
         startHistoryTransaction();
+
+        ButtonAreaExtensionUtils.extendHitAreaOfButtons(
+                this,
+                binding.btnExport
+        );
     }
 
     private void setupExportButton() {

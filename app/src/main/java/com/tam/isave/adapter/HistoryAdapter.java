@@ -14,6 +14,7 @@ import com.tam.isave.databinding.RecyclerHistoryRowBinding;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.category.CategoryUtils;
 import com.tam.isave.model.transaction.Transaction;
+import com.tam.isave.utils.ButtonAreaExtensionUtils;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.LiveDataUtils;
 import com.tam.isave.utils.NumberUtils;
@@ -64,12 +65,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
         Transaction transaction = transactions.get(position);
 
         holder.binding.textTransactionName.setText(transaction.getName());
-
         String transactionValueString = String.valueOf(NumberUtils.twoDecimalsRounded(transaction.getValue()));
         holder.binding.textTransactionValue.setText(transactionValueString);
-
         holder.binding.textTransactionDate.setText(transaction.getDate().getFormatDDMMMYY());
-
         if(categoriesIdToNameMap != null) {
             String categoryName = categoriesIdToNameMap.getOrDefault(
                     transaction.getParentId(),
@@ -77,10 +75,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryH
             );
             holder.binding.textTransactionCategory.setText(categoryName);
         }
-
         holder.binding.btnMenu.setOnClickListener(listener -> setOptionsMenu(holder.binding, position));
 
         removeLastDelimiter(holder.binding, position);
+
+        ButtonAreaExtensionUtils.extendHitAreaOfButtons(context, holder.binding.btnMenu);
     }
 
     private void removeLastDelimiter(RecyclerHistoryRowBinding binding, int position) {

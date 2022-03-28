@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.tam.isave.R;
 import com.tam.isave.databinding.RecyclerCategoryRowBinding;
 import com.tam.isave.model.category.Category;
+import com.tam.isave.utils.ButtonAreaExtensionUtils;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.view.activity.CategoryHistoryActivity;
 
@@ -60,6 +61,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.binding.textCategoryName.setText(category.getName());
         holder.binding.textCategoryProgress.setText(category.getProgress());
         holder.binding.btnMenu.setOnClickListener( listener -> setOptionsMenu(holder.binding, position));
+
+        ButtonAreaExtensionUtils.extendHitAreaOfButtons(context, holder.binding.btnMenu);
     }
 
     private void setOptionsMenu(RecyclerCategoryRowBinding binding, int position) {

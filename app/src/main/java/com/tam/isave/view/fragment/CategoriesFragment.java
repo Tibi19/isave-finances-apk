@@ -22,6 +22,7 @@ import com.tam.isave.databinding.PopupEditCategoryBinding;
 import com.tam.isave.databinding.PopupMoveBudgetBinding;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.category.CategoryUtils;
+import com.tam.isave.utils.ButtonAreaExtensionUtils;
 import com.tam.isave.utils.Constants;
 import com.tam.isave.utils.NumberUtils;
 import com.tam.isave.view.dialog.PlannerBuilder;
@@ -52,6 +53,13 @@ public class CategoriesFragment extends Fragment {
         setupCategoryRecycler();
         categoryViewModel.getCategories().observe(getViewLifecycleOwner(), categories ->
                 categoryAdapter.setCategories(categories));
+
+        ButtonAreaExtensionUtils.extendHitAreaOfButtons(
+                getContext(),
+                binding.buttonAddCategory,
+                binding.buttonPlan,
+                binding.buttonResetProgress
+        );
     }
 
     private void setupCategoryRecycler() {
