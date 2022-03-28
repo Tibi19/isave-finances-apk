@@ -70,10 +70,16 @@ public class CategoriesFragment extends Fragment {
         categoryAdapter.setDeleteItemData(this::showDeleteCategoryPopup); // instead of (category) -> showDeleteCategoryPopup(category)
         categoryAdapter.setEditItemData(this::showEditCategoryPopup);
         categoryAdapter.setResetItemData(this::showResetCategoryPopup);
+        categoryAdapter.setRestoreItemData(this::showRestoreCategoryPopup);
         // Set recycler's adapter.
         categoryRecycler.setAdapter(categoryAdapter);
         // Set recycler's layout manager.
         categoryRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    private void showRestoreCategoryPopup(Category category) {
+        Runnable restoreRunnable = () -> categoryViewModel.restoreCategory(category);
+        ConfirmationBuilder.showRestoreConfirmation(getLayoutInflater(), category, restoreRunnable);
     }
 
     private void showDeleteCategoryPopup(Category category) {

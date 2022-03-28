@@ -65,6 +65,11 @@ public class ConfirmationBuilder {
         ConfirmationBuilder.showConfirmation(inflater, question, planningRunnable);
     }
 
+    public static void showRestoreConfirmation(LayoutInflater inflater, Category categoryToRestore, Runnable restoreRunnable) {
+        String question = ConfirmationText.getRestoreCategoryQuestion(categoryToRestore.getName(), categoryToRestore.getGoalModifier());
+        ConfirmationBuilder.showConfirmation(inflater, question, restoreRunnable);
+    }
+
     private static void showConfirmation(LayoutInflater inflater, String question, Runnable confirmRunnable) {
         AlertDialog confirmationDialog;
         AlertDialog.Builder builder = new AlertDialog.Builder(inflater.getContext());

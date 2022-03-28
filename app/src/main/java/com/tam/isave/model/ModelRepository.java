@@ -219,6 +219,12 @@ public class ModelRepository {
         dataRepository.updateAllTransactions(history.getHistoryList());
     }
 
+    public void restoreCategory(Category category) {
+        if(category == null) { return; }
+        category.restore();
+        dataRepository.updateCategory(category);
+    }
+
     /**
      * Reset the progress of all categories.
      */

@@ -8,13 +8,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.tam.isave.databinding.PopupAddCategoryBinding;
-import com.tam.isave.databinding.PopupEditBudgetBinding;
 import com.tam.isave.databinding.PopupEditCategoryBinding;
 import com.tam.isave.databinding.PopupMoveBudgetBinding;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.ModelRepository;
 import com.tam.isave.model.category.CategoryUtils;
-import com.tam.isave.utils.DebugUtils;
 import com.tam.isave.view.dialog.ErrorBuilder;
 
 import java.util.List;
@@ -141,6 +139,8 @@ public class CategoryViewModel extends AndroidViewModel {
     public void resetCategory(Category category) {
         modelRepository.resetCategory(category);
     }
+
+    public void restoreCategory(Category category) { modelRepository.restoreCategory(category); }
 
     public void resetAllCategories() {
         modelRepository.resetAllCategories();

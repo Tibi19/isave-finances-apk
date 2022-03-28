@@ -26,4 +26,10 @@
         android:title="Reset"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/action_restore"
+        android:orderInCategory="5"
+        android:title="Restore"
+        app:showAsAction="always" />
+
 </menu>

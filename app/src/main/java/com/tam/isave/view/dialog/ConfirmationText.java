@@ -16,6 +16,11 @@ public class ConfirmationText {
         return "Are you sure you want to reset the category " + categoryName + "? " + WARNING_CATEGORY_RESET;
     }
 
+    public static String getRestoreCategoryQuestion(String categoryName, double goalModifier) {
+        return "Are you sure you want to restore category " + categoryName + " and set its goal modification to 0? " +
+                "Its goal was modified by " + goalModifier + " to help other categories that exceeded their budgets.";
+    }
+
     private static final String QUESTION_ALL_CATEGORIES_RESET = "Are you sure you want to reset all categories? " +
             "Their spent amounts will be set to 0. Deleting their payments made until this point will create inconsistencies.";
     private static final String QUESTION_ORGANIZER_RESET = "Are you sure you want to reset the organizer? " +

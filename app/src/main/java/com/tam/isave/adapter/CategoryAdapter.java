@@ -26,6 +26,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     private Consumer<Category> deleteItemData;
     private Consumer<Category> editItemData;
     private Consumer<Category> resetItemData;
+    private Consumer<Category> restoreItemData;
 
     public CategoryAdapter(Context context) {
         this.context = context;
@@ -82,6 +83,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                 case R.id.action_reset:
                     resetItemData.accept(categories.get(position));
                     return true;
+                case R.id.action_restore:
+                    restoreItemData.accept(categories.get(position));
+                    return true;
                 default: return false;
             }
         });
@@ -102,6 +106,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         deleteItemData = callback;
     }
     public void setResetItemData(Consumer<Category> callback) { resetItemData = callback; }
+    public void setRestoreItemData(Consumer<Category> callback) { restoreItemData = callback; }
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
