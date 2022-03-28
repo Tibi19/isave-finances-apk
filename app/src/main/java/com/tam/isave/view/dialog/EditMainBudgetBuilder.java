@@ -1,8 +1,14 @@
 package com.tam.isave.view.dialog;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -10,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.viewbinding.ViewBinding;
 
+import com.tam.isave.R;
 import com.tam.isave.databinding.PopupEditBudgetBinding;
 import com.tam.isave.model.MainBudget;
 import com.tam.isave.model.goalorganizer.GoalOrganizer;
@@ -73,6 +80,7 @@ public class EditMainBudgetBuilder {
         AlertDialog popupDialog = builder.create();
         popupDialog.setCancelable(true);
         popupDialog.getWindow().setGravity(Gravity.BOTTOM);
+        popupDialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
 
         return popupDialog;
     }
