@@ -19,6 +19,7 @@
     <dimen name="line_horizontal_margin">18dp</dimen>
     <dimen name="line_size">1dp</dimen>
     <dimen name="margin_title">10dp</dimen>
+    <dimen name="margin_title_bottom">20dp</dimen>
     <dimen name="margin_top_balance_bar_text">4dp</dimen>
     <dimen name="margin_horizontal_inside_content">17dp</dimen>
     <dimen name="button">30.5dp</dimen>
@@ -28,4 +29,15 @@
     <dimen name="popup_left_info_size">80dp</dimen>
     <dimen name="popup_margin">15dp</dimen>
     <dimen name="popup_padding">20dp</dimen>
+    <dimen name="popup_button_horizontal_margin">20dp</dimen>
+    <dimen name="popup_text_button_margin_vertical">5dp</dimen>
+    <dimen name="popup_text_button_margin_horizontal">10dp</dimen>
+    <dimen name="popup_text_explanation_margin">10dp</dimen>
+    <dimen name="popup_text_explanation_spacing">4dp</dimen>
+    <dimen name="popup_entry_top_margin_large">15dp</dimen>
+    <dimen name="popup_entry_top_margin_medium">12dp</dimen>
+    <dimen name="popup_entry_top_margin_small">8dp</dimen>
+    <dimen name="popup_check_margin">-6.5dp</dimen>
+    <dimen name="popup_spinner_margin">-3.5dp</dimen>
+
 </resources>
