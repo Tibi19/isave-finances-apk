@@ -6,7 +6,7 @@ public class ConfirmationText {
     public static final String OBJECT_DESCRIPTION_CATEGORY = "category ";
 
     public static String getDeleteQuestion(String objectDescription, String objectName) {
-        return "Are you sure you want to delete the " + objectDescription + " " + objectName + "?";
+        return "Are you sure you want to delete the " + objectDescription + objectName + "?";
     }
 
     private static final String WARNING_CATEGORY_RESET = "The spent amount will be set to 0. " +
