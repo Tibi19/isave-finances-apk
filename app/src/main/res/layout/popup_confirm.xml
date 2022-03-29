@@ -2,45 +2,65 @@
 
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/colorForeground"
+    app:cardCornerRadius="@dimen/card_corner_radius">
 
     <LinearLayout
         android:id="@+id/layout_confirm"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp">
+        android:padding="@dimen/popup_padding">
 
         <TextView
             android:id="@+id/tv_confirm_question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_gravity="center"
-            android:layout_marginVertical="10dp"
-            android:layout_marginHorizontal="15dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="@dimen/popup_text_explanation_margin"
+            android:layout_weight="1"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size"
+            android:lineSpacingExtra="@dimen/popup_text_explanation_spacing"
             android:text="Are you sure?" />
 
         <LinearLayout
             android:id="@+id/row_confirm_controller"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/popup_entry_top_margin_large"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/button_confirm_no"
+                android:background="@drawable/button"
+                android:textColor="@color/colorButtonText"
+                android:textStyle="bold"
+                android:stateListAnimator="@animator/animator_button_pressed_easy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/popup_text_button_margin_vertical"
+                android:layout_marginHorizontal="@dimen/popup_text_button_margin_horizontal"
                 android:layout_weight="1"
-                android:text="NO" />
+                android:textAllCaps="false"
+                android:text="No" />
 
             <Button
                 android:id="@+id/button_confirm_yes"
+                android:background="@drawable/button"
+                android:textColor="@color/colorButtonText"
+                android:textStyle="bold"
+                android:stateListAnimator="@animator/animator_button_pressed_easy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/popup_text_button_margin_vertical"
+                android:layout_marginHorizontal="@dimen/popup_text_button_margin_horizontal"
                 android:layout_weight="1"
-                android:text="YES" />
+                android:textAllCaps="false"
+                android:text="Yes" />
         </LinearLayout>
 
     </LinearLayout>

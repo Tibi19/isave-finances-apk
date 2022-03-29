@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="@color/colorForeground"
+    app:cardCornerRadius="@dimen/card_corner_radius">
 
     <LinearLayout
         android:id="@+id/layout_move_budget"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:padding="@dimen/popup_padding">
 
         <TextView
             android:id="@+id/tv_move_budget_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20dp"
-            android:textSize="18sp"
+            android:layout_marginBottom="@dimen/margin_title_bottom"
+            android:textColor="@color/colorText"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size_title"
             android:text="Move Budget" />
 
         <TextView
             android:id="@+id/tv_from_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size"
             android:text="From category "/>
 
         <LinearLayout
@@ -37,15 +42,14 @@
                 android:id="@+id/tv_to_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="To category" />
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/text_size"
+                android:text="To category " />
 
             <Spinner
                 android:id="@+id/spin_to_category"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="20dp"
-                android:layout_weight="1" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
@@ -56,9 +60,10 @@
 
             <TextView
                 android:id="@+id/tv_move_budget_value"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/popup_left_info_size"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/text_size"
                 android:text="Budget" />
 
             <EditText
@@ -66,7 +71,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:ems="10"
                 android:inputType="numberDecimal" />
         </LinearLayout>
 
@@ -74,20 +78,35 @@
             android:id="@+id/row_confirm_controller"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/popup_entry_top_margin_large"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/button_move_cancel"
+                android:background="@drawable/button"
+                android:textColor="@color/colorButtonText"
+                android:textStyle="bold"
+                android:stateListAnimator="@animator/animator_button_pressed_easy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/popup_text_button_margin_vertical"
+                android:layout_marginHorizontal="@dimen/popup_text_button_margin_horizontal"
                 android:layout_weight="1"
+                android:textAllCaps="false"
                 android:text="Cancel" />
 
             <Button
                 android:id="@+id/button_move_submit"
+                android:background="@drawable/button"
+                android:textColor="@color/colorButtonText"
+                android:textStyle="bold"
+                android:stateListAnimator="@animator/animator_button_pressed_easy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/popup_text_button_margin_vertical"
+                android:layout_marginHorizontal="@dimen/popup_text_button_margin_horizontal"
                 android:layout_weight="1"
+                android:textAllCaps="false"
                 android:text="Submit" />
         </LinearLayout>
 

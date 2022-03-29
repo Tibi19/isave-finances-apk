@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/popup_margin"
     app:cardBackgroundColor="@color/colorForeground"
     app:cardCornerRadius="@dimen/card_corner_radius">
 
@@ -19,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="@dimen/margin_title_bottom"
             android:textColor="@color/colorText"
             android:textStyle="bold"
             android:textSize="@dimen/text_size_title"
@@ -50,8 +49,7 @@
                 android:id="@+id/button_edit_budget_cashing"
                 android:layout_width="@dimen/button"
                 android:layout_height="@dimen/button"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginHorizontal="@dimen/popup_button_horizontal_margin"
                 android:stateListAnimator="@animator/animator_button_pressed"
                 android:background="@drawable/button_add" />
 
@@ -82,8 +80,7 @@
                 android:id="@+id/button_edit_budget_reset"
                 android:layout_width="@dimen/button"
                 android:layout_height="@dimen/button"
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="20dp"
+                android:layout_marginHorizontal="@dimen/popup_button_horizontal_margin"
                 android:stateListAnimator="@animator/animator_button_pressed"
                 android:background="@drawable/button_reset" />
         </LinearLayout>
@@ -93,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginVertical="10dp">
+            android:layout_marginTop="@dimen/popup_entry_top_margin_medium">
 
             <TextView
                 android:id="@+id/tv_edit_budget_balance_description"
@@ -116,7 +113,7 @@
             android:id="@+id/row_sync"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
+            android:layout_marginTop="@dimen/popup_entry_top_margin_large"
             android:orientation="horizontal">
 
             <TextView
@@ -131,7 +128,7 @@
                 android:id="@+id/button_edit_budget_sync"
                 android:layout_width="@dimen/button"
                 android:layout_height="@dimen/button"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="@dimen/popup_button_horizontal_margin"
                 android:stateListAnimator="@animator/animator_button_pressed"
                 android:background="@drawable/button_sync" />
 
@@ -141,8 +138,8 @@
             android:id="@+id/check_edit_budget_is_hidden"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:layout_marginStart="-5dp"
+            android:layout_marginTop="@dimen/popup_entry_top_margin_small"
+            android:layout_marginStart="@dimen/popup_check_margin"
             android:checked="true"
             android:textColor="@color/colorText"
             android:textSize="@dimen/text_size"
@@ -152,19 +149,19 @@
             android:id="@+id/row_edit_budget_controller"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/popup_entry_top_margin_large"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/button_edit_budget_cancel"
                 android:background="@drawable/button"
-                android:textColor="#fff"
+                android:textColor="@color/colorButtonText"
                 android:textStyle="bold"
                 android:stateListAnimator="@animator/animator_button_pressed_easy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
-                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="@dimen/popup_text_button_margin_vertical"
+                android:layout_marginHorizontal="@dimen/popup_text_button_margin_horizontal"
                 android:layout_weight="1"
                 android:textAllCaps="false"
                 android:text="Cancel" />
@@ -172,13 +169,13 @@
             <Button
                 android:id="@+id/button_edit_budget_submit"
                 android:background="@drawable/button"
-                android:textColor="#fff"
+                android:textColor="@color/colorButtonText"
                 android:textStyle="bold"
                 android:stateListAnimator="@animator/animator_button_pressed_easy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
-                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="@dimen/popup_text_button_margin_vertical"
+                android:layout_marginHorizontal="@dimen/popup_text_button_margin_horizontal"
                 android:layout_weight="1"
                 android:textAllCaps="false"
                 android:text="Submit" />

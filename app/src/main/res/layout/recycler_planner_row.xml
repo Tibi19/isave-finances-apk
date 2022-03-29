@@ -7,17 +7,17 @@
 
     <TextView
         android:id="@+id/tv_plan_category_name"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="CategoryNamePlaceholder" />
+        android:textColor="@color/colorText"
+        android:textSize="@dimen/text_size"
+        android:text="Category" />
 
     <EditText
         android:id="@+id/et_plan_category_budget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:ems="10"
         android:inputType="numberDecimal" />
 
 </LinearLayout>

@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/colorForeground"
+    app:cardCornerRadius="@dimen/card_corner_radius">
 
     <LinearLayout
         android:id="@+id/layout_cashing_popup"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp">
+        android:layout_margin="@dimen/popup_padding">
 
         <TextView
             android:id="@+id/tv_cashing_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20dp"
-            android:textSize="18sp"
+            android:layout_marginBottom="@dimen/margin_title_bottom"
+            android:textColor="@color/colorText"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size_title"
             android:text="Add to Budget" />
 
         <LinearLayout
@@ -28,9 +33,10 @@
 
             <TextView
                 android:id="@+id/tv_cashing"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/popup_left_info_size"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/text_size"
                 android:text="Cashing" />
 
             <EditText
@@ -38,7 +44,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:ems="10"
                 android:inputType="numberDecimal" />
         </LinearLayout>
 
@@ -46,7 +51,10 @@
             android:id="@+id/check_modify_organizer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginTop="@dimen/popup_entry_top_margin_small"
+            android:layout_marginStart="@dimen/popup_check_margin"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size"
             android:checked="true"
             android:text="Add to Organizer" />
 
@@ -54,7 +62,10 @@
             android:id="@+id/check_reset_everything"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginTop="@dimen/popup_entry_top_margin_small"
+            android:layout_marginStart="@dimen/popup_check_margin"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size"
             android:checked="false"
             android:text="Reset Everything" />
 
@@ -62,18 +73,23 @@
             android:id="@+id/row_cashing_budget_counter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/popup_entry_top_margin_large"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tv_remaining_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/text_size"
                 android:text="Remaining to Plan:   " />
 
             <TextView
                 android:id="@+id/tv_remaining_amount"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/text_size"/>
 
         </LinearLayout>
 
@@ -81,6 +97,7 @@
             android:id="@+id/recycler_cashing_plan_categories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/popup_entry_top_margin_small"
             android:nestedScrollingEnabled="true">
 
         </androidx.recyclerview.widget.RecyclerView>
@@ -89,20 +106,35 @@
             android:id="@+id/row_cashing_controller"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/popup_entry_top_margin_large"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_cashing_cancel"
+                android:background="@drawable/button"
+                android:textColor="@color/colorButtonText"
+                android:textStyle="bold"
+                android:stateListAnimator="@animator/animator_button_pressed_easy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/popup_text_button_margin_vertical"
+                android:layout_marginHorizontal="@dimen/popup_text_button_margin_horizontal"
                 android:layout_weight="1"
-                android:text="Cancel" />
+                android:textAllCaps="false"
+                android:text="Cancel"  />
 
             <Button
                 android:id="@+id/btn_cashing_submit"
+                android:background="@drawable/button"
+                android:textColor="@color/colorButtonText"
+                android:textStyle="bold"
+                android:stateListAnimator="@animator/animator_button_pressed_easy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/popup_text_button_margin_vertical"
+                android:layout_marginHorizontal="@dimen/popup_text_button_margin_horizontal"
                 android:layout_weight="1"
+                android:textAllCaps="false"
                 android:text="Submit" />
         </LinearLayout>
 
