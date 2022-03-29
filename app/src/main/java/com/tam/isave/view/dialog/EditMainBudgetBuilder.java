@@ -20,6 +20,7 @@ import com.tam.isave.R;
 import com.tam.isave.databinding.PopupEditBudgetBinding;
 import com.tam.isave.model.MainBudget;
 import com.tam.isave.model.goalorganizer.GoalOrganizer;
+import com.tam.isave.utils.ButtonAreaExtensionUtils;
 import com.tam.isave.utils.EditTextUtils;
 import com.tam.isave.utils.NumberUtils;
 import com.tam.isave.viewmodel.GoalOrganizerViewModel;
@@ -54,6 +55,13 @@ public class EditMainBudgetBuilder {
         );
         editBudgetBinding.buttonEditBudgetSync.setOnClickListener(
                 listener -> syncStateWithOrganizer(editBudgetBinding, owner)
+        );
+
+        ButtonAreaExtensionUtils.extendHitAreaOfButtons(
+                activity,
+                editBudgetBinding.buttonEditBudgetCashing,
+                editBudgetBinding.buttonEditBudgetReset,
+                editBudgetBinding.buttonEditBudgetSync
         );
 
         editBudgetDialog.show();
