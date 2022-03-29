@@ -16,6 +16,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.tam.isave.R;
 import com.tam.isave.databinding.FragmentOrganizerBinding;
 import com.tam.isave.databinding.PopupEditOrganizerBinding;
 import com.tam.isave.model.MainBudget;
@@ -169,6 +170,7 @@ public class GoalOrganizerFragment extends Fragment {
         editOrganizerDialog = builder.create();
         editOrganizerDialog.setCancelable(true);
         editOrganizerDialog.getWindow().setGravity(Gravity.BOTTOM);
+        editOrganizerDialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
 
         populateEditBinding(editOrganizerBinding);
 
@@ -184,6 +186,8 @@ public class GoalOrganizerFragment extends Fragment {
         editOrganizerBinding.buttonEditOrganizerSync.setOnClickListener(
                 listener -> syncStateWithMainBudget(editOrganizerBinding)
         );
+
+        ButtonAreaExtensionUtils.extendHitAreaOfButtons(getContext(), editOrganizerBinding.buttonEditOrganizerSync);
 
         editOrganizerDialog.show();
     }

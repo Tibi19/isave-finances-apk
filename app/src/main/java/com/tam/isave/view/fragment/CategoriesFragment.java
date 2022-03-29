@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.tam.isave.R;
 import com.tam.isave.adapter.CategoryAdapter;
 import com.tam.isave.databinding.FragmentCategoriesBinding;
 import com.tam.isave.databinding.PopupAddCategoryBinding;
@@ -103,6 +104,7 @@ public class CategoriesFragment extends Fragment {
         editCategoryDialog = builder.create();
         editCategoryDialog.setCancelable(true);
         editCategoryDialog.getWindow().setGravity(Gravity.BOTTOM);
+        editCategoryDialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
 
         editCategoryBinding.etEditCategoryName.setText(category.getName());
         editCategoryBinding.etEditCategorySpent.setText(String.valueOf(absCategorySpent));
@@ -118,6 +120,8 @@ public class CategoriesFragment extends Fragment {
             if( !categoryViewModel.canMoveBudget(getContext()) ) { return; }
             showMoveBudgetPopup(category, editCategoryDialog);
         });
+
+        ButtonAreaExtensionUtils.extendHitAreaOfButtons(getContext(), editCategoryBinding.buttonMoveBudget);
 
         editCategoryDialog.show();
     }
@@ -136,6 +140,7 @@ public class CategoriesFragment extends Fragment {
         moveBudgetDialog = builder.create();
         moveBudgetDialog.setCancelable(true);
         moveBudgetDialog.getWindow().setGravity(Gravity.BOTTOM);
+        moveBudgetDialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
 
         List<Category> otherCategories = CategoryUtils.getCategoriesExcept(categories, category);
         CategorySpinnerPicker.build(getActivity(), moveBudgetBinding.spinToCategory, otherCategories, false);
@@ -179,6 +184,7 @@ public class CategoriesFragment extends Fragment {
         addCategoryDialog = builder.create();
         addCategoryDialog.setCancelable(true);
         addCategoryDialog.getWindow().setGravity(Gravity.BOTTOM);
+        addCategoryDialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
 
         addCategoryBinding.buttonAddCategoryCancel.setOnClickListener(listener -> addCategoryDialog.dismiss());
         addCategoryBinding.buttonAddCategorySubmit.setOnClickListener(listener -> {

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 
+import com.tam.isave.R;
 import com.tam.isave.databinding.ActivityHomeBinding;
 import com.tam.isave.databinding.PopupAddPaymentBinding;
 import com.tam.isave.model.MainBudget;
@@ -117,6 +118,7 @@ public class HomeActivity extends AppCompatActivity {
         addTransactionDialog = builder.create();
         addTransactionDialog.setCancelable(true);
         addTransactionDialog.getWindow().setGravity(Gravity.BOTTOM);
+        addTransactionDialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
 
         EditTextDatePicker.build(this, addPaymentBinding.etAddPaymentDate);
         CategorySpinnerPicker.build(this, addPaymentBinding.spinAddPaymentCategories, categories);

@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.tam.isave.R;
 import com.tam.isave.adapter.HistoryAdapter;
 import com.tam.isave.databinding.FragmentHistoryBinding;
 import com.tam.isave.databinding.PopupEditPaymentBinding;
@@ -129,6 +130,7 @@ public class HistoryFragment extends Fragment {
         editTransactionDialog = builder.create();
         editTransactionDialog.setCancelable(true);
         editTransactionDialog.getWindow().setGravity(Gravity.BOTTOM);
+        editTransactionDialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
 
         EditTextDatePicker.build(getActivity(), editPaymentBinding.etEditPaymentDate, transaction.getDate());
         CategorySpinnerPicker.build(getActivity(), editPaymentBinding.spinEditPaymentCategories, categories,

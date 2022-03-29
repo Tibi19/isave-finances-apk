@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.tam.isave.R;
 import com.tam.isave.databinding.PopupConfirmBinding;
 import com.tam.isave.model.category.Category;
 import com.tam.isave.model.transaction.Transaction;
@@ -80,6 +81,7 @@ public class ConfirmationBuilder {
         confirmationDialog = builder.create();
         confirmationDialog.setCancelable(true);
         confirmationDialog.getWindow().setGravity(Gravity.BOTTOM);
+        confirmationDialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
 
         confirmBinding.tvConfirmQuestion.setText(question);
 

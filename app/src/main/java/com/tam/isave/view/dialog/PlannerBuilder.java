@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewbinding.ViewBinding;
 
+import com.tam.isave.R;
 import com.tam.isave.adapter.PlannerAdapter;
 import com.tam.isave.databinding.PopupCashingBinding;
 import com.tam.isave.databinding.PopupPlannerBinding;
@@ -186,6 +187,7 @@ public class PlannerBuilder {
         AlertDialog plannerPopupDialog = builder.create();
         plannerPopupDialog.setCancelable(true);
         plannerPopupDialog.getWindow().setGravity(Gravity.BOTTOM);
+        plannerPopupDialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
 
         return plannerPopupDialog;
     }
