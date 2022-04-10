@@ -36,6 +36,10 @@
             android:name=".view.activity.IntervalHistoryActivity"
             android:parentActivityName=".view.activity.HomeActivity"/>
 
+        <activity
+            android:name=".view.activity.InfoActivity"
+            android:parentActivityName=".view.activity.HomeActivity"/>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
