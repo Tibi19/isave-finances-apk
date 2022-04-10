@@ -51,11 +51,13 @@ public class HomeActivity extends AppCompatActivity {
         setupCategoryTracker();
         setupHistoryButton();
         setupAddTransactionButton();
+        setupInfoButton();
         setupBalance();
 
         ButtonAreaExtensionUtils.extendHitAreaOfButtons(
                 this,
                 homeBinding.textBalance,
+                homeBinding.buttonHomeInfo,
                 homeBinding.buttonHomeHistory,
                 homeBinding.buttonAddTransaction
         );
@@ -99,6 +101,13 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setupAddTransactionButton() {
         homeBinding.buttonAddTransaction.setOnClickListener( addTransaction -> showAddTransactionPopup() );
+    }
+
+    private void setupInfoButton() {
+        homeBinding.buttonHomeInfo.setOnClickListener( startInfoActivity -> {
+            Intent startInfoActivityIntent = new Intent(this, InfoActivity.class);
+            startActivity(startInfoActivityIntent);
+        });
     }
 
     private void setupHistoryButton() {
