@@ -31,6 +31,19 @@
                 android:layout_marginHorizontal="@dimen/card_margin"
                 android:orientation="horizontal">
 
+                <Button
+                    android:id="@+id/button_home_info"
+                    android:layout_width="@dimen/button"
+                    android:layout_height="@dimen/button"
+                    android:layout_marginStart="@dimen/margin_title"
+                    android:stateListAnimator="@animator/animator_button_pressed"
+                    android:background="@drawable/button_info"/>
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
                 <TextView
                     android:id="@+id/text_balance_title"
                     android:layout_width="wrap_content"
@@ -40,13 +53,12 @@
                     android:textStyle="bold"
                     android:textAlignment="center"
                     android:layout_marginTop="@dimen/margin_top_balance_bar_text"
-                    android:layout_marginStart="@dimen/margin_title"
                     android:textSize="@dimen/text_size_title" />
 
                 <androidx.legacy.widget.Space
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.25"/>
+                    android:layout_weight="0.5"/>
 
                 <TextView
                     android:id="@+id/text_balance"
@@ -62,7 +74,7 @@
                 <androidx.legacy.widget.Space
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.65"/>
+                    android:layout_weight="1"/>
 
                 <Button
                     android:id="@+id/button_home_history"
