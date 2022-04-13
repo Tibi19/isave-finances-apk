@@ -17,8 +17,8 @@ public class ConfirmationText {
     }
 
     public static String getRestoreCategoryQuestion(String categoryName, double goalModifier) {
-        return "Are you sure you want to restore category " + categoryName + " and set its goal modification to 0? " +
-                "Its goal was modified by " + goalModifier + " to help other categories that exceeded their budgets.";
+        return "Are you sure you want to restore category " + categoryName + " and set its budget modification to 0? " +
+                "Its budget was modified by " + goalModifier + " to help other categories that exceeded their own budgets.";
     }
 
     private static final String QUESTION_ALL_CATEGORIES_RESET = "Are you sure you want to reset all categories? " +
