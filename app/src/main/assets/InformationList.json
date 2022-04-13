@@ -1,0 +1,42 @@
+[
+  {
+    "title" : "iSave",
+    "description" : "iSave is a flexible application to manage your finances with a very powerful feature: the Budget Organizer."
+  },
+  {
+    "title" : "Budget Organizer",
+    "description" : "The organizer is a psychologically designed tool which breaks up your overall budget into smaller, bite-sized budgets. These are assigned to small intervals of time."
+  },
+  {
+    "title" : "Interval",
+    "description" : "When you break up your overall budget, which is over a set period of time, you divide it over smaller periods of time called intervals. The recommended amount of time per interval is of 5-6 days."
+  },
+  {
+    "title" : "Category",
+    "description" : "Categorize your payments into dedicated categories, use them to keep track of finances which are not part of your budget, or just do as you wish! This is where iSave is flexible, so adapt categories to your needs!"
+  },
+  {
+    "title" : "Flexible Category",
+    "description" : "A flexible category will lend from its own budget to categories that exceed their own budgets. Therefore, if a category spends more than its budget, all flexible categories will help with the difference."
+  },
+  {
+    "title": "Budget Modification",
+    "description" : "When a flexible category lends its own budget to another category, you will see a value in parenthesis: (-30.0). This means the category lent 30 from its own budget to help other categories. You can reset this by using the restore option on a category."
+  },
+  {
+    "title": "Flexible Intervals",
+    "description" : "Intervals are flexible by default, as long as they follow the interval that exceeds its budget. For example, in a budget organized with 4 intervals, only intervals 3 and 4 will help interval 2."
+  },
+  {
+    "title": "Main Budget",
+    "description" : "This is where you can keep track of your overall budget and balance, accessible by tapping on your balance. It's also where you can increase your budget when that cha-ching hits your pocket. We recommend that you keep the balance hidden, so you can focus on the Budget Organizer!"
+  },
+  {
+    "title": "Organizable Payments",
+    "description" : "If you choose to make an organizable payment, it will be calculated in both the budget organizer and the main budget. Uncheck the organizable box if you only want to add your payment to a category."
+  },
+  {
+    "title": "Export Your Data",
+    "description": "You can export your payments from the history screen. Be sure to do this regularly, as payments older than 10 months will be deleted."
+  }
+]
