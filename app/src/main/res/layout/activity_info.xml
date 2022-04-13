@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
     android:background="@color/colorBackground">
 
     <LinearLayout
@@ -13,8 +14,6 @@
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedsv_info"
-            android:scrollbars="none"
-            android:fillViewport="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -45,11 +44,12 @@
                         android:textSize="@dimen/text_size_title"
                         android:textStyle="bold" />
 
-                    <ListView
-                        android:id="@+id/lv_infos"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_infos"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginHorizontal="17dp"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="17dp"
+                        android:nestedScrollingEnabled="false"/>
 
                 </LinearLayout>
 
