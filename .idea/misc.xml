@@ -74,6 +74,7 @@
         <entry key="app/src/main/res/layout/popup_edit_organizer.xml" value="0.32653985507246375" />
         <entry key="app/src/main/res/layout/popup_edit_payment.xml" value="0.33559782608695654" />
         <entry key="app/src/main/res/layout/popup_move_budget.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/popup_ok.xml" value="0.17028985507246377" />
         <entry key="app/src/main/res/layout/popup_plan_categories.xml" value="0.19972826086956522" />
         <entry key="app/src/main/res/layout/popup_planner.xml" value="0.25" />
         <entry key="app/src/main/res/layout/recycler_category_row.xml" value="0.33559782608695654" />
