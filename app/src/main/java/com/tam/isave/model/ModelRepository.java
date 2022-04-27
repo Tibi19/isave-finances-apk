@@ -257,7 +257,7 @@ public class ModelRepository {
      * @param hasFlexibleGoal Whether category can change its goal to help other categories.
      */
     public void newCategory(String name, double goal, boolean hasFlexibleGoal) {
-        if( (name == null) || (goal <= NumberUtils.ZERO_DOUBLE) ) { return; }
+        if( (name == null) || (goal < -NumberUtils.ZERO_DOUBLE) ) { return; }
         Category category = new Category(name, goal, hasFlexibleGoal);
         tracker.addCategory(category);
         dataRepository.insertCategory(category);
