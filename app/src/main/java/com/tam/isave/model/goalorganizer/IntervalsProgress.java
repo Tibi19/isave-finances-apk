@@ -62,7 +62,7 @@ public class IntervalsProgress {
     // Spending progress of current interval.
     public String getBudgetProgress() {
         Interval activeInterval = goalOrganizer.getActiveInterval();
-        if(activeInterval == null) { return Constants.DEFAULT_NOT_APPLICABLE; }
+        if(activeInterval == null) { return Constants.DEFAULT_BUDGET_NOT_APPLICABLE; }
         return activeInterval.getProgress();
     }
 
