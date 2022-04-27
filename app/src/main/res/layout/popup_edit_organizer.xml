@@ -24,6 +24,17 @@
             android:textSize="@dimen/text_size_title"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/tv_edit_organizer_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/popup_text_explanation_margin"
+            android:layout_weight="1"
+            android:textColor="@color/colorText"
+            android:textSize="@dimen/text_size"
+            android:lineSpacingExtra="@dimen/popup_text_explanation_spacing"
+            android:text="Divide your budget in smaller and more manageable amounts. Keep track of those over smaller intervals of time." />
+
         <LinearLayout
             android:id="@+id/row_edit_organizer_start"
             android:layout_width="match_parent"
