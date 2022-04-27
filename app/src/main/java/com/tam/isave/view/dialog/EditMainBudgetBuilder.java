@@ -74,8 +74,8 @@ public class EditMainBudgetBuilder {
         double organizerSpent = 0.0;
 
         if(organizer != null) {
-            organizerBudget = organizer.getGlobalGoal();
-            organizerSpent = organizer.getGlobalSpent();
+            organizerBudget = NumberUtils.twoDecimalsRounded(organizer.getGlobalGoal());
+            organizerSpent = NumberUtils.twoDecimalsRounded(organizer.getGlobalSpent());
         }
 
         editBudgetBinding.etEditBudget.setText(String.valueOf(organizerBudget));
