@@ -1,5 +1,5 @@
 # iSave
-iSave is an android application for tracking your finances.
+iSave is an android application for tracking your finances. [Download APK here](https://github.com/Tibi19/isave-finances-apk/releases/download/v1.0.0-beta/isave.apk).
 
 It uses the _**budget organizer**_, a feature that is psychologically designed to help you take better decisions and motivate you to save more. The budget organizer breaks up your overall budget into smaller, bite-sized budgets. Just like your budget is over a set period of time, it is divided over smaller intervals of time.
 
